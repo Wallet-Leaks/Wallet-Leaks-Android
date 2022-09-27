@@ -63,7 +63,7 @@ firebaseAdMob = "21.0.0"
 #Glide
 glide = "4.13.0"
 #Koin
-koin = "3.2.0-beta-1"
+koin = "3.2.2"
 [libraries]
 
 #Kotlin
@@ -161,7 +161,9 @@ firebase-inAppMessaging = { module = "com.google.firebase:firebase-inappmessagin
 firebase-inAppMessagingDisplay = { module = "com.google.firebase:firebase-inappmessaging-display-ktx", version.ref = "firebaseInAppMessaging" }
 firebase-adMob = { module = "com.google.android.gms:play-services-ads", version.ref = "firebaseAdMob" }
 #Koin
-koin-koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-workManager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
+koin-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
 
 [bundles]
 #UI Components
@@ -181,6 +183,9 @@ retrofit = ["retrofit-retrofit", "retrofit-gsonConverter"]
 
 #Hilt
 hilt = ["hilt-android", "hilt-viewModels"]
+
+#Koin
+koin = ["koin-android", "koin-workManager", "koin-navigation"]
 
 #OkHttp
 okHttp = ["okHttp-bom", "okHttp-loggingInterceptor", "okHttp-okHttp"]
