@@ -11,9 +11,6 @@ plugins {
 
     // Navigation SafeArgs
     id(libs.plugins.navigation.safeArgs.get().pluginId)
-
-    // Hilt
-    id(libs.plugins.hilt.android.get().pluginId)
 }
 
 android {
@@ -78,7 +75,6 @@ dependencies {
     // Room
     kapt(libs.room.compiler)
 
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    // Koin
+    implementation(libs.bundles.koin)
 }
