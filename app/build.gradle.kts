@@ -72,9 +72,6 @@ dependencies {
     // Navigation
     implementation(libs.bundles.navigation)
 
-    // Room
-    kapt(libs.room.compiler)
-
     // Koin
     implementation(libs.bundles.koin)
 }
