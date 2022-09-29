@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.data.repositories.base
+    package com.timberta.walletleaks.data.repositories.base
 
 import com.timberta.walletleaks.domain.either.Either
 import kotlinx.coroutines.Dispatchers

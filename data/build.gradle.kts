@@ -25,13 +25,11 @@ android {
         getByName(config.versions.releaseBuildType.get()) {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
 
-        getByName(config.versions.debugBuildType.get()) {
-        }
+        getByName(config.versions.debugBuildType.get()) {}
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -49,16 +47,10 @@ dependencies {
 
     implementation(project(":domain"))
 
-    // Retrofit
-    implementation(libs.bundles.retrofit)
-
-    // OkHttp
-    implementation(libs.bundles.okHttp)
-
     // Room
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
 
-    // Paging 3
-    api(libs.paging.paging)
+    //Koin
+    implementation(libs.bundles.koin)
 }
