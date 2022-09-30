@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.coinList
+package com.timberta.walletleaks.presentation.ui.fragments.main.coinList
 
 import com.timberta.walletleaks.presentation.base.BaseViewModel
 

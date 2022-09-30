@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.home.HomeFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.HomeFragment"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/coinListFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.coinList.CoinListFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.coinList.CoinListFragment"
         android:label="fragment_coin_list"
         tools:layout="@layout/fragment_coin_list" />
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.settings.SettingsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 

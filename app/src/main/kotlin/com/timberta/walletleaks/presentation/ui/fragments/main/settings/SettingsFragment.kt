@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.settings
+package com.timberta.walletleaks.presentation.ui.fragments.main.settings
 
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding

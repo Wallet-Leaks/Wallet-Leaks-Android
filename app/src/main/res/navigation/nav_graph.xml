@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFlowFragment"
-        android:name="com.timberta.walletleaks.MainFlowFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.MainFlowFragment"
         android:label="fragment_main_flow"
         tools:layout="@layout/fragment_main_flow" />
 </navigation>

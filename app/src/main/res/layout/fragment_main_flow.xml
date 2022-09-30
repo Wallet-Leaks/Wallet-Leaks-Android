@@ -5,7 +5,7 @@
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFlowFragment">
+    tools:context=".presentation.ui.fragments.main.MainFlowFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/main_toolbar"

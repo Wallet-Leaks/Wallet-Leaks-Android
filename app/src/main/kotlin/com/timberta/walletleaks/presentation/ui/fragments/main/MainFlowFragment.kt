@@ -1,8 +1,9 @@
-package com.timberta.walletleaks
+package com.timberta.walletleaks.presentation.ui.fragments.main
 
 import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentMainFlowBinding
 import com.timberta.walletleaks.presentation.base.BaseFlowFragment
 
