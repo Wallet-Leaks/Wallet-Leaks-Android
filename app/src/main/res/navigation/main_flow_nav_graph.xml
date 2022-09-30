@@ -23,4 +23,9 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 
+    <dialog
+        android:id="@+id/premiumPurchaseFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog.PremiumPurchaseFragment"
+        android:label="PremiumPurchaseFragment" />
+
 </navigation>
