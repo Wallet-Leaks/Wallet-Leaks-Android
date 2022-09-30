@@ -15,6 +15,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private val accessPremiumPreferencesManager: AccessPremiumPreferencesManager by inject()
 
     override fun initialize() {
-        accessPremiumPreferencesManager.isShowAccessPremium = true
+
     }
 }
