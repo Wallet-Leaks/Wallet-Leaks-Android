@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.HomeFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_premiumPurchaseFragment"
+            app:destination="@id/premiumPurchaseFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/coinListFragment"
@@ -25,7 +29,7 @@
 
     <dialog
         android:id="@+id/premiumPurchaseFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog.PremiumPurchaseFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog.PremiumPurchaseDialog"
         android:label="PremiumPurchaseFragment" />
 
 </navigation>
