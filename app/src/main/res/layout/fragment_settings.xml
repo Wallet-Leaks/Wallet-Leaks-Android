@@ -4,13 +4,13 @@
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.fragments.settings.SettingsFragment">
+    tools:context=".presentation.ui.fragments.main.settings.SettingsFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Home Fragment"
+        android:text="Settings Fragment"
         android:textColor="@color/white"
         android:textSize="22sp" />
 </FrameLayout>

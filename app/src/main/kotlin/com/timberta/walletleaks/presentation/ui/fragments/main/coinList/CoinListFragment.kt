@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.coinList
+package com.timberta.walletleaks.presentation.ui.fragments.main.coinList
 
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding

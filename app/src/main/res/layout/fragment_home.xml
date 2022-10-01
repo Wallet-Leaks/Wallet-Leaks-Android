@@ -4,7 +4,7 @@
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.fragments.home.HomeFragment">
+    tools:context=".presentation.ui.fragments.main.home.HomeFragment">
 
     <TextView
         android:layout_width="match_parent"

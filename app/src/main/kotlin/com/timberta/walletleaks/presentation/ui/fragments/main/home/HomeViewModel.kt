@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.home
+package com.timberta.walletleaks.presentation.ui.fragments.main.home
 
 import com.timberta.walletleaks.presentation.base.BaseViewModel
 

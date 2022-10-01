@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_flow_nav_graph.xml"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.HomeFragment"
+        android:label="fragment_main_screen"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_premiumPurchaseFragment"
+            app:destination="@id/premiumPurchaseFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/coinListFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.coinList.CoinListFragment"
+        android:label="fragment_coin_list"
+        tools:layout="@layout/fragment_coin_list" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <dialog
+        android:id="@+id/premiumPurchaseFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog.PremiumPurchaseDialog"
+        android:label="PremiumPurchaseFragment" />
+
+</navigation>
