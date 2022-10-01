@@ -5,4 +5,6 @@
     <string name="home">Home</string>
     <string name="coin_list">Coin list</string>
     <string name="settings">Settings</string>
+    <string name="title_wallet_premium_dialog">More earnings and app extensions with Wallet leaks premium subscription.</string>
+    <string name="wallet_leaks_premium">Wallet Leaks Premium</string>
 </resources>
