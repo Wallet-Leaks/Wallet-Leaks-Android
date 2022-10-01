@@ -17,6 +17,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private val accessPremiumPreferencesManager: AccessPremiumPreferencesManager by inject()
 
     override fun initialize() {
-        findNavController().navigateSafely(R.id.action_homeFragment_to_premiumPurchaseFragment)
+//        findNavController().navigateSafely(R.id.action_homeFragment_to_premiumPurchaseFragment)
     }
 }
