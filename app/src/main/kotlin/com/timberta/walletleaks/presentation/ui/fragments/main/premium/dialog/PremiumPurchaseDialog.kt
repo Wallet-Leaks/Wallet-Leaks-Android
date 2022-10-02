@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog
 
+import android.text.SpannableString
+import android.text.style.AbsoluteSizeSpan
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
@@ -12,5 +14,32 @@ class PremiumPurchaseDialog :
 
     override val binding by viewBinding(DialogPremiumPurchaseBinding::bind)
     override val viewModel by viewModels<PremiumPurchaseViewModel>()
+
+    override fun initialize() {
+        dialog?.setCanceledOnTouchOutside(true)
+    }
+
+    override fun assembleViews() {
+        binding.btnBuyPremium.text = setFontSizeForPath()
+    }
+
+    override fun setupListeners() {
+        binding.btnCloseDialog.setOnClickListener {
+            dialog?.cancel()
+        }
+    }
+
+    private fun setFontSizeForPath(
+    ): SpannableString {
+        val spannable = SpannableString(getString(R.string.btn_text_buy_premium))
+        val startIndexOfPath = spannable.toString().indexOf(getString(R.string.premium_price))
+        spannable.setSpan(
+            AbsoluteSizeSpan(26),
+            startIndexOfPath,
+            startIndexOfPath + getString(R.string.premium_price).length,
+            0
+        )
+        return spannable
+    }
 
 }
