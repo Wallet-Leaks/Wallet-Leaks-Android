@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.data.db.preferences
 
 object PreferencesKeys {
-    const val IS_SHOW_CHECK_ACCESS_PREMIUM_KEY = "show"
+    const val DOES_USER_HAVE_PREMIUM = "doesUserHavePremium"
+    const val IS_USER_AUTHENTICATED = "isUserAuthenticated"
 }

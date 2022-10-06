@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
-import com.timberta.walletleaks.data.db.preferences.AccessPremiumPreferencesManager
+import com.timberta.walletleaks.data.db.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentHomeBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
@@ -14,9 +14,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     override val binding by viewBinding(FragmentHomeBinding::bind)
     override val viewModel by viewModels<HomeViewModel>()
-    private val accessPremiumPreferencesManager: AccessPremiumPreferencesManager by inject()
+    private val userDataPreferencesManager: UserDataPreferencesManager by inject()
 
     override fun initialize() {
-        findNavController().navigateSafely(R.id.action_homeFragment_to_premiumPurchaseFragment)
+        binding.root.setOnClickListener {
+            findNavController().navigateSafely(R.id.action_homeFragment_to_premiumPurchaseFragment)
+        }
     }
 }
