@@ -1,8 +1,8 @@
 package com.timberta.walletleaks.data.di
 
 import android.content.SharedPreferences
-import com.timberta.walletleaks.data.db.preferences.AccessPremiumPreferencesManager
 import com.timberta.walletleaks.data.db.preferences.SharedPreferencesProvider
+import com.timberta.walletleaks.data.db.preferences.UserDataPreferencesManager
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -14,4 +14,4 @@ val dataModule = module {
 }
 
 private fun provideAccessPreferencesManager(preferences: SharedPreferences) =
-    AccessPremiumPreferencesManager(preferences)
+    UserDataPreferencesManager(preferences)
