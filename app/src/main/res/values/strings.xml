@@ -15,5 +15,7 @@
     <string name="telegram_not_installed">На устройстве не установлен Telegram</string>
     <string name="telegram_account">walletcryptoleaks</string>
     <string name="enter_key">Enter key...</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
 
 </resources>
