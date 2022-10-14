@@ -26,10 +26,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override fun initialize() {
         viewModel.processCryptoWorkState.value = false
         binding.rvCryptoOperationHome.adapter = adapter
-        containerOperationIsVisible()
     }
 
     override fun constructListeners() {
+        startWalletMining()
+        stopWalletMining()
+    }
+
+    private fun startWalletMining() {
         binding.btnStartOperation.setOnClickListener {
             viewModel.processCryptoWorkState.value = true
             viewLifecycleOwner.lifecycleScope.launch {
@@ -51,6 +55,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                 }
             }
         }
+    }
+
+    private fun stopWalletMining() {
         binding.btnStopSearch.setOnClickListener {
             viewModel.processCryptoWorkState.value = false
         }
@@ -58,6 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     override fun launchObservers() {
         collectCryptoAlgorithm()
+        containerOperationIsVisible()
     }
 
     private fun collectCryptoAlgorithm() {
