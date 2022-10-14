@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".presentation.ui.fragments.main.coinList.CoinListFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_coin_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Coin list Fragment"
-        android:textColor="@color/white"
-        android:textSize="22sp" />
-
+        tools:listitem="@layout/item_coin" />
 </FrameLayout>
