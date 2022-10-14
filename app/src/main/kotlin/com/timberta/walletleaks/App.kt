@@ -1,8 +1,9 @@
 package com.timberta.walletleaks
 
 import android.app.Application
-import com.timberta.walletleaks.data.di.dataModule
-import com.timberta.walletleaks.di.domainModule
+import com.timberta.walletleaks.data.dataModule
+import com.timberta.walletleaks.di.viewModelModule
+import com.timberta.walletleaks.domain.domainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -12,7 +13,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(dataModule, domainModule)
+            modules(dataModule, viewModelModule, domainModule)
         }
     }
 }

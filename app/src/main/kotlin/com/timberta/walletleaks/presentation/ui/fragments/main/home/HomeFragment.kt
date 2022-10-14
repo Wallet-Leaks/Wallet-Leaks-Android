@@ -36,6 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
+                            delay(Random.nextLong(200, 700))
                             viewModel.processIndex = adapter.itemCount
                             viewModel.searchCryptoWallets()
                             adapter.notifyItemInserted(viewModel.processIndex)
@@ -91,4 +92,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.processCryptoWorkState.value = false
+    }
 }

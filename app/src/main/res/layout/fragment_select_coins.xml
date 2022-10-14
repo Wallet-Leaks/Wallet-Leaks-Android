@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.ui.fragments.main.home.selectCoins.SelectCoinsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_coin_list"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/darkBlue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Coins"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:titleTextColor="@color/white">
+
+        <ImageView
+            android:id="@+id/im_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_apply" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <View
+        android:id="@+id/v_toolbar_stroke"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/blueSentinel"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_coin_list" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_coin_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:splitMotionEvents="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_toolbar_stroke"
+        tools:listitem="@layout/item_coin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_premium_required"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.43" />
+
+    <ImageView
+        android:id="@+id/im_soon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/gl_premium_required" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_soon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/soon"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/im_soon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

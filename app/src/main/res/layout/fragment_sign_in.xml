@@ -59,7 +59,7 @@
         android:minHeight="36dp"
         android:paddingHorizontal="12dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/lola"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_input_secret_key" />
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:backgroundTint="@color/grey"
+        android:backgroundTint="@color/lola"
         android:minWidth="40dp"
         android:text="OK"
         android:textSize="18sp"

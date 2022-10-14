@@ -2,6 +2,9 @@ package com.timberta.walletleaks.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.timberta.walletleaks.domain.either.Either
 import com.timberta.walletleaks.presentation.ui.state.UIState
 import kotlinx.coroutines.Dispatchers
@@ -46,9 +49,9 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-//    protected fun <T : Any, S : Any> Flow<PagingData<T>>.gatherPagingRequest(
-//        mappedData: (data: T) -> S,
-//    ) = map {
-//        it.map { data -> mappedData(data) }
-//    }.cachedIn(viewModelScope)
+    protected fun <T : Any, S : Any> Flow<PagingData<T>>.gatherPagingRequest(
+        mappedData: (data: T) -> S,
+    ) = map {
+        it.map { data -> mappedData(data) }
+    }.cachedIn(viewModelScope)
 }

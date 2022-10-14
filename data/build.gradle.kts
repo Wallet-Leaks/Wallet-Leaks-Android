@@ -29,7 +29,9 @@ android {
             )
         }
 
-        getByName(config.versions.debugBuildType.get()) {}
+        getByName(config.versions.debugBuildType.get()) {
+            buildConfigField("String", "BASE_URL", "\"https://wallet-leaks.herokuapp.com/\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -46,6 +48,15 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+
+    // Retrofit
+    implementation(libs.bundles.retrofit)
+
+    // OkHttp
+    implementation(libs.bundles.okHttp)
+
+    // Paging
+    api(libs.paging.paging)
 
     // Room
     implementation(libs.bundles.room)

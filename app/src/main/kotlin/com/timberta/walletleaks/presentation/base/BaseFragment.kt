@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.PagingData
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.timberta.walletleaks.presentation.ui.state.UIState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel>(
@@ -41,17 +44,16 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel>(
 
     protected open fun launchObservers() {}
 
-//    protected fun <T : Any> Flow<PagingData<T>>.spectatePaging(
-//        lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-//        success: suspend (data: PagingData<T>) -> Unit,
-//    ) {
-//        safeFlowGather(lifecycleState) {
-//            collectLatest {
-//                success(it)
-//                error(it)
-//            }
-//        }
-//    }
+    protected fun <T : Any> Flow<PagingData<T>>.spectatePaging(
+        lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+        success: suspend (data: PagingData<T>) -> Unit,
+    ) {
+        safeFlowGather(lifecycleState) {
+            collectLatest {
+                success(it)
+            }
+        }
+    }
 
     protected fun <T> StateFlow<UIState<T>>.spectateUiState(
         lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,

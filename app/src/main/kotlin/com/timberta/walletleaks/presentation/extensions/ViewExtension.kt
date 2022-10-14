@@ -1,6 +1,5 @@
 package com.timberta.walletleaks.presentation.extensions
 
-import android.util.Log
 import android.view.View
 
 fun View.visible() {

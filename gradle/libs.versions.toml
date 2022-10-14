@@ -21,6 +21,7 @@ appCompat = "1.5.1"
 splashScreen = "1.0.0-beta01"
 maskedEditText = "1.0.0"
 emojiPopUp = "0.15.0"
+blurry = "4.0.1"
 #Core
 core = "1.8.0"
 #Activity
@@ -101,6 +102,7 @@ ui-dotsIndicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsI
 ui-emojiMaterial = { module = "com.vanniktech:emoji-material", version.ref = "emojiPopUp" }
 ui-emojiGoogle = { module = "com.vanniktech:emoji-google", version.ref = "emojiPopUp" }
 glide-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+blurry-blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
 
 #Legacy Support
 legacySupport-legacySupport = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupport" }
@@ -147,6 +149,7 @@ datastore-proto = { module = "androidx.datastore:datastore", version.ref = "data
 
 #Paging
 paging-paging = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
+paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "paging" }
 
 #Firebase
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
@@ -161,13 +164,14 @@ firebase-inAppMessaging = { module = "com.google.firebase:firebase-inappmessagin
 firebase-inAppMessagingDisplay = { module = "com.google.firebase:firebase-inappmessaging-display-ktx", version.ref = "firebaseInAppMessaging" }
 firebase-adMob = { module = "com.google.android.gms:play-services-ads", version.ref = "firebaseAdMob" }
 #Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-workManager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 koin-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
 
 [bundles]
 #UI Components
-uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen"]
+uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen", "blurry-blurry"]
 
 #Coroutines
 coroutines = ["coroutines-core", "coroutines-android"]

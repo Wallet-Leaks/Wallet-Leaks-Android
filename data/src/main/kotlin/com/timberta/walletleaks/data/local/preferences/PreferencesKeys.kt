@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.data.db.preferences
+package com.timberta.walletleaks.data.local.preferences
 
 object PreferencesKeys {
     const val DOES_USER_HAVE_PREMIUM = "doesUserHavePremium"
