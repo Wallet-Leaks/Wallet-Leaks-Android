@@ -16,7 +16,6 @@ data class CoinUI(
     val icon: String? = "",
     var isAvailable: Boolean = true,
     var isSelected: Boolean = false,
-    val image: Int? = 0
 ) : BaseDiffModel<Int>, Parcelable {
 
     constructor(parcel: Parcel) : this(
