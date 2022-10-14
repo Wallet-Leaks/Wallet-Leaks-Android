@@ -38,7 +38,7 @@
         android:label="PremiumPurchaseFragment" />
     <fragment
         android:id="@+id/selectCoinsFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.coinList.selectCoins.SelectCoinsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.selectCoins.SelectCoinsFragment"
         android:label="fragment_select_coins"
         tools:layout="@layout/fragment_select_coins">
         <action
