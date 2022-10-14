@@ -8,6 +8,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 dependencies {
-    api(libs.javax.inject)
     api(libs.coroutines.core)
+    implementation(libs.paging.common)
+    implementation(libs.koin.core)
 }
