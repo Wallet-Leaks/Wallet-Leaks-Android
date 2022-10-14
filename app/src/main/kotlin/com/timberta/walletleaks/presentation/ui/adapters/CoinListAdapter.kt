@@ -3,7 +3,6 @@ package com.timberta.walletleaks.presentation.ui.adapters
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.timberta.walletleaks.databinding.ItemCoinBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
 import com.timberta.walletleaks.presentation.extensions.invisible
+import com.timberta.walletleaks.presentation.extensions.loadImageWithGlide
 import com.timberta.walletleaks.presentation.extensions.visible
 import com.timberta.walletleaks.presentation.models.CoinUI
 import jp.wasabeef.blurry.Blurry
@@ -65,7 +65,7 @@ class CoinListAdapter(
                         true -> imIsCoinSelected.visible()
                         false -> imIsCoinSelected.invisible()
                     }
-                    image?.let { imCoin.setImageResource(it) }
+                    imCoin.loadImageWithGlide(icon)
                     tvCoinSymbol.text = symbol
                     tvCoinName.text = title
                     tvCoinBalance.text = price

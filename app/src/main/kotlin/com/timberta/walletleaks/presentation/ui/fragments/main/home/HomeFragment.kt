@@ -11,8 +11,10 @@ import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.invisible
 import com.timberta.walletleaks.presentation.extensions.visible
 import com.timberta.walletleaks.presentation.ui.adapters.CryptoAlgorithmAdapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home) {
@@ -34,6 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
+                            delay(Random.nextLong(200, 700))
                             viewModel.processIndex = adapter.itemCount
                             viewModel.searchCryptoWallets()
                             adapter.notifyItemInserted(viewModel.processIndex)
@@ -89,4 +92,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.processCryptoWorkState.value = false
+    }
 }

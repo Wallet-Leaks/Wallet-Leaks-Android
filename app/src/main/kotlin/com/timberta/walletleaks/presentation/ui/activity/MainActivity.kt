@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
-import com.timberta.walletleaks.data.db.preferences.UserDataPreferencesManager
+import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.ActivityMainBinding
 import org.koin.android.ext.android.inject
 

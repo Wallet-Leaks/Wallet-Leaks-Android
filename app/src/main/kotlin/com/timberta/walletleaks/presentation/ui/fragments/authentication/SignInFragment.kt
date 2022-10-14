@@ -1,6 +1,5 @@
 package com.timberta.walletleaks.presentation.ui.fragments.authentication
 
-import UserDataPreferencesManager
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
+import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentSignInBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.navigateSafely

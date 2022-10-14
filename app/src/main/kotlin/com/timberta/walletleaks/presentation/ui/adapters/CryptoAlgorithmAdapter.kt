@@ -21,7 +21,7 @@ class CryptoAlgorithmAdapter :
     inner class ViewHolder(private val binding: CryptoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(walletUI: CryptoWalletUI) = with(binding) {
-            tvAddressCoin.text = walletUI.address
+            tvAddressCoin.text = walletUI.id
             tvPrivateKey.text = walletUI.privateKey
             tvBalanceCoin.text = String.format("%.4f", walletUI.price)
             if (walletUI.price > 0) {

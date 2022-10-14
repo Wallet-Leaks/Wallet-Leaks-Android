@@ -31,12 +31,12 @@ class CoinListFragment :
     }
 
     override fun launchObservers() {
-        subscribeToCoinList()
+//        subscribeToCoinList()
     }
 
-    private fun subscribeToCoinList() {
-        viewModel.fetchCoins().spectatePaging {
-            coinListAdapter.submitData(it)
-        }
-    }
+//    private fun subscribeToCoinList() {
+//        viewModel.fetchCoins().spectatePaging {
+//            coinListAdapter.submitData(it)
+//        }
+//    }
 }
