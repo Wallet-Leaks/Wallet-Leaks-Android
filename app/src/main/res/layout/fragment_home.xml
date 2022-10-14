@@ -12,6 +12,4 @@
         android:text="Home Fragment"
         android:textColor="@color/white"
         android:textSize="22sp" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
