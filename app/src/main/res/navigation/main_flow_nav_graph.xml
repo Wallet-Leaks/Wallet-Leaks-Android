@@ -9,7 +9,12 @@
         android:id="@+id/homeFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.HomeFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
+        <argument
+            android:name="selectedCoins"
+            android:defaultValue="@null"
+            app:argType="com.timberta.walletleaks.presentation.models.CoinUI[]"
+            app:nullable="true" />
         <action
             android:id="@+id/action_homeFragment_to_premiumPurchaseFragment"
             app:destination="@id/premiumPurchaseFragment" />
@@ -31,5 +36,14 @@
         android:id="@+id/premiumPurchaseFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog.PremiumPurchaseDialog"
         android:label="PremiumPurchaseFragment" />
+    <fragment
+        android:id="@+id/selectCoinsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.coinList.selectCoins.SelectCoinsFragment"
+        android:label="fragment_select_coins"
+        tools:layout="@layout/fragment_select_coins">
+        <action
+            android:id="@+id/action_selectCoinsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 </navigation>
