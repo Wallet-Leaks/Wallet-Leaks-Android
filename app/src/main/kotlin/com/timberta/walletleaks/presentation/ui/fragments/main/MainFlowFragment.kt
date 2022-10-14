@@ -10,13 +10,19 @@ import com.timberta.walletleaks.presentation.extensions.gone
 import com.timberta.walletleaks.presentation.extensions.visible
 
 
-class MainFlowFragment : BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
+class MainFlowFragment :
+    BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
 
     override fun setupNavigation(navController: NavController) {
         constructBottomNavigation(navController)
         establishBottomNavigationRendering(navController)
+    }
+
+    private fun constructBottomNavigation(navController: NavController) {
+        binding.bottomNavigation.itemIconTintList = null
+        setupWithNavController(binding.bottomNavigation, navController)
     }
 
     private fun establishBottomNavigationRendering(navController: NavController) = with(binding) {
@@ -32,10 +38,5 @@ class MainFlowFragment : BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_
                 }
             }
         }
-    }
-
-    private fun constructBottomNavigation(navController: NavController) {
-        binding.bottomNavigation.itemIconTintList = null
-        setupWithNavController(binding.bottomNavigation, navController)
     }
 }
