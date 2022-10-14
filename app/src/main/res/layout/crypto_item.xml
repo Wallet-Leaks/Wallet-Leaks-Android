@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/BaseRootStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/tv_state_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Address: "
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_address_coin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="0xDbD5eF4Dcd018fD884A95546DfA1943920aE5faA"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_state_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_state_address"
+        app:layout_constraintTop_toTopOf="@id/tv_state_address" />
+
+    <TextView
+        android:id="@+id/tv_state_private_key"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="PrivateKey: "
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_address_coin" />
+
+    <TextView
+        android:id="@+id/tv_private_key"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="7ca1adc39f4f5e808a745ce8fda8e278618bc52bbffe5cf3eb8cb773fa8b19b3"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_state_private_key"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_state_private_key"
+        app:layout_constraintTop_toTopOf="@id/tv_state_private_key" />
+
+    <TextView
+        android:id="@+id/tv_state_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Balance: "
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_state_private_key" />
+
+    <TextView
+        android:id="@+id/tv_balance_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="None "
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/tv_state_balance"
+        app:layout_constraintTop_toBottomOf="@id/tv_private_key" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

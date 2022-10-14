@@ -15,4 +15,7 @@
     <color name="shadeOfSlateGray">#737F9D</color>
     <color name="transparent">#63000000</color>
     <color name="nero">#222222</color>
+    <color name="blue">#505B77</color>
+    <color name="green">#37AA3E</color>
+    <color name="red">#d9393d</color>
 </resources>

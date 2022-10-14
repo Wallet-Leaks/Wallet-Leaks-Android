@@ -5,7 +5,18 @@
     <string name="home">Home</string>
     <string name="coin_list">Coin list</string>
     <string name="settings">Settings</string>
-    <string name="title_wallet_premium_dialog">More earnings and app extensions with Wallet leaks premium subscription.</string>
+    <string name="title_wallet_premium_dialog">Go beyond the limits of base version, extend \nexisting features and support our product in order \nprovide it with the opportunity to grow.</string>
     <string name="wallet_leaks_premium">Wallet Leaks Premium</string>
     <string name="soon">Soon</string>
+    <string name="select_multi_crypto_coin">Select maximum of 3 coins to \nmine simultaneously.</string>
+    <string name="restart_crypto_bot">Restart the bot after 12 hours instead of 24.</string>
+    <string name="Increased_bot_5_to_10_hours">Increased bot operation time from 5 to 10 hours</string>
+    <string name="btn_text_buy_premium">BUY FOR 39,90$ AND KEEP IT FOREVER</string>
+    <string name="premium_price">39,90$</string>
+    <string name="telegram_not_installed">На устройстве не установлен Telegram</string>
+    <string name="telegram_account">walletcryptoleaks</string>
+    <string name="enter_key">Enter key...</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+
 </resources>
