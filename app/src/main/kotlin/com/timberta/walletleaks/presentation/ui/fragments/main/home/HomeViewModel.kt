@@ -3,6 +3,7 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.home
 import androidx.lifecycle.viewModelScope
 import com.timberta.walletleaks.presentation.base.BaseViewModel
 import com.timberta.walletleaks.presentation.ui.model.CryptoWalletUI
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -10,19 +11,18 @@ import kotlin.random.Random
 
 class HomeViewModel : BaseViewModel() {
 
+    private val modelList = ArrayList<CryptoWalletUI>()
     private val _getListCryptoWalletsState = MutableStateFlow<List<CryptoWalletUI>>(emptyList())
     val getListCryptoWalletsState = _getListCryptoWalletsState.asStateFlow()
-    private val modelList = ArrayList<CryptoWalletUI>()
+    val processCryptoWorkState = MutableStateFlow(false)
     var allPrice = 0.0
+    var processIndex = 0
 
-    fun searchCryptoWallets(i: Int) {
+    fun searchCryptoWallets() {
         viewModelScope.launch {
             var coin = 0.0
-            if (Random.nextInt(0, 1000) == 17) {
-                coin = Random.nextDouble(0.0, 0.0008)
-            }
-            if (i == Random.nextInt(0, 1000)) {
-                coin = Random.nextDouble(0.0, 0.0016)
+            if (Random.nextInt(0, 30000цц) == 1) {
+                coin = Random.nextDouble(0.0000, 0.0008)
             }
             modelList.add(
                 CryptoWalletUI(
