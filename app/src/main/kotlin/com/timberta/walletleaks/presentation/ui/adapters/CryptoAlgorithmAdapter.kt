@@ -25,19 +25,9 @@ class CryptoAlgorithmAdapter :
             tvPrivateKey.text = walletUI.privateKey
             tvBalanceCoin.text = String.format("%.4f", walletUI.price)
             if (walletUI.price > 0) {
-                tvAddressCoin.setTextColor(Color.parseColor("#d9393d"))
-                tvPrivateKey.setTextColor(Color.parseColor("#d9393d"))
-                tvBalanceCoin.setTextColor(Color.parseColor("#d9393d"))
-                tvStateAddress.setTextColor(Color.parseColor("#d9393d"))
-                tvStatePrivateKey.setTextColor(Color.parseColor("#d9393d"))
-                tvStateBalance.setTextColor(Color.parseColor("#d9393d"))
+                itemCrypto.setBackgroundColor(Color.parseColor("#37AA3E"))
             } else {
-                tvAddressCoin.setTextColor(Color.parseColor("#BBAABB"))
-                tvPrivateKey.setTextColor(Color.parseColor("#BBAABB"))
-                tvBalanceCoin.setTextColor(Color.parseColor("#BBAABB"))
-                tvStateAddress.setTextColor(Color.parseColor("#BBAABB"))
-                tvStatePrivateKey.setTextColor(Color.parseColor("#BBAABB"))
-                tvStateBalance.setTextColor(Color.parseColor("#BBAABB"))
+                itemCrypto.setBackgroundColor(Color.parseColor("#1B253E"))
             }
         }
     }

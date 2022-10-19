@@ -40,14 +40,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
-                            delay(Random.nextLong(200, 700))
+                            delay(Random.nextLong(300, 700))
                             viewModel.processIndex = adapter.itemCount
                             viewModel.searchCryptoWallets()
-                            adapter.notifyItemInserted(viewModel.processIndex)
+                            adapter.notifyItemInserted(adapter.itemCount)
                             updateAdapterScroll()
-                            binding.price.text =
-                                String.format("%.4f", viewModel.allPrice * 19147.50)
-                            viewModel.processIndex = i
                         } else {
                             break
                         }

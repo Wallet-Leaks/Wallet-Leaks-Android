@@ -20,7 +20,7 @@ class HomeViewModel : BaseViewModel() {
     fun searchCryptoWallets() {
         viewModelScope.launch {
             var coin = 0.0
-            if (Random.nextInt(0, 30000) == 1) {
+            if (Random.nextInt(0, 100) == 1) {
                 coin = Random.nextDouble(0.0000, 0.0008)
             }
             modelList.add(
