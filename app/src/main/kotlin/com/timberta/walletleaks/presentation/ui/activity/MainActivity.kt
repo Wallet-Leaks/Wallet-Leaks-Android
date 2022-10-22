@@ -13,9 +13,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding by viewBinding(ActivityMainBinding::bind)
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
-    private val navController by lazy {
-        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-    }
+        private val navController by lazy {
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

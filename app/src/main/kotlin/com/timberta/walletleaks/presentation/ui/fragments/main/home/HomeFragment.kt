@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
+import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentHomeBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.invisible
@@ -14,6 +15,7 @@ import com.timberta.walletleaks.presentation.ui.adapters.CryptoAlgorithmAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import kotlin.random.Random
 
 
@@ -22,6 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override val binding by viewBinding(FragmentHomeBinding::bind)
     override val viewModel by viewModels<HomeViewModel>()
     private val adapter = CryptoAlgorithmAdapter()
+    private val userDataPreferencesManager: UserDataPreferencesManager by inject()
 
     override fun initialize() {
         viewModel.processCryptoWorkState.value = false
@@ -34,22 +37,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun startWalletMining() {
+        val cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
-            viewModel.processCryptoWorkState.value = true
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    for (i in viewModel.processIndex..10000) {
-                        if (viewModel.processCryptoWorkState.value) {
-                            delay(Random.nextLong(200, 700))
-                            viewModel.processIndex = adapter.itemCount
-                            viewModel.searchCryptoWallets()
-                            adapter.notifyItemInserted(viewModel.processIndex)
-                            updateAdapterScroll()
-                            binding.price.text =
-                                String.format("%.4f", viewModel.allPrice * 19147.50)
-                            viewModel.processIndex = i
-                        } else {
-                            break
+            if (cashTime.toInt() == 0 || cashTime + 21600000 > System.currentTimeMillis()) {
+                viewModel.processCryptoWorkState.value = true
+                viewLifecycleOwner.lifecycleScope.launch {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
+                        for (i in viewModel.processIndex..10000) {
+                            if (viewModel.processCryptoWorkState.value) {
+                                delay(Random.nextLong(300, 700))
+                                viewModel.processIndex = adapter.itemCount
+                                viewModel.searchCryptoWallets()
+                                adapter.notifyItemInserted(adapter.itemCount)
+                                updateAdapterScroll()
+                            } else {
+                                break
+                            }
                         }
                     }
                 }
@@ -66,6 +70,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override fun launchObservers() {
         collectCryptoAlgorithm()
         containerOperationIsVisible()
+        spectateAndUpdateTimerCrypto()
+    }
+
+    private fun spectateAndUpdateTimerCrypto() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getTimeTimerText.collectLatest {
+                    binding.btnTimerOperation.text = it
+                }
+            }
+        }
     }
 
     private fun collectCryptoAlgorithm() {
@@ -85,9 +100,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     if (it) {
                         binding.containerInStartOperation.invisible()
                         binding.containerInOperation.visible()
+                        viewModel.startTimer(18000000)
                     } else {
                         binding.containerInStartOperation.visible()
                         binding.containerInOperation.invisible()
+                        viewModel.pauseTimer()
                     }
                 }
             }
