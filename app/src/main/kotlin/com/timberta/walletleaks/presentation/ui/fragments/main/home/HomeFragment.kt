@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private val walletMiningTimeAdapter =
         WalletMiningTimeAdapter(userDataPreferencesManager.doesUserHavePremium, this::onItemClick)
     private val selectedCoinsAdapter = SelectedCoinsAdapter()
+    private var selectedTime: Long = 0
 
     override fun initialize() {
         viewModel.processCryptoWorkState.value = false
@@ -86,11 +87,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun startWalletMining() {
+        val cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
-            viewModel.processCryptoWorkState.value = selectedCoinsAdapter.currentList.isNotEmpty()
             viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-            if (viewModel.processCryptoWorkState.value) {
+            if (cashTime.toInt() == 0 || cashTime + 21600000 > System.currentTimeMillis() && selectedCoinsAdapter.currentList.isNotEmpty()) {
+                viewModel.processCryptoWorkState.value = true
+                viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
                 safeFlowGather {
+                    userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
                             delay(Random.nextLong(200, 700))
@@ -98,9 +102,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                             viewModel.searchCryptoWallets()
                             adapter.notifyItemInserted(viewModel.processIndex)
                             updateAdapterScroll()
-                            binding.price.text =
-                                String.format("%.4f", viewModel.allPrice * 19147.50)
-                            viewModel.processIndex = i
                         } else {
                             break
                         }
@@ -141,31 +142,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     override fun launchObservers() {
+        spectateCoinsSelectionProcess()
         collectCryptoAlgorithm()
         containerOperationIsVisible()
-        spectateCoinsSelectionProcess()
-    }
-
-    private fun collectCryptoAlgorithm() {
-        safeFlowGather {
-            viewModel.getListCryptoWalletsState.collect {
-                adapter.submitList(it)
-            }
-        }
-    }
-
-    private fun containerOperationIsVisible() {
-        safeFlowGather {
-            viewModel.processCryptoWorkState.collectLatest {
-                if (it) {
-                    binding.containerInStartOperation.invisible()
-                    binding.containerInOperation.visible()
-                } else {
-                    binding.containerInStartOperation.visible()
-                    binding.containerInOperation.invisible()
-                }
-            }
-        }
+        spectateAndUpdateTimerCrypto()
     }
 
     private fun spectateCoinsSelectionProcess() = with(binding) {
@@ -185,6 +165,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
+    private fun collectCryptoAlgorithm() {
+        safeFlowGather {
+            viewModel.getListCryptoWalletsState.collect {
+                adapter.submitList(it)
+            }
+        }
+    }
+
+    private fun containerOperationIsVisible() {
+        safeFlowGather {
+            viewModel.processCryptoWorkState.collectLatest {
+                if (it) {
+                    binding.containerInStartOperation.invisible()
+                    binding.containerInOperation.visible()
+                    viewModel.startTimer(selectedTime)
+                } else {
+                    binding.containerInStartOperation.visible()
+                    binding.containerInOperation.invisible()
+                    viewModel.pauseTimer()
+                }
+            }
+        }
+    }
+
+    private fun spectateAndUpdateTimerCrypto() {
+        safeFlowGather {
+            viewModel.getTimeTimerText.collectLatest {
+                binding.btnTimerOperation.text = it
+            }
+        }
+    }
+
     private fun updateAdapterScroll() {
         if (adapter.itemCount > 0) {
             binding.rvCryptoOperationHome.scrollToPosition(adapter.itemCount - 1)
@@ -192,6 +204,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun onItemClick(amountOfHours: Long, isUnlocked: Boolean) {
+        selectedTime = amountOfHours
         if (!isUnlocked) findNavController().navigate(
             R.id.premiumPurchaseFragment
         )

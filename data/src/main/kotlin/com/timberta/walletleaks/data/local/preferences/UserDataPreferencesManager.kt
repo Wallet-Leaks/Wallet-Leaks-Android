@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.DOES_USER_HAVE_PREMIUM
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.IS_USER_AUTHENTICATED
+import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_TIME_TIMER
 
 class UserDataPreferencesManager constructor(private val preferences: SharedPreferences) {
     var isAuthenticated: Boolean
@@ -17,6 +18,9 @@ class UserDataPreferencesManager constructor(private val preferences: SharedPref
     var hasNonPremiumUserTriedToSelectMultipleCoins: Boolean
         get() = preferences.getBoolean(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, false)
         set(value) = preferences.put(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, value)
+    var miningTimeTimer: Long
+        get() = preferences.getLong(MINING_TIME_TIMER, 0)
+        set(value) = preferences.edit().putLong(MINING_TIME_TIMER, value).apply()
 
     fun actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime(action: () -> Unit) {
         if (!hasNonPremiumUserTriedToSelectMultipleCoins && !doesUserHavePremium) {

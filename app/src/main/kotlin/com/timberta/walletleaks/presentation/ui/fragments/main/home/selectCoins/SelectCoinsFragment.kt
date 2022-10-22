@@ -33,7 +33,7 @@ class SelectCoinsFragment :
         adapter = coinListAdapter.withLoadStateFooter(BaseLoadStateAdapter())
         itemAnimator = null
         coinListAdapter.bindViewsToPagingLoadStates(
-             this,
+            this,
             binding.cpiCoinList,
             binding.imSoon,
             binding.tvSoon,
