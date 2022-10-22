@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.timberta.walletleaks.domain.models.CoinModel
 import com.timberta.walletleaks.presentation.base.BaseDiffModel
 import com.timberta.walletleaks.presentation.extensions.toByte
+import com.timberta.walletleaks.presentation.extensions.write
 
 
 data class CoinUI(
@@ -33,15 +34,16 @@ data class CoinUI(
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.apply {
-            writeInt(id)
-            writeString(title)
-            writeString(slug)
-            writeString(url)
-            writeString(price)
-            writeString(symbol)
-            writeString(icon)
-            writeByte(isAvailable.toByte())
-            writeByte(isSelected.toByte())
+            write(id)
+            write(id)
+            write(title)
+            write(slug)
+            write(url)
+            write(price)
+            write(symbol)
+            write(icon)
+            write(isAvailable.toByte())
+            write(isSelected.toByte())
         }
     }
 
