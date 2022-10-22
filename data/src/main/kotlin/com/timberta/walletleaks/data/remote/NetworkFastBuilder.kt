@@ -16,10 +16,10 @@ internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Bu
 internal fun provideOkHttpClientBuilder(): OkHttpClient.Builder = OkHttpClient()
     .newBuilder()
     .addInterceptor(provideLoggingInterceptor())
-    .callTimeout(30, TimeUnit.SECONDS)
-    .connectTimeout(30, TimeUnit.SECONDS)
-    .readTimeout(30, TimeUnit.SECONDS)
-    .writeTimeout(30, TimeUnit.SECONDS)
+    .callTimeout(60, TimeUnit.SECONDS)
+    .connectTimeout(60, TimeUnit.SECONDS)
+    .readTimeout(60, TimeUnit.SECONDS)
+    .writeTimeout(60, TimeUnit.SECONDS)
 
 private fun provideLoggingInterceptor() = HttpLoggingInterceptor().setLevel(
     when {
