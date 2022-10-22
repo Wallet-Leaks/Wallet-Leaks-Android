@@ -14,6 +14,7 @@ class HomeViewModel : BaseViewModel() {
     private val _getListCryptoWalletsState = MutableStateFlow<List<CryptoWalletUI>>(emptyList())
     val getListCryptoWalletsState = _getListCryptoWalletsState.asStateFlow()
     val processCryptoWorkState = MutableStateFlow(false)
+    val coinsSelectionState = MutableStateFlow(false)
     var allPrice = 0.0
     var processIndex = 0
 
