@@ -90,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         val cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
             viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-            if (cashTime.toInt() == 0 || cashTime + 21600000 > System.currentTimeMillis() && selectedCoinsAdapter.currentList.isNotEmpty()) {
+            if (cashTime.toInt() == 0 || cashTime + 21600000 > System.currentTimeMillis() && args.selectedCoins?.isNotEmpty() == true) {
                 viewModel.processCryptoWorkState.value = true
                 viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
                 safeFlowGather {
