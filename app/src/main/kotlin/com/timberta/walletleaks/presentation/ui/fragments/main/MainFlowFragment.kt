@@ -25,17 +25,28 @@ class MainFlowFragment :
         setupWithNavController(binding.bottomNavigation, navController)
     }
 
-    private fun establishBottomNavigationRendering(navController: NavController) = with(binding) {
+    private fun establishBottomNavigationRendering(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.selectCoinsFragment -> {
-                    mainToolbar.gone()
-                    bottomNavigation.gone()
-                }
-                else -> {
-                    mainToolbar.visible()
-                    bottomNavigation.visible()
-                }
+                R.id.selectCoinsFragment ->
+                    renderToolbarAndBottomNavigation(false)
+                R.id.premiumPurchaseFragment ->
+                    renderToolbarAndBottomNavigation(navController.previousBackStackEntry?.destination?.id == R.id.homeFragment)
+                else ->
+                    renderToolbarAndBottomNavigation(true)
+            }
+        }
+    }
+
+    private fun renderToolbarAndBottomNavigation(shouldBeVisible: Boolean) = with(binding) {
+        when (shouldBeVisible) {
+            true -> {
+                mainToolbar.visible()
+                bottomNavigation.visible()
+            }
+            false -> {
+                mainToolbar.gone()
+                bottomNavigation.gone()
             }
         }
     }
