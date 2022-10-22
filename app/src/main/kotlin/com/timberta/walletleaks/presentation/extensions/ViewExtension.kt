@@ -13,3 +13,9 @@ fun View.gone() {
 fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
+
+fun makeMultipleViewsInvisible(vararg views: View) {
+    views.forEach {
+        it.invisible()
+    }
+}
