@@ -7,5 +7,5 @@ import com.timberta.walletleaks.domain.models.CoinModel
 
 class CoinsPagingSource(private val coinApiService: CoinApiService) :
     BasePagingSource<CoinDto, CoinModel>({
-        coinApiService.fetchCoins()
+        coinApiService.fetchCoins(it)
     })
