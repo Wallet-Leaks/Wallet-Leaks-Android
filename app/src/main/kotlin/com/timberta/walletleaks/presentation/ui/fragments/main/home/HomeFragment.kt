@@ -59,8 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
             btnSaveCoins.isEnabled = true
             btnSaveCoins.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.safetyOrange
+                    requireContext(), R.color.safetyOrange
                 )
             )
             imAddCoins.isGone = true
