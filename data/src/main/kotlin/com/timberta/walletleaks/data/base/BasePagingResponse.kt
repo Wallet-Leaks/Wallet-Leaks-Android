@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.data.remote.dtos
+package com.timberta.walletleaks.data.base
 
 
 import com.google.gson.annotations.SerializedName
@@ -7,7 +7,7 @@ data class BasePagingResponse<T>(
     @SerializedName("count")
     val count: Int,
     @SerializedName("next")
-    val next: Int?,
+    val next: String?,
     @SerializedName("previous")
     val previous: Any?,
     @SerializedName("results")
