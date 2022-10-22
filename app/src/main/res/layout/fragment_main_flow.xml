@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/im_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="end|center"
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_wallet" />
@@ -34,6 +34,7 @@
             app:cardCornerRadius="6dp">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -41,9 +42,10 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="center"
+                android:maxLines="1"
                 android:text="399,14 $"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </com.google.android.material.card.MaterialCardView>
     </com.google.android.material.appbar.MaterialToolbar>
