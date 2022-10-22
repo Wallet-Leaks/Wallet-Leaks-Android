@@ -27,5 +27,4 @@ fun Fragment.overrideOnBackPressed(onBackPressed: OnBackPressedCallback.() -> Un
     requireActivity().onBackPressedDispatcher.addCallback(this) {
         onBackPressed()
     }
-
 }

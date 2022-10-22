@@ -18,5 +18,5 @@
     <string name="enter_key">Enter key...</string>
     <string name="start">start</string>
     <string name="stop">stop</string>
-
+    <string name="save_coins">Save</string>
 </resources>

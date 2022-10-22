@@ -4,17 +4,19 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.timberta.walletleaks.domain.models.CoinModel
 import com.timberta.walletleaks.presentation.base.BaseDiffModel
+import com.timberta.walletleaks.presentation.extensions.toByte
+import com.timberta.walletleaks.presentation.extensions.write
 
 
 data class CoinUI(
-    override val id: Int,
-    val title: String?,
+    override val id: Int = 0,
+    val title: String? = "",
     val slug: String? = "",
     val url: String? = "",
     val price: String? = "",
     val symbol: String?,
     val icon: String? = "",
-    var isAvailable: Boolean = true,
+    val isAvailable: Boolean,
     var isSelected: Boolean = false,
 ) : BaseDiffModel<Int>, Parcelable {
 
@@ -32,25 +34,16 @@ data class CoinUI(
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.apply {
-            writeInt(id)
-            writeString(title)
-            writeString(slug)
-            writeString(url)
-            writeString(price)
-            writeString(symbol)
-            writeString(icon)
-            writeByte(
-                when (isAvailable) {
-                    true -> 1
-                    false -> 0
-                }.toByte()
-            )
-            writeByte(
-                when (isSelected) {
-                    true -> 1
-                    false -> 0
-                }.toByte()
-            )
+            write(id)
+            write(id)
+            write(title)
+            write(slug)
+            write(url)
+            write(price)
+            write(symbol)
+            write(icon)
+            write(isAvailable.toByte())
+            write(isSelected.toByte())
         }
     }
 
@@ -67,4 +60,4 @@ data class CoinUI(
     }
 }
 
-fun CoinModel.toUI() = CoinUI(id, title, slug, url, price, symbol, icon)
+fun CoinModel.toUI() = CoinUI(id, title, slug, url, price, symbol, icon, isAvailable)

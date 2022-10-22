@@ -18,11 +18,13 @@ import jp.wasabeef.blurry.Blurry
 
 
 class CoinListAdapter(
-    private val doesUserHavePremium: Boolean
+    private val doesUserHavePremium: Boolean,
+    private val onItemClick: ((coinsCount: Int, hasUserTriedToSelectMultipleCoins: Boolean) -> Unit)? = null
 ) :
     PagingDataAdapter<CoinUI, CoinListAdapter.CoinsViewHolder>(BaseDiffUtil()) {
     private val selectedCoins = arrayListOf<CoinUI>()
     private var isUserSelectingCoins = false
+    private var hasUserTriedToSelectMultipleCoins = false
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
     private var firstSelectedPosition = RecyclerView.NO_POSITION
 
@@ -38,11 +40,11 @@ class CoinListAdapter(
         getItem(position)?.let { holder.onBind(it) }
     }
 
-    fun getSelectedCoins() = selectedCoins.toTypedArray()
-
     fun startSelectingCoins() {
         isUserSelectingCoins = true
     }
+
+    fun getSelectedCoins() = selectedCoins.toTypedArray()
 
     inner class CoinsViewHolder(private val binding: ItemCoinBinding) : ViewHolder(binding.root) {
         fun onBind(item: CoinUI) {
@@ -68,10 +70,15 @@ class CoinListAdapter(
                     imCoin.loadImageWithGlide(icon)
                     tvCoinSymbol.text = symbol
                     tvCoinName.text = title
-                    tvCoinBalance.text = price
+                    if (!isUserSelectingCoins)
+                        tvCoinBalance.text = price
                     if (isUserSelectingCoins && isAvailable)
                         root.setOnClickListener {
                             handleCoinSelection()
+                            onItemClick?.invoke(
+                                selectedCoins.count(),
+                                hasUserTriedToSelectMultipleCoins
+                            )
                         }
                 }
             }
@@ -83,16 +90,16 @@ class CoinListAdapter(
                     false -> {
                         if (lastlySelectedPosition >= 0)
                             notifyItemChanged(lastlySelectedPosition)
-                        lastlySelectedPosition = absoluteAdapterPosition
-                        notifyItemChanged(lastlySelectedPosition)
-
                         when (!selectedCoins.contains(
                             coin
                         ) && selectedCoins.isEmpty()) {
-                            true ->
+                            true -> {
                                 selectedCoins.add(
                                     coin
                                 )
+                                lastlySelectedPosition = absoluteAdapterPosition
+                                notifyItemChanged(lastlySelectedPosition)
+                            }
                             false -> {
                                 selectedCoins.remove(coin)
                                 lastlySelectedPosition = RecyclerView.NO_POSITION
@@ -100,6 +107,7 @@ class CoinListAdapter(
                             }
                         }
                         if (selectedCoins.count() == 1) {
+                            hasUserTriedToSelectMultipleCoins = selectedCoins[0] != coin
                             selectedCoins[0] = coin
                             lastlySelectedPosition = absoluteAdapterPosition
                             notifyItemChanged(lastlySelectedPosition)

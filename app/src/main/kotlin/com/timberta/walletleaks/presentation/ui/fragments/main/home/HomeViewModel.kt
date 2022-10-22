@@ -20,6 +20,7 @@ class HomeViewModel : BaseViewModel() {
     val getTimeTimerText = _getTimeTimerText.asStateFlow()
 
     val processCryptoWorkState = MutableStateFlow(false)
+    val coinsSelectionState = MutableStateFlow(false)
     private var countDownTimer: CountDownTimer? = null
     private var mTimeInMillis: Long = 0
 

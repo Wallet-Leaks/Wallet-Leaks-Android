@@ -18,4 +18,8 @@
     <color name="blue">#505B77</color>
     <color name="green">#37AA3E</color>
     <color name="red">#d9393d</color>
+    <color name="safetyOrange">#FF7E0A</color>
+    <color name="deepPink">#FF0075</color>
+    <color name="vividPink">#E900FF</color>
+    <color name="navy">#141C2E</color>
 </resources>

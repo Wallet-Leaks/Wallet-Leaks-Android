@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_flow_nav_graph.xml"
+    android:id="@+id/main_flow_nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -18,6 +18,12 @@
         <action
             android:id="@+id/action_homeFragment_to_premiumPurchaseFragment"
             app:destination="@id/premiumPurchaseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_selectCoinsFragment"
+            app:destination="@id/selectCoinsFragment"
+            app:enterAnim="@anim/to_right"
+            app:popExitAnim="@anim/from_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -43,7 +49,9 @@
         tools:layout="@layout/fragment_select_coins">
         <action
             android:id="@+id/action_selectCoinsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/from_right"
+            app:popUpTo="@id/main_flow_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
-
 </navigation>

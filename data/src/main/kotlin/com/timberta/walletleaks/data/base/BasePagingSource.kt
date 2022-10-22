@@ -1,8 +1,8 @@
 package com.timberta.walletleaks.data.base
 
+import android.net.Uri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.timberta.walletleaks.data.remote.dtos.BasePagingResponse
 import com.timberta.walletleaks.data.utils.DataMapper
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,11 +17,14 @@ abstract class BasePagingSource<ValueDto : DataMapper<Value>, Value : Any>(
         val position = params.key ?: BASE_STARTING_PAGE_INDEX
         return try {
             val response = request(position)
-
+            val nextPage = when (response.next) {
+                null -> null
+                else -> Uri.parse(response.next).getQueryParameter("page")!!.toInt()
+            }
             LoadResult.Page(
                 data = response.results.map { it.toDomain() },
                 prevKey = null,
-                nextKey = response.next
+                nextKey = nextPage
             )
         } catch (exception: IOException) {
             LoadResult.Error(exception)

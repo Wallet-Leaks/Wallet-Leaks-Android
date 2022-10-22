@@ -11,4 +11,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="BaseProgressBar">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/ic_progressbar_spinning</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 </resources>

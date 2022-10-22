@@ -86,8 +86,8 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel>(
 
     }
 
-    private fun safeFlowGather(
-        lifecycleState: Lifecycle.State,
+    fun safeFlowGather(
+        lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
         gather: suspend () -> Unit,
     ) {
         viewLifecycleOwner.lifecycleScope.launch {

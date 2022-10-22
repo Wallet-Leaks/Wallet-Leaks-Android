@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.provider.MediaStore
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -100,17 +99,6 @@ inline fun <reified Binding : ViewBinding> Fragment.getBinding(layoutId: Int, bi
             null
         )
     )
-
-fun Fragment.overrideOnBackPressed(actionWhenBackButtonPressed: () -> Unit) {
-    activity?.onBackPressedDispatcher?.addCallback(
-        requireActivity(),
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                actionWhenBackButtonPressed.invoke()
-            }
-
-        })
-}
 
 fun Fragment.setStatusBarColor(color: Int) {
     WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)

@@ -19,7 +19,9 @@ data class CoinDto(
     @SerializedName("symbol")
     val symbol: String,
     @SerializedName("icon")
-    val icon: String
+    val icon: String,
+    @SerializedName("isAvailable")
+    val isAvailable: Boolean
 ) : DataMapper<CoinModel> {
-    override fun toDomain() = CoinModel(id, title, slug, url, price, symbol, icon)
+    override fun toDomain() = CoinModel(id, title, slug, url, price, symbol, icon, isAvailable)
 }
