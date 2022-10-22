@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/crypto_item" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_in_start_operation"
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
             android:layout_marginHorizontal="6dp"
             android:layout_marginBottom="6dp"
             android:background="@drawable/bg_btn_start"
+
             android:text="@string/start"
             android:textSize="18sp"
             android:visibility="visible"
@@ -63,6 +65,100 @@
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_mcv_coin_selection_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_coin_selection"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/darkBlue"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/container_in_start_operation"
+        app:layout_constraintTop_toTopOf="@id/gl_mcv_coin_selection_top"
+        app:strokeColor="@color/safetyOrange"
+        app:strokeWidth="1dp"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_coins"
+                android:layout_width="91dp"
+                android:layout_height="49dp"
+                android:background="@color/lightBlue"
+                android:enabled="false"
+                android:text="@string/save_coins"
+                android:textAllCaps="false"
+                android:textColor="@color/blueSentinel"
+                android:textSize="16sp"
+                app:backgroundTint="@color/lightBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/v_time_and_coins_border"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/safetyOrange"
+                app:layout_constraintTop_toBottomOf="@id/btn_save_coins" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_selected_time"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/v_time_and_coins_border"
+                app:layout_constraintEnd_toStartOf="@id/btn_save_coins"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_wallet_mining_time" />
+
+            <ImageView
+                android:id="@+id/im_add_coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_time_and_coins_border" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_selected_coins"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/im_reselect_coins"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_time_and_coins_border" />
+
+            <ImageView
+                android:id="@+id/im_reselect_coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_edit"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_time_and_coins_border"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <LinearLayout
         android:id="@+id/container_in_operation"
         android:layout_width="match_parent"
@@ -91,9 +187,9 @@
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_btn_start"
-            android:text="2:59:14"
             app:backgroundTint="@null"
-            app:cornerRadius="12dp" />
+            app:cornerRadius="12dp"
+            tools:text="2:59:14" />
     </LinearLayout>
 
     <TextView
