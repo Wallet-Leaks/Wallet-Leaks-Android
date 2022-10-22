@@ -8,6 +8,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentSelectCoinsBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
+import com.timberta.walletleaks.presentation.base.BaseLoadStateAdapter
 import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.ui.adapters.CoinListAdapter
 import org.koin.android.ext.android.inject
@@ -29,10 +30,10 @@ class SelectCoinsFragment :
 
     private fun constructRecycler() = with(binding.rvCoinList) {
         layoutManager = LinearLayoutManager(requireContext())
-        adapter = coinListAdapter
+        adapter = coinListAdapter.withLoadStateFooter(BaseLoadStateAdapter())
         itemAnimator = null
         coinListAdapter.bindViewsToPagingLoadStates(
-            this,
+             this,
             binding.cpiCoinList,
             binding.imSoon,
             binding.tvSoon,
