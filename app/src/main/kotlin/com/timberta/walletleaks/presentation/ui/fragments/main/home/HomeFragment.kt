@@ -2,6 +2,7 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.home
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -10,11 +11,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentHomeBinding
+import com.timberta.walletleaks.databinding.ItemWalletMiningTimeBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.gone
-import com.timberta.walletleaks.presentation.extensions.invisible
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
-import com.timberta.walletleaks.presentation.extensions.visible
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.ui.adapters.CryptoAlgorithmAdapter
 import com.timberta.walletleaks.presentation.ui.adapters.SelectedCoinsAdapter
 import com.timberta.walletleaks.presentation.ui.adapters.WalletMiningTimeAdapter
@@ -41,6 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         binding.rvCryptoOperationHome.adapter = adapter
         constructWalletMiningTimeAdapter()
         constructSelectedCoinsAdapter()
+        fillAdapterIfUserHasSelectedCoins()
     }
 
     private fun constructWalletMiningTimeAdapter() {
@@ -50,31 +50,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         binding.rvSelectedTime.itemAnimator = null
     }
 
-    private fun constructSelectedCoinsAdapter() = with(binding) {
-        rvSelectedCoins.adapter = selectedCoinsAdapter
-        rvSelectedCoins.layoutManager =
+    private fun constructSelectedCoinsAdapter() {
+        binding.rvSelectedCoins.adapter = selectedCoinsAdapter
+        binding.rvSelectedCoins.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun fillAdapterIfUserHasSelectedCoins() = with(binding) {
         args.selectedCoins?.let {
             viewModel.coinsSelectionState.value = true
             btnSaveCoins.isEnabled = true
+            imAddCoins.isGone = true
+            imReselectCoins.isGone = false
             btnSaveCoins.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     R.color.safetyOrange
                 )
             )
-            imAddCoins.isGone = true
-            imReselectCoins.isGone = false
             selectedCoinsAdapter.submitList(it.toList())
         }
     }
 
     override fun assembleViews() {
+        renderCoinSelectionVisibility()
         bringAddCoinsToFront()
+        retrieveLastSelectedTime()
+    }
+
+    private fun renderCoinSelectionVisibility() {
+        viewModel.coinsSelectionState.value = wasCoinsSelectionValueTrue
+        getBackStackData<Boolean>("coinSelection") {
+            viewModel.coinsSelectionState.value = it
+            findNavController().clearBackStack(R.id.homeFragment)
+        }
     }
 
     private fun bringAddCoinsToFront() {
         binding.imAddCoins.bringToFront()
+    }
+
+    private fun retrieveLastSelectedTime() {
+        getBinding(
+            R.layout.item_wallet_mining_time,
+            ItemWalletMiningTimeBinding::bind
+        ).imSelectedTime.isSelected = lastSelectedPosition > 0
+        walletMiningTimeAdapter.notifyItemChanged(lastSelectedPosition)
     }
 
     override fun constructListeners() {
@@ -203,15 +224,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
-    private fun onItemClick(amountOfHours: Long, isUnlocked: Boolean) {
+    private fun onItemClick(amountOfHours: Long, isUnlocked: Boolean, position: Int) {
+        lastSelectedPosition = position
         selectedTime = amountOfHours
         if (!isUnlocked) findNavController().navigate(
             R.id.premiumPurchaseFragment
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        wasCoinsSelectionValueTrue = binding.mcvCoinSelection.isVisible
+    }
+
     override fun onStop() {
         super.onStop()
         viewModel.processCryptoWorkState.value = false
+        wasCoinsSelectionValueTrue = binding.mcvCoinSelection.isVisible
+    }
+
+    companion object {
+        var lastSelectedPosition = -1
+        var wasCoinsSelectionValueTrue = false
     }
 }
