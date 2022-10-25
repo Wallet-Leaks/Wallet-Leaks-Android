@@ -3,6 +3,7 @@ package com.timberta.walletleaks.presentation.ui.adapters
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 class WalletMiningTimeAdapter(
     private val doesUserHavePremium: Boolean,
-    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean) -> Unit
+    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit
 ) :
     ListAdapter<WalletMiningTimeUI, WalletMiningTimeAdapter.WalletMiningTimeViewHolder>(BaseDiffUtil()) {
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
@@ -41,6 +42,7 @@ class WalletMiningTimeAdapter(
 
     inner class WalletMiningTimeViewHolder(private val binding: ItemWalletMiningTimeBinding) :
         ViewHolder(binding.root) {
+
         fun onBind(time: WalletMiningTimeUI) = with(binding) {
             imSelectedTime.isSelected = lastlySelectedPosition == absoluteAdapterPosition
             tvWalletMineTime.text = TimeUnit.MILLISECONDS.toHours(time.time).toString()
@@ -68,7 +70,8 @@ class WalletMiningTimeAdapter(
                 notifyItemChanged(lastlySelectedPosition)
                 onItemClick(
                     getItem(absoluteAdapterPosition).time,
-                    getItem(absoluteAdapterPosition).isUnlocked
+                    getItem(absoluteAdapterPosition).isUnlocked,
+                    absoluteAdapterPosition
                 )
             }
         }
