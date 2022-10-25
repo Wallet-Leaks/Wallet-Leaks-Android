@@ -55,14 +55,14 @@ class SelectCoinsFragment :
                 imSoon,
                 tvSoon
             )
-            findNavController().navigateUp()
+            setBackStackData("coinSelection", true)
         }
     }
 
     private fun navigateBackToHomeFragment() {
         binding.toolbarCoinList.setNavigationOnClickListener {
             binding.toolbarCoinList.invisible()
-            findNavController().navigateSafely(R.id.action_selectCoinsFragment_to_homeFragment)
+            setBackStackData("coinSelection", true)
         }
     }
 
