@@ -30,7 +30,7 @@ android {
         }
 
         getByName(config.versions.debugBuildType.get()) {
-            buildConfigField("String", "BASE_URL", "\"https://wallet-leaks.herokuapp.com/\"")
+            buildConfigField("String", "BASE_URL", "\"http://134.122.75.14:8655/\"")
         }
     }
     compileOptions {

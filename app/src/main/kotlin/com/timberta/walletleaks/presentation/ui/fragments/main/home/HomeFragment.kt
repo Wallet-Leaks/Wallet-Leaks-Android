@@ -11,10 +11,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentHomeBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.gone
-import com.timberta.walletleaks.presentation.extensions.invisible
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
-import com.timberta.walletleaks.presentation.extensions.visible
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.ui.adapters.CryptoAlgorithmAdapter
 import com.timberta.walletleaks.presentation.ui.adapters.SelectedCoinsAdapter
 import com.timberta.walletleaks.presentation.ui.adapters.WalletMiningTimeAdapter
@@ -29,7 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override val binding by viewBinding(FragmentHomeBinding::bind)
     override val viewModel by viewModels<HomeViewModel>()
     private val args by navArgs<HomeFragmentArgs>()
-    private val adapter = CryptoAlgorithmAdapter()
+    private val cryptoAlgorithmAdapter = CryptoAlgorithmAdapter()
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
     private val walletMiningTimeAdapter =
         WalletMiningTimeAdapter(userDataPreferencesManager.doesUserHavePremium, this::onItemClick)
@@ -38,9 +35,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     override fun initialize() {
         viewModel.processCryptoWorkState.value = false
-        binding.rvCryptoOperationHome.adapter = adapter
+        constructCryptoOperationHomeAdapter()
         constructWalletMiningTimeAdapter()
         constructSelectedCoinsAdapter()
+    }
+
+    private fun constructCryptoOperationHomeAdapter() {
+        binding.rvCryptoAlgorithm.adapter = cryptoAlgorithmAdapter
+        binding.rvCryptoAlgorithm.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun constructWalletMiningTimeAdapter() {
@@ -59,8 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
             btnSaveCoins.isEnabled = true
             btnSaveCoins.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.safetyOrange
+                    requireContext(), R.color.safetyOrange
                 )
             )
             imAddCoins.isGone = true
@@ -86,11 +88,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         saveCoinsToWalletMine()
     }
 
+    private fun selectCoinsToWalletMine() {
+        binding.imAddCoins.setOnClickListener {
+            findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
+        }
+    }
+
+    private fun reselectCoinsToWalletMine() {
+        binding.imReselectCoins.setOnClickListener {
+            findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
+        }
+    }
+
     private fun startWalletMining() {
         val cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
             viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-            if (cashTime.toInt() == 0 || cashTime + 21600000 > System.currentTimeMillis() && args.selectedCoins?.isNotEmpty() == true) {
+            if (cashTime.toInt() == 0 || cashTime + selectedTime > System.currentTimeMillis() && args.selectedCoins?.isNotEmpty() == true && selectedTime > 0) {
                 viewModel.processCryptoWorkState.value = true
                 viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
                 safeFlowGather {
@@ -98,9 +112,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
                             delay(Random.nextLong(200, 700))
-                            viewModel.processIndex = adapter.itemCount
+                            viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
                             viewModel.searchCryptoWallets()
-                            adapter.notifyItemInserted(viewModel.processIndex)
+                            cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
                             updateAdapterScroll()
                         } else {
                             break
@@ -108,36 +122,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     }
                 }
             }
-        }
-    }
-
-    private fun stopWalletMining() {
-        binding.btnStopSearch.setOnClickListener {
-            viewModel.processCryptoWorkState.value = false
-        }
-    }
-
-    private fun checkCoinsToWalletMine() {
-        binding.icFilter.setOnClickListener {
-            viewModel.coinsSelectionState.value = !viewModel.coinsSelectionState.value
-        }
-    }
-
-    private fun selectCoinsToWalletMine() {
-        binding.imAddCoins.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
-        }
-    }
-
-    private fun saveCoinsToWalletMine() {
-        binding.btnSaveCoins.setOnClickListener {
-            viewModel.coinsSelectionState.value = false
-        }
-    }
-
-    private fun reselectCoinsToWalletMine() {
-        binding.imReselectCoins.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
         }
     }
 
@@ -165,20 +149,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
-    private fun collectCryptoAlgorithm() {
-        safeFlowGather {
-            viewModel.getListCryptoWalletsState.collect {
-                adapter.submitList(it)
-            }
-        }
-    }
-
     private fun containerOperationIsVisible() {
         safeFlowGather {
             viewModel.processCryptoWorkState.collectLatest {
                 if (it) {
                     binding.containerInStartOperation.invisible()
                     binding.containerInOperation.visible()
+                    println(selectedTime.toString())
                     viewModel.startTimer(selectedTime)
                 } else {
                     binding.containerInStartOperation.visible()
@@ -189,17 +166,44 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
     }
 
+    private fun stopWalletMining() {
+        binding.btnStopSearch.setOnClickListener {
+            viewModel.processCryptoWorkState.value = false
+        }
+    }
+
+    private fun checkCoinsToWalletMine() {
+        binding.btnFilterCoin.setOnClickListener {
+            viewModel.coinsSelectionState.value = !viewModel.coinsSelectionState.value
+        }
+    }
+
+    private fun saveCoinsToWalletMine() {
+        binding.btnSaveCoins.setOnClickListener {
+            viewModel.coinsSelectionState.value = false
+        }
+    }
+
     private fun spectateAndUpdateTimerCrypto() {
         safeFlowGather {
             viewModel.getTimeTimerText.collectLatest {
+                loge(it)
                 binding.btnTimerOperation.text = it
             }
         }
     }
 
+    private fun collectCryptoAlgorithm() {
+        safeFlowGather {
+            viewModel.getListCryptoWalletsState.collect {
+                cryptoAlgorithmAdapter.submitList(it)
+            }
+        }
+    }
+
     private fun updateAdapterScroll() {
-        if (adapter.itemCount > 0) {
-            binding.rvCryptoOperationHome.scrollToPosition(adapter.itemCount - 1)
+        if (cryptoAlgorithmAdapter.itemCount > 0) {
+            binding.rvCryptoAlgorithm.scrollToPosition(cryptoAlgorithmAdapter.itemCount - 1)
         }
     }
 
