@@ -192,12 +192,17 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/tv_click_start_on_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/container_in_operation"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:drawablePadding="10dp"
+        android:text="To start click on start"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        app:drawableBottomCompat="@drawable/ic_warning_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
