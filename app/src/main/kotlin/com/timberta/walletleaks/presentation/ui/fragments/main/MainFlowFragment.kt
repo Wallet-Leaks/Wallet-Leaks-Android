@@ -30,8 +30,8 @@ class MainFlowFragment :
             when (destination.id) {
                 R.id.selectCoinsFragment ->
                     renderToolbarAndBottomNavigation(false)
-                R.id.premiumPurchaseFragment ->
-                    renderToolbarAndBottomNavigation(navController.previousBackStackEntry?.destination?.id == R.id.homeFragment)
+                R.id.premiumPurchaseDialog ->
+                    renderToolbarAndBottomNavigation(navController.previousBackStackEntry?.destination?.id == R.id.homeFragment || navController.previousBackStackEntry?.destination?.id == R.id.profileFragment)
                 else ->
                     renderToolbarAndBottomNavigation(true)
             }
