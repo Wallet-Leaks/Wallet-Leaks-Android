@@ -5,7 +5,7 @@
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.fragments.main.settings.ProfileFragment">
+    tools:context=".presentation.ui.fragments.main.profile.ProfileFragment">
 
     <LinearLayout
         android:id="@+id/container_user_info"
@@ -21,7 +21,7 @@
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
+            android:backgroundTint="@android:color/transparent"
             app:cardCornerRadius="28dp">
 
             <ImageView
@@ -49,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:text="ID: 847302911"
             android:textColor="@color/shadeOfSlateGray"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_address_crypto_wallet"
@@ -60,11 +60,10 @@
             android:layout_marginBottom="14dp"
             android:drawablePadding="6dp"
             android:ellipsize="end"
-            android:maxEms="12"
             android:maxLines="1"
-            android:text="TBwF87o3CtHuCaqJ5wZDV9h9bMSttXQ47s"
+            android:text="@string/enter_the_cryptocurrency_in_the_settings"
             android:textColor="@color/shadeOfSlateGray"
-            android:textSize="12sp"
+            android:textSize="13sp"
             app:drawableStartCompat="@drawable/ic_copy_past" />
 
         <View
