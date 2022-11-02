@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 navGraph.setStartDestination(R.id.mainFlowFragment)
             }
             false -> {
-                navGraph.setStartDestination(R.id.mainFlowFragment)
+                navGraph.setStartDestination(R.id.signInFragment)
             }
         }
         navController.graph = navGraph
