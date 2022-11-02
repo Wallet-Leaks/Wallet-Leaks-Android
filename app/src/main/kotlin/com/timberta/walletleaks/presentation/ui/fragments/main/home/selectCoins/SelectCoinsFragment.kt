@@ -91,7 +91,7 @@ class SelectCoinsFragment :
         binding.imApply.isVisible = coinsCount >= 1
         if (hasUserTriedToSelectMultipleCoins)
             userDataPreferencesManager.actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime {
-                findNavController().navigate(R.id.premiumPurchaseFragment)
+                findNavController().navigate(R.id.premiumPurchaseDialog)
             }
     }
 }

@@ -7,10 +7,10 @@ import com.google.android.material.textfield.TextInputEditText
 fun TextInputEditText.addTextChangedListenerAnonymously(
     doSomethingOnTextChanged: ((() -> Unit))? = null,
     doSomethingBeforeTextChanged: ((() -> Unit))? = null,
-    doSomethingAfterTextChanged: ((() -> Unit))? = null
+    doSomethingAfterTextChanged: (((s: Editable) -> Unit))? = null
 ) {
     addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             doSomethingBeforeTextChanged?.invoke()
         }
 
@@ -18,8 +18,8 @@ fun TextInputEditText.addTextChangedListenerAnonymously(
             doSomethingOnTextChanged?.invoke()
         }
 
-        override fun afterTextChanged(s: Editable?) {
-            doSomethingAfterTextChanged?.invoke()
+        override fun afterTextChanged(s: Editable) {
+            doSomethingAfterTextChanged?.invoke(s)
         }
 
     })

@@ -12,8 +12,8 @@
         android:title="@string/coin_list" />
 
     <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/bottom_icon_settings"
-        android:title="@string/settings" />
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/bottom_icon_profile"
+        android:title="@string/profile" />
 
 </menu>
