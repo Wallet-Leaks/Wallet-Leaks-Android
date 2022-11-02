@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.main.settings
+package com.timberta.walletleaks.presentation.ui.fragments.main.profile
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,6 +30,9 @@ class ProfileFragment :
         when (actionName) {
             "Premium+" -> {
                 findNavController().navigate(R.id.premiumPurchaseDialog)
+            }
+            "Settings" -> {
+                findNavController().navigate(R.id.profileSettingsFragment)
             }
         }
     }
