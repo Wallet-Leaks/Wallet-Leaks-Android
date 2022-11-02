@@ -20,4 +20,14 @@
     <string name="start">start</string>
     <string name="stop">stop</string>
     <string name="save_coins">Save</string>
+    <string name="enter_the_cryptocurrency_in_the_settings">Enter the cryptocurrency in the settings</string>
+    <string name="username">Username</string>
+    <string name="amir_gay">WalletLeaks-Amir Gay</string>
+    <string name="add_a_crypto_wallet">Add a crypto wallet...</string>
+    <string name="wellcome">Wellcome</string>
+    <string name="register_to_continue">Register to continue</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create_an_account">Create an account</string>
 </resources>
