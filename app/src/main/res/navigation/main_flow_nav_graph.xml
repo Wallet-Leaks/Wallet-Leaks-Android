@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.settings.ProfileFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.ProfileFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_profile" />
 
@@ -55,4 +55,9 @@
             app:popUpTo="@id/main_flow_nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_profile_settings"
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings.ProfileSettingsFragment"
+        android:label="ProfileSettingsFragment" />
 </navigation>
