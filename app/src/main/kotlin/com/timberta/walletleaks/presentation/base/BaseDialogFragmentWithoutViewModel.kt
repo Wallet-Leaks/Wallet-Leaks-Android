@@ -10,7 +10,6 @@ import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewbinding.ViewBinding
-import com.timberta.walletleaks.R
 
 abstract class BaseDialogFragmentWithoutViewModel<Binding : ViewBinding>(
     @LayoutRes private val layoutId: Int
@@ -22,7 +21,6 @@ abstract class BaseDialogFragmentWithoutViewModel<Binding : ViewBinding>(
     ): View? {
         dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(false)
-        setStyle(STYLE_NO_TITLE, R.style.CustomDialog)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return inflater.inflate(layoutId, container, false)
