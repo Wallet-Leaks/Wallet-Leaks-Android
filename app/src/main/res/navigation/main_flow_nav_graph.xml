@@ -56,8 +56,13 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_profile_settings"
         android:id="@+id/profileSettingsFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings.ProfileSettingsFragment"
-        android:label="ProfileSettingsFragment" />
+        android:label="ProfileSettingsFragment"
+        tools:layout="@layout/fragment_profile_settings" />
+    <dialog
+        android:id="@+id/buyTheAppDialogFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.buyTheApp.BuyTheAppDialogFragment"
+        android:label="BuyTheAppDialogFragment"
+        tools:layout='@layout/fragment_buy_the_app_dialog' />
 </navigation>

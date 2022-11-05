@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timberta.walletleaks.databinding.ItemUserActionsBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
-import com.timberta.walletleaks.presentation.extensions.loadImageWithGlide
 import com.timberta.walletleaks.presentation.models.UserActionsInfoUI
 
 class UserActionsInfoAdapter(private val onItemClick: ((actionName: String) -> Unit)? = null) :

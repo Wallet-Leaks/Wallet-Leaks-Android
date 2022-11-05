@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="30dp"
+    tools:context=".presentation.ui.fragments.main.buyTheApp.BuyTheAppDialogFragment">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="560dp"
+        android:minWidth="420dp"
+        android:minHeight="570dp"
+        app:cardBackgroundColor="@color/darkBlue"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/im_wallet_undefined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_wallet_undefined"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_oops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/oops"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/im_wallet_undefined" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_you_did_not_buy_the_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/you_did_not_buy_the_app_select_the_version_that_suits_you_the_best"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/tv_oops" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/lightBlue"
+                app:cardCornerRadius="12dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_you_did_not_buy_the_app">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_recommendation_for_you"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/recommendation_for_you"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_premium_discount_offer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:text="@string/buy_premium_now_to_save_25_off_the_initial_price_and_get_the_perks_below"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_for_you" />
+
+                    <ImageView
+                        android:id="@+id/im_crypto_bot"
+                        style="@style/BuyTheAppDialogBaseImageView"
+                        android:src="@drawable/ic_crypto_bot"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_premium_discount_offer"
+                        tools:ignore="ContentDescription" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_increased_bot_operation_time"
+                        style="@style/BuyTheAppDialogBaseMaterialTextView"
+                        android:text="@string/Increased_bot_5_to_10_hours"
+                        app:layout_constraintBottom_toBottomOf="@id/im_crypto_bot"
+                        app:layout_constraintStart_toEndOf="@id/im_crypto_bot"
+                        app:layout_constraintTop_toTopOf="@id/im_crypto_bot" />
+
+                    <View
+                        android:id="@+id/v_increased_bot_operation_time"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/lola"
+                        app:layout_constraintEnd_toEndOf="@id/tv_increased_bot_operation_time"
+                        app:layout_constraintStart_toStartOf="@id/tv_increased_bot_operation_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_increased_bot_operation_time" />
+
+                    <ImageView
+                        android:id="@+id/im_extended_amount_of_crypto_coins_available_to_mine"
+                        style="@style/BuyTheAppDialogBaseImageView"
+                        android:src="@drawable/ic_plus_crypto_coin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/v_increased_bot_operation_time"
+                        tools:ignore="ContentDescription" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_extended_amount_of_crypto_coins_available"
+                        style="@style/BuyTheAppDialogBaseMaterialTextView"
+                        android:text="@string/select_multi_crypto_coin"
+                        app:layout_constraintBottom_toBottomOf="@id/im_extended_amount_of_crypto_coins_available_to_mine"
+                        app:layout_constraintStart_toEndOf="@id/im_extended_amount_of_crypto_coins_available_to_mine"
+                        app:layout_constraintTop_toTopOf="@id/im_extended_amount_of_crypto_coins_available_to_mine" />
+
+                    <View
+                        android:id="@+id/v_extended_amount_of_crypto_coins_available"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/lola"
+                        app:layout_constraintEnd_toEndOf="@id/v_increased_bot_operation_time"
+                        app:layout_constraintStart_toStartOf="@id/tv_extended_amount_of_crypto_coins_available"
+                        app:layout_constraintTop_toBottomOf="@id/tv_extended_amount_of_crypto_coins_available" />
+
+                    <ImageView
+                        android:id="@+id/im_reduced_bot_restart_time"
+                        style="@style/BuyTheAppDialogBaseImageView"
+                        android:src="@drawable/ic_progress_sand_time"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/v_extended_amount_of_crypto_coins_available"
+                        tools:ignore="ContentDescription" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_reduced_bot_restart_time"
+                        style="@style/BuyTheAppDialogBaseMaterialTextView"
+                        android:text="@string/restart_crypto_bot"
+                        app:layout_constraintBottom_toBottomOf="@id/im_reduced_bot_restart_time"
+                        app:layout_constraintStart_toEndOf="@id/im_reduced_bot_restart_time"
+                        app:layout_constraintTop_toTopOf="@id/im_reduced_bot_restart_time" />
+
+                    <View
+                        android:id="@+id/v_reduced_bot_restart_time"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/lola"
+                        app:layout_constraintEnd_toEndOf="@id/v_increased_bot_operation_time"
+                        app:layout_constraintStart_toStartOf="@id/tv_reduced_bot_restart_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_reduced_bot_restart_time" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_premium_account"
+                android:layout_width="136dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/buy_premium_button_background"
+                android:text="@string/premium_account_discount"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_premium"
+                app:iconGravity="textEnd"
+                app:iconTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_base_account"
+                android:layout_width="136dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/default_button_background"
+                android:text="@string/constant_base_version_price"
+                app:backgroundTint="@null"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_base"
+                app:iconGravity="textEnd"
+                app:iconTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.domain.model
+package com.timberta.walletleaks.domain.models
 
 data class CryptoWallet(
     val address: String,

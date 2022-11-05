@@ -1,6 +1,6 @@
 package com.timberta.walletleaks.presentation.ui.fragments.authentication
 
-import androidx.fragment.app.viewModels
+import android.util.Log
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
@@ -10,13 +10,14 @@ import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SignInFragment :
     BaseFragment<FragmentSignInBinding, SignInViewModel>(R.layout.fragment_sign_in) {
 
     override val binding by viewBinding(FragmentSignInBinding::bind)
-    override val viewModel by viewModels<SignInViewModel>()
+    override val viewModel by viewModel<SignInViewModel>()
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
     private var username = false
     private var password = false
@@ -55,10 +56,25 @@ class SignInFragment :
     override fun constructListeners() {
         binding.btnCreateAccount.setOnClickListener {
             if (username && password && confirmPassword) {
-                findNavController().navigateSafely(R.id.action_signInFragment_to_mainFlowFragment)
+                viewModel.signUp(
+                    binding.etUsername.text.toString(),
+                    binding.etPassword.text.toString(),
+                    binding.etConfirmPassword.text.toString()
+                )
             }
         }
-
     }
 
+    override fun launchObservers() {
+        subscribeToSignUp()
+    }
+
+    private fun subscribeToSignUp() {
+        viewModel.signUpState.spectateUiState(success = {
+            userDataPreferencesManager.isAuthenticated = true
+            findNavController().navigateSafely(R.id.action_signInFragment_to_mainFlowFragment)
+        }, error = {
+            Log.e("gaypop", it)
+        })
+    }
 }

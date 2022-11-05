@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main
 
+import android.os.Handler
+import android.os.Looper
 import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -8,14 +10,32 @@ import com.timberta.walletleaks.databinding.FragmentMainFlowBinding
 import com.timberta.walletleaks.presentation.base.BaseFlowFragment
 import com.timberta.walletleaks.presentation.extensions.gone
 import com.timberta.walletleaks.presentation.extensions.visible
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainFlowFragment :
     BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
+    private val viewModel by viewModel<MainFlowViewModel>()
+    private var hasFetchedUserStatusFirstTime = false
+    private var isUserVerified: Boolean? = null
+    private val networkRequestHandler = Looper.myLooper()?.let { Handler(it) }
+    private val fetchUserTask = object : Runnable {
+        override fun run() {
+            viewModel.fetchUser()
+            when (hasFetchedUserStatusFirstTime) {
+                false -> {
+                    networkRequestHandler?.postDelayed(this, 10000L)
+                    hasFetchedUserStatusFirstTime = true
+                }
+                true -> networkRequestHandler?.postDelayed(this, 60000L)
+            }
+        }
+    }
 
     override fun setupNavigation(navController: NavController) {
+        fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController)
         constructBottomNavigation(navController)
         establishBottomNavigationRendering(navController)
     }
@@ -47,5 +67,27 @@ class MainFlowFragment :
                 bottomNavigation.gone()
             }
         }
+    }
+
+    private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
+        viewModel.userState.spectateUiState(success = {
+            if (isUserVerified == null || isUserVerified != it.isVerified) {
+                isUserVerified = it.isVerified
+                when (it.isVerified) {
+                    false -> navController.navigate(R.id.buyTheAppDialogFragment)
+                    true -> navController.navigate(R.id.homeFragment)
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkRequestHandler?.post(fetchUserTask)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        networkRequestHandler?.removeCallbacks(fetchUserTask)
     }
 }

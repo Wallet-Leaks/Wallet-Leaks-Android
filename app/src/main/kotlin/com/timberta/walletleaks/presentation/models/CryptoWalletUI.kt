@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.model
+package com.timberta.walletleaks.presentation.models
 
 import com.timberta.walletleaks.presentation.base.BaseDiffModel
 

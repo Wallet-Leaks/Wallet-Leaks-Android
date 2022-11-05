@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="54dp"
-    android:foreground="?android:selectableItemBackgroundBorderless"
-    android:background="@color/darkBlue">
+    android:background="@color/darkBlue"
+    android:foreground="?android:selectableItemBackgroundBorderless">
 
     <ImageView
         android:id="@+id/im_user_action"

@@ -1,20 +1,27 @@
 package com.timberta.walletleaks.presentation.extensions
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.FontRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.timberta.walletleaks.presentation.utils.CustomTypefaceSpan
 
 fun Fragment.showShortDurationSnackbar(text: CharSequence) {
     view?.let { Snackbar.make(it, text, Snackbar.LENGTH_SHORT).show() }
@@ -113,4 +120,30 @@ fun Fragment.setStatusBarLightAppearance(isAppearanceLightStatusBars: Boolean) {
         ).isAppearanceLightStatusBars = isAppearanceLightStatusBars
     }
 
+}
+
+fun Fragment.copyTheTextToClipboard(label: String = "", textToCopy: String) =
+    ContextCompat.getSystemService(requireContext(), ClipboardManager::class.java)
+        ?.setPrimaryClip(
+            ClipData.newPlainText(
+                label,
+                textToCopy
+            )
+        )
+
+fun Fragment.transformTextFont(
+    textToTransform: String,
+    @FontRes fontId: Int,
+    startIndex: Int,
+    endIndex: Int
+): SpannableStringBuilder {
+    val span = SpannableStringBuilder(textToTransform)
+    val typeface =
+        ResourcesCompat.getFont(requireContext(), fontId)
+    span.setSpan(
+        CustomTypefaceSpan(typeface),
+        startIndex, endIndex,
+        Spannable.SPAN_INCLUSIVE_INCLUSIVE
+    )
+    return span
 }
