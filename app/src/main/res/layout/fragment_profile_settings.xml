@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/BaseRootStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_settings"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/darkBlue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:titleTextColor="@color/white">
+
+        <ImageView
+            android:id="@+id/im_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_apply" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <View
+        android:id="@+id/v_toolbar_stroke"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/blueSentinel"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_settings" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_user_name_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        app:layout_constraintTop_toBottomOf="@id/v_toolbar_stroke">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/im_user_avatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@android:color/transparent"
+            app:cardCornerRadius="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_profile_active" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray"
+            android:drawableEnd="@drawable/ic_karandash"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/username"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:paddingEnd="22dp"
+            android:text="@string/amir_gay"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/im_user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/im_user_avatar"
+            app:layout_constraintTop_toTopOf="@id/im_user_avatar" />
+
+        <View
+            android:id="@+id/v_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blueSentinel"
+            app:layout_constraintTop_toBottomOf="@id/im_user_avatar" />
+
+        <ImageView
+            android:id="@+id/ic_nano_crypto_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_nano_crypto_wallet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/im_user_avatar" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="14dp"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="@string/add_a_crypto_wallet"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:lines="1"
+            android:text="0xe35f8687Ce9AdE860C659b905C4E188Aa229DF53"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue"
+            app:layout_constraintBottom_toBottomOf="@id/ic_nano_crypto_wallet"
+            app:layout_constraintEnd_toStartOf="@id/im_copy_past"
+            app:layout_constraintStart_toEndOf="@id/ic_nano_crypto_wallet"
+            app:layout_constraintTop_toTopOf="@id/ic_nano_crypto_wallet" />
+
+        <ImageView
+            android:id="@+id/im_copy_past"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_copy_past"
+            app:layout_constraintBottom_toBottomOf="@id/ic_nano_crypto_wallet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ic_nano_crypto_wallet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

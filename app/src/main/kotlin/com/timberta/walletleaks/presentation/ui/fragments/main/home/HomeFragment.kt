@@ -97,8 +97,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     private fun retrieveLastSelectedTime() {
         getBinding(
-            R.layout.item_wallet_mining_time,
-            ItemWalletMiningTimeBinding::bind
+            R.layout.item_wallet_mining_time, ItemWalletMiningTimeBinding::bind
         ).imSelectedTime.isSelected = lastSelectedPosition > 0
         walletMiningTimeAdapter.notifyItemChanged(lastSelectedPosition)
     }
@@ -128,22 +127,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         val cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
             viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-            if (cashTime.toInt() == 0 || cashTime + selectedTime > System.currentTimeMillis() && args.selectedCoins?.isNotEmpty() == true && selectedTime > 0) {
-                viewModel.processCryptoWorkState.value = true
-                viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-                safeFlowGather {
-                    userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
-                    for (i in viewModel.processIndex..10000) {
-                        if (viewModel.processCryptoWorkState.value) {
-                            delay(Random.nextLong(200, 700))
-                            viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
-                            viewModel.searchCryptoWallets()
-                            cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
-                            updateAdapterScroll()
-                        } else {
-                            break
+            if (cashTime.toInt() == 0 || cashTime + selectedTime > System.currentTimeMillis()) {
+                if (args.selectedCoins?.isNotEmpty() == true && selectedTime > 0) {
+                    viewModel.processCryptoWorkState.value = true
+                    viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
+                    safeFlowGather {
+                        userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
+                        for (i in viewModel.processIndex..10000) {
+                            if (viewModel.processCryptoWorkState.value) {
+                                delay(Random.nextLong(200, 700))
+                                viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
+                                viewModel.searchCryptoWallets()
+                                cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
+                                updateAdapterScroll()
+                            } else {
+                                break
+                            }
                         }
                     }
+
                 }
             }
         }
@@ -177,11 +179,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         safeFlowGather {
             viewModel.processCryptoWorkState.collectLatest {
                 if (it) {
+                    binding.tvClickStartOnStart.gone()
                     binding.containerInStartOperation.invisible()
                     binding.containerInOperation.visible()
-                    println(selectedTime.toString())
                     viewModel.startTimer(selectedTime)
                 } else {
+                    binding.tvClickStartOnStart.visible()
                     binding.containerInStartOperation.visible()
                     binding.containerInOperation.invisible()
                     viewModel.pauseTimer()
@@ -235,7 +238,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         lastSelectedPosition = position
         selectedTime = amountOfHours
         if (!isUnlocked) findNavController().navigate(
-            R.id.premiumPurchaseFragment
+            R.id.premiumPurchaseDialog
         )
     }
 
