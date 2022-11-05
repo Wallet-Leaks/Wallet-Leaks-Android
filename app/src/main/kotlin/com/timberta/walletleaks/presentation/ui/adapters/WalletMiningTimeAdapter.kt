@@ -3,7 +3,6 @@ package com.timberta.walletleaks.presentation.ui.adapters
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
