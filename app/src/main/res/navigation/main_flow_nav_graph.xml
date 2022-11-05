@@ -54,4 +54,9 @@
             app:popUpTo="@id/main_flow_nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <dialog
+        android:id="@+id/buyTheAppDialogFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.buyTheApp.BuyTheAppDialogFragment"
+        android:label="BuyTheAppDialogFragment"
+        tools:layout='@layout/fragment_buy_the_app_dialog' />
 </navigation>
