@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.CryptoItemBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
-import com.timberta.walletleaks.presentation.ui.model.CryptoWalletUI
+import com.timberta.walletleaks.presentation.models.CryptoWalletUI
 
 class CryptoAlgorithmAdapter :
     ListAdapter<CryptoWalletUI, CryptoAlgorithmAdapter.ViewHolder>(BaseDiffUtil()) {
