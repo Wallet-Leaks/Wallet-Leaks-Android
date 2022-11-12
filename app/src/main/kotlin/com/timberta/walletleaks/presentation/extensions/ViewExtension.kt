@@ -1,6 +1,9 @@
 package com.timberta.walletleaks.presentation.extensions
 
 import android.view.View
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
+import com.timberta.walletleaks.presentation.ui.state.UIState
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -18,4 +21,8 @@ fun makeMultipleViewsInvisible(vararg views: View) {
     views.forEach {
         it.invisible()
     }
+}
+
+fun <T> ProgressBar.bindToUIStateLoading(uiState: UIState<T>) {
+    isVisible = uiState is UIState.Loading
 }

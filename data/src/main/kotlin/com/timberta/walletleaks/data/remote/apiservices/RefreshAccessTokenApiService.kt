@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface RefreshAccessTokenApiService {
-    @POST("api/v1/users/refresh")
+    @POST("api/v1/users/refresh/")
     fun refreshAccessToken(@Body refreshTokenDto: RefreshTokenDto): Call<String>
 }

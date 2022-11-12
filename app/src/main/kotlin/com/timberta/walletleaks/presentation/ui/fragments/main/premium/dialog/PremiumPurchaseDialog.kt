@@ -1,8 +1,5 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.premium.dialog
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
 import androidx.fragment.app.viewModels
@@ -11,7 +8,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.DialogPremiumPurchaseBinding
 import com.timberta.walletleaks.presentation.base.BaseDialogFragment
-import com.timberta.walletleaks.presentation.extensions.showShortDurationSnackbar
+import com.timberta.walletleaks.presentation.extensions.copyTheTextToClipboard
+import com.timberta.walletleaks.presentation.extensions.openTelegramBasedAppViaLink
 
 
 class PremiumPurchaseDialog :
@@ -33,16 +31,12 @@ class PremiumPurchaseDialog :
             dialog?.cancel()
         }
         binding.btnBuyPremium.setOnClickListener {
+            copyTheTextToClipboard(
+                getString(R.string.premium_version_label),
+                getString(R.string.i_want_to_buy_premium_version)
+            )
+            openTelegramBasedAppViaLink()
             findNavController().navigateUp()
-            val username = getString(R.string.telegram_account)
-            val telegramIntent = Intent(
-                Intent.ACTION_VIEW, Uri.parse("https://t.me/$username")
-            ).setPackage("org.telegram.messenger")
-            try {
-                startActivity(telegramIntent)
-            } catch (e: ActivityNotFoundException) {
-                showShortDurationSnackbar(getString(R.string.telegram_not_installed))
-            }
         }
     }
 
@@ -58,5 +52,4 @@ class PremiumPurchaseDialog :
         )
         return spannable
     }
-
 }

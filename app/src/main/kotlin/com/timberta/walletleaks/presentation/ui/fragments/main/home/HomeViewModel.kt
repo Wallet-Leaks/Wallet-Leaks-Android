@@ -3,7 +3,7 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.home
 import android.os.CountDownTimer
 import androidx.lifecycle.viewModelScope
 import com.timberta.walletleaks.presentation.base.BaseViewModel
-import com.timberta.walletleaks.presentation.ui.model.CryptoWalletUI
+import com.timberta.walletleaks.presentation.models.CryptoWalletUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

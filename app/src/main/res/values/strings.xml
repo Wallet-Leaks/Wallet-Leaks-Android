@@ -42,4 +42,10 @@
     <string name="premium_version_label">Premium version</string>
     <string name="telegram_is_not_installed">Telegram is not installed.</string>
     <string name="just_paste_the_text_from_your_clipboard">Just paste the text from your clipboard.</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="faq">FAQ</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="telegram_wallet_leaks_link">https://t.me/walletleaks</string>
+    <string name="telegram_faq_channel_link">https://t.me/walletleaksfaq</string>
 </resources>

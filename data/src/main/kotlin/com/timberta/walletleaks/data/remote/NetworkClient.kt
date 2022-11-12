@@ -12,7 +12,6 @@ class NetworkClient(
     authenticator: Authenticator
 ) {
 
-
     private val retrofit =
         provideRetrofit(
             provideOkHttpClientBuilder().apply {
@@ -28,6 +27,7 @@ class NetworkClient(
         private val retrofit = provideRetrofit(provideOkHttpClientBuilder().build())
 
         fun generateAuthenticationApiService() = retrofit.createAnApi<AuthenticationApiService>()
+
         fun generateRefreshAccessTokenApiService() =
             retrofit.createAnApi<RefreshAccessTokenApiService>()
     }

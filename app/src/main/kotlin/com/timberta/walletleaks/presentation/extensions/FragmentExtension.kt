@@ -1,11 +1,9 @@
 package com.timberta.walletleaks.presentation.extensions
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -21,16 +19,16 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.timberta.walletleaks.R
 import com.timberta.walletleaks.presentation.utils.CustomTypefaceSpan
 
 fun Fragment.showShortDurationSnackbar(text: CharSequence) {
-    view?.let { Snackbar.make(it, text, Snackbar.LENGTH_SHORT).show() }
+    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).show()
 }
 
 fun Fragment.showLongDurationSnackbar(text: CharSequence) {
-    view?.let { Snackbar.make(it, text, Snackbar.LENGTH_LONG).show() }
+    Snackbar.make(requireView(), text, Snackbar.LENGTH_LONG).show()
 }
-
 
 fun Fragment.checkWhetherPermissionHasBeenGrantedOrNot(
     context: Context,
@@ -146,4 +144,18 @@ fun Fragment.transformTextFont(
         Spannable.SPAN_INCLUSIVE_INCLUSIVE
     )
     return span
+}
+
+fun Fragment.openTelegramBasedAppViaLink(
+    link: String = getString(R.string.telegram_wallet_leaks_link),
+    action: (() -> Unit)? = null
+) {
+    Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply {
+        try {
+            action?.invoke()
+            startActivity(this)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            showShortDurationSnackbar(getString(R.string.telegram_is_not_installed))
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.timberta.walletleaks.data.repositories
 import com.timberta.walletleaks.data.base.makeNetworkRequest
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.data.remote.apiservices.AuthenticationApiService
+import com.timberta.walletleaks.data.remote.dtos.LogInDto
 import com.timberta.walletleaks.data.remote.dtos.SignUpDto
 import com.timberta.walletleaks.domain.models.TokensModel
 import com.timberta.walletleaks.domain.repositories.AuthenticationRepository
@@ -24,6 +25,11 @@ class AuthenticationRepositoryImpl(
             )
         ).toDomain()
     }
+
+    override fun logIn(username: String, password: String) =
+        makeNetworkRequest(this::saveTokensAndUserId) {
+            authenticationApiService.logIn(LogInDto(username, password)).toDomain()
+        }
 
     private fun saveTokensAndUserId(tokensModel: TokensModel) {
         userDataPreferencesManager.accessToken = tokensModel.access
