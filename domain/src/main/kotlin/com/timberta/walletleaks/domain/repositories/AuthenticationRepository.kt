@@ -10,4 +10,6 @@ interface AuthenticationRepository {
         password: String,
         confirmationPassword: String
     ): Flow<Either<String, TokensModel>>
+
+    fun logIn(username: String, password: String): Flow<Either<String, TokensModel>>
 }
