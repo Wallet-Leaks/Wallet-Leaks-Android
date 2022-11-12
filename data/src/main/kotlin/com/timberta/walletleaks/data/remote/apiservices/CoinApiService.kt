@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CoinApiService {
-    @GET("api/v1/wallets/wallet")
+    @GET("api/v1/wallets/wallet/")
     suspend fun fetchCoins(@Query("page") page: Int): BasePagingResponse<CoinDto>
 }
