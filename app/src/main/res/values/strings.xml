@@ -46,6 +46,17 @@
     <string name="sign_up">Sign Up</string>
     <string name="faq">FAQ</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>
-    <string name="telegram_wallet_leaks_link">https://t.me/walletleaks</string>
+    <string name="telegram_wallet_leaks_link">https://t.me/walletcryptoleaks</string>
     <string name="telegram_faq_channel_link">https://t.me/walletleaksfaq</string>
+    <string name="submit">Submit</string>
+    <string name="withdrawal_confirmation">Withdrawal Confirmation</string>
+    <string name="you_will_get">You will get</string>
+    <string name="usd">USD</string>
+    <string name="withdraw_to">Withdraw to</string>
+    <string name="withdrawal_amount">Withdrawal amount</string>
+    <string name="founds_will_be_available">Founds will be available</string>
+    <string name="within_30_minutes">Within 30 minutes</string>
+    <string name="change">Change</string>
+    <string name="confirm">Confirm</string>
+    <string name="log_out">Log out</string>
 </resources>
