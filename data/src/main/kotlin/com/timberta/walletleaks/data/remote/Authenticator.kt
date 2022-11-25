@@ -8,6 +8,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
+
 class Authenticator(
     private val refreshAccessTokenApiService: RefreshAccessTokenApiService,
     private val userDataPreferencesManager: UserDataPreferencesManager
@@ -18,7 +19,7 @@ class Authenticator(
             val tokenResponse = getRefreshedToken()?.execute()
             return when {
                 tokenResponse?.isSuccessful == true -> {
-                    userDataPreferencesManager.accessToken = tokenResponse.body()
+                    userDataPreferencesManager.accessToken = tokenResponse.body()?.accessToken
                     response.request.newBuilder()
                         .addHeader("Authorization", "bearer ${tokenResponse.body()}")
                         .build()
