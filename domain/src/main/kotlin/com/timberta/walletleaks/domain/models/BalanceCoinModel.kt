@@ -2,6 +2,6 @@ package com.timberta.walletleaks.domain.models
 
 data class BalanceCoinModel(
     val id: Int,
-    val title: String,
+    val symbol: String,
     val price: String
 )

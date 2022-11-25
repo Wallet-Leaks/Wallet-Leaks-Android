@@ -1,8 +1,6 @@
 package com.timberta.walletleaks.data.remote.apiservices
 
-import com.timberta.walletleaks.data.remote.dtos.RefreshTokenDto
-import com.timberta.walletleaks.data.remote.dtos.UserInfo
-import com.timberta.walletleaks.data.remote.dtos.UserDto
+import com.timberta.walletleaks.data.remote.dtos.*
 import retrofit2.http.*
 
 interface UserApiService {
@@ -14,5 +12,5 @@ interface UserApiService {
     suspend fun logout(@Body refreshTokenDto: RefreshTokenDto)
 
     @PATCH("api/v1/users/profile/")
-    suspend fun modifyUserProfile(@Body userInfo: UserInfo): UserDto
+    suspend fun modifyUserProfile(@Body userInfo: GeneralUserInfoDto)
 }

@@ -37,9 +37,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="WalletLeaks-Amir Gay"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="WalletLeaks-Amir Gay" />
 
         <TextView
             android:id="@+id/tv_id_user"
@@ -47,9 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="ID: 847302911"
             android:textColor="@color/shadeOfSlateGray"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="ID: 847302911" />
 
         <TextView
             android:id="@+id/tv_address_crypto_wallet"
@@ -73,6 +73,19 @@
             android:layout_gravity="bottom"
             android:background="@color/blueSentinel" />
     </LinearLayout>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_circular"
+        style="@style/BaseProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/container_user_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user_actions_info"

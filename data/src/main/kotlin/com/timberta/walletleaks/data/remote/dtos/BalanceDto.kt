@@ -15,6 +15,8 @@ data class BalanceDto(
     val balance: Double,
     @SerializedName("created")
     val created: String
-) : DataMapper<BalanceModel>, UserInfo() {
+) : DataMapper<BalanceModel> {
     override fun toDomain() = BalanceModel(id, balance, created, coin.toDomain(), user)
 }
+
+fun BalanceModel.toData() = BalanceDto(id, coin.toData(), user, balance, created)

@@ -38,6 +38,13 @@ class MainFlowFragment :
         fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController)
         constructBottomNavigation(navController)
         establishBottomNavigationRendering(navController)
+        assembleViews()
+    }
+
+    private fun assembleViews() {
+        viewModel.userState.spectateUiState(success = {
+            binding.tvBalance.text = "$${it.totalBalance}"
+        })
     }
 
     private fun constructBottomNavigation(navController: NavController) {
