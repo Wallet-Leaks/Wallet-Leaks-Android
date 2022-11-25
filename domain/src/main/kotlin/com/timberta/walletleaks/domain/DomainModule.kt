@@ -1,9 +1,6 @@
 package com.timberta.walletleaks.domain
 
-import com.timberta.walletleaks.domain.useCases.FetchCoinsUseCase
-import com.timberta.walletleaks.domain.useCases.FetchUserUseCase
-import com.timberta.walletleaks.domain.useCases.LogInUseCase
-import com.timberta.walletleaks.domain.useCases.SignUpUseCase
+import com.timberta.walletleaks.domain.useCases.*
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -21,5 +18,12 @@ val domainModule = module {
 
     factory {
         FetchCoinsUseCase(get())
+    }
+    factory {
+        LogOutUseCase(get())
+    }
+
+    factory {
+        FetchCertainCoinsUseCase(get())
     }
 }

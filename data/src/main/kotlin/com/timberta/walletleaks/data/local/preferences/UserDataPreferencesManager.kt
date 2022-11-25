@@ -43,4 +43,8 @@ class UserDataPreferencesManager constructor(private val preferences: SharedPref
             hasNonPremiumUserTriedToSelectMultipleCoins = true
         }
     }
+
+    fun logOut() {
+        preferences.clear()
+    }
 }

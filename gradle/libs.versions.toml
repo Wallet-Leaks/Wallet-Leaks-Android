@@ -22,6 +22,7 @@ splashScreen = "1.0.0-beta01"
 maskedEditText = "1.0.0"
 emojiPopUp = "0.15.0"
 blurry = "4.0.1"
+balloon = "1.4.7"
 #Core
 core = "1.8.0"
 #Activity
@@ -103,6 +104,7 @@ ui-emojiMaterial = { module = "com.vanniktech:emoji-material", version.ref = "em
 ui-emojiGoogle = { module = "com.vanniktech:emoji-google", version.ref = "emojiPopUp" }
 glide-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 blurry-blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
+balloon-balloon = { module = "com.github.skydoves:balloon", version.ref = "balloon" }
 
 #Legacy Support
 legacySupport-legacySupport = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupport" }

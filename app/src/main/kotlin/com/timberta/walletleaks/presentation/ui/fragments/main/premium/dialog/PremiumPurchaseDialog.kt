@@ -26,7 +26,7 @@ class PremiumPurchaseDialog :
         binding.btnBuyPremium.text = setFontSizeForPath()
     }
 
-    override fun setupListeners() {
+    override fun constructListeners() {
         binding.btnCloseDialog.setOnClickListener {
             dialog?.cancel()
         }

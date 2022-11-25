@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BaseRootStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ContentDescription">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mt_withdrawal"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/darkBlue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Withdrawal"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="@color/white" />
+
+        <View
+            android:id="@+id/v_toolbar_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blueSentinel"
+            app:layout_constraintTop_toBottomOf="@id/mt_withdrawal" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mt_withdrawal"
+            tools:text="WalletLeaks-User830" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/shadeOfSlateGray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_username"
+            tools:text="ID: 847302911" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_current_user_balance"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/balance_radial_background"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_username"
+            tools:text="100,14$" />
+
+        <View
+            android:id="@+id/v_balance_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="22dp"
+            android:background="@color/blueSentinel"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_user_balance" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_card_withdrawal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Card withdrawal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/v_balance_stroke" />
+
+        <ImageView
+            android:id="@+id/im_card_processing_network"
+            android:layout_width="46dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_undefined_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_card_withdrawal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_cryptocurrency_to_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:translationZ="100dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/im_card_processing_network"
+            app:layout_constraintStart_toStartOf="@id/im_card_processing_network"
+            app:layout_constraintTop_toBottomOf="@id/im_card_processing_network"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            tools:listitem="@layout/item_cryptocurrency_to_withdraw"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_card_number"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="14dp"
+            android:clipToPadding="false"
+            android:textAlignment="viewStart"
+            android:textColorHint="@color/blueSentinel"
+            app:boxBackgroundColor="@color/lightBlue"
+            app:boxStrokeColor="@color/edittext_stroke_color"
+            app:boxStrokeWidthFocused="1dp"
+            app:expandedHintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/im_card_processing_network"
+            app:layout_constraintTop_toBottomOf="@id/tv_card_withdrawal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:lines="1"
+                android:maxLength="19"
+                android:paddingStart="6dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/blueSentinel"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_selected_cryptocurrency_to_withdraw"
+            android:layout_width="44dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/cryptocurrency_background"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/im_card_processing_network"
+            tools:text="BTC" />
+
+        <ProgressBar
+            android:id="@+id/cpi_cryptocurrency_to_withdraw"
+            style="@style/BaseProgressBar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:translationZ="100dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tv_selected_cryptocurrency_to_withdraw"
+            app:layout_constraintEnd_toEndOf="@id/tv_selected_cryptocurrency_to_withdraw"
+            app:layout_constraintStart_toStartOf="@id/tv_selected_cryptocurrency_to_withdraw"
+            app:layout_constraintTop_toTopOf="@id/tv_selected_cryptocurrency_to_withdraw" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_cryptocurrency_amount_available_to_withdraw"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="14dp"
+            android:textAlignment="viewEnd"
+            android:textColorHint="@color/blueSentinel"
+            android:translationZ="100dp"
+            app:boxBackgroundColor="@color/lightBlue"
+            app:boxStrokeColor="@color/edittext_stroke_color"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_selected_cryptocurrency_to_withdraw"
+            app:layout_constraintTop_toBottomOf="@id/tl_card_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_cryptocurrency_amount_available_to_withdraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="0.00010"
+                android:lines="1"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/white"
+                android:textColorHint="@color/blueSentinel" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_cryptocurrency_amount_to_withdraw_converted_to_usd"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            app:boxBackgroundColor="@color/lightBlue"
+            app:boxStrokeColor="@color/edittext_stroke_color"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/im_equals"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_selected_cryptocurrency_to_withdraw"
+            app:startIconTint="@color/blueSentinel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_cryptocurrency_amount_to_withdraw_converted_to_usd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal|numberSigned"
+                android:lines="1"
+                android:maxLength="9"
+                android:paddingStart="6dp"
+                android:textColor="@color/white"
+                tools:text="0.0052" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/im_equals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_equals"
+            app:layout_constraintEnd_toStartOf="@id/im_alert_circle"
+            app:layout_constraintTop_toBottomOf="@id/tv_selected_cryptocurrency_to_withdraw" />
+
+        <ImageView
+            android:id="@+id/im_alert_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_alert_circle"
+            app:layout_constraintEnd_toStartOf="@id/tv_converted_cryptocurrency_in_usd"
+            app:layout_constraintTop_toBottomOf="@id/tv_selected_cryptocurrency_to_withdraw" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_converted_cryptocurrency_in_usd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="36dp"
+            android:lines="1"
+            android:text="0.0"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_selected_cryptocurrency_to_withdraw" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/blueSentinel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/im_alert_circle"
+            app:layout_constraintTop_toBottomOf="@id/tv_converted_cryptocurrency_in_usd" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/lola"
+            android:fontFamily="@font/roboto"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_converted_cryptocurrency_in_usd" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/blueSentinel"
+            app:layout_constraintTop_toBottomOf="@id/btn_submit" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

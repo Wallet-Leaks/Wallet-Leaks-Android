@@ -36,7 +36,17 @@
         android:id="@+id/profileFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.ProfileFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_withdrawalFragment"
+            app:destination="@id/withdrawalFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_exitDialogFragment"
+            app:destination="@id/exitDialogFragment"
+            app:popUpTo="@id/profileFragment" />
+    </fragment>
 
     <dialog
         android:id="@+id/premiumPurchaseDialog"
@@ -65,4 +75,36 @@
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.buyTheApp.BuyTheAppDialogFragment"
         android:label="BuyTheAppDialogFragment"
         tools:layout='@layout/fragment_buy_the_app_dialog' />
+    <fragment
+        android:id="@+id/withdrawalFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.WithdrawalFragment"
+        android:label="WithdrawalFragment"
+        tools:layout="@layout/fragment_withdrawal">
+        <action
+            android:id="@+id/action_withdrawalFragment_to_withdrawalConfirmationDialogFragment"
+            app:destination="@id/withdrawalConfirmationDialogFragment"
+            app:popUpTo="@id/withdrawalFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/withdrawalConfirmationDialogFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.confirmation.WithdrawalConfirmationDialogFragment"
+        android:label="WithdrawalConfirmationDialogFragment"
+        tools:layout="@layout/fragment_withdrawal_confirmation_dialog">
+        <argument
+            android:name="cardNumber"
+            app:argType="string" />
+        <argument
+            android:name="withdrawalAmount"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_withdrawalConfirmationDialogFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/exitDialogFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.ExitDialogFragment"
+        android:label="ExitDialogFragment"
+        tools:layout="@layout/fragment_exit_dialog" />
 </navigation>

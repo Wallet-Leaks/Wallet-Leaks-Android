@@ -7,5 +7,8 @@ import retrofit2.http.Query
 
 interface CoinApiService {
     @GET("api/v1/wallets/wallet/")
-    suspend fun fetchCoins(@Query("page") page: Int): BasePagingResponse<CoinDto>
+    suspend fun fetchCoins(
+        @Query("page") page: Int = 1,
+        @Query("ids", encoded = true) coinIds: String = ""
+    ): BasePagingResponse<CoinDto>
 }
