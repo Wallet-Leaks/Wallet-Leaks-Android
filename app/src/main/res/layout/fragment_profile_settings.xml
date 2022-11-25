@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
+            android:alpha="0.5"
             android:contentDescription="@null"
             android:src="@drawable/ic_apply" />
     </com.google.android.material.appbar.MaterialToolbar>
@@ -36,7 +37,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_user_name_avatar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@color/darkBlue"
         app:layout_constraintTop_toBottomOf="@id/v_toolbar_stroke">
 
@@ -59,6 +60,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <EditText
+            android:id="@+id/et_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/gray"
@@ -103,10 +105,12 @@
             android:layout_gravity="center"
             android:layout_marginStart="14dp"
             android:backgroundTint="@android:color/transparent"
+            android:ellipsize="end"
             android:hint="@string/add_a_crypto_wallet"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:lines="1"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumbnail"
+            android:scrollbars="vertical"
             android:text="0xe35f8687Ce9AdE860C659b905C4E188Aa229DF53"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
