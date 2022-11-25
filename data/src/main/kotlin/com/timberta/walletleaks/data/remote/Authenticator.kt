@@ -21,7 +21,7 @@ class Authenticator(
                 tokenResponse?.isSuccessful == true -> {
                     userDataPreferencesManager.accessToken = tokenResponse.body()?.accessToken
                     response.request.newBuilder()
-                        .addHeader("Authorization", "bearer ${tokenResponse.body()}")
+                        .addHeader("Authorization", "Bearer ${tokenResponse.body()}")
                         .build()
                 }
                 tokenResponse?.code() == 401 -> {
