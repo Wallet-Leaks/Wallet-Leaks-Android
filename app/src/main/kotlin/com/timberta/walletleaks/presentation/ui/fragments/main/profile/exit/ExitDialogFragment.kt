@@ -30,6 +30,7 @@ class ExitDialogFragment :
     private fun logOut() {
         binding.btnLogOut.setOnClickListener {
             viewModel.logOut(userDataPreferencesManager.refreshToken.toString())
+            userDataPreferencesManager.logOut()
         }
     }
 
@@ -39,7 +40,6 @@ class ExitDialogFragment :
 
     private fun subscribeToLogOut() {
         viewModel.logOutState.spectateUiState(success = {
-//            userDataPreferencesManager.logOut()
             flowNavController(R.id.nav_host_fragment).navigateSafely(R.id.action_mainFlowFragment_to_signInFragment)
         }, gatherIfSucceed = {
             binding.cpiLogOut.bindToUIStateLoading(it)

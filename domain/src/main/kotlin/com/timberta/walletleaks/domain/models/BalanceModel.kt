@@ -4,6 +4,6 @@ data class BalanceModel(
     val id: Int,
     val balance: Double,
     val created: String,
-    val coin: Int,
+    val coin: BalanceCoinModel,
     val user: Int
 )

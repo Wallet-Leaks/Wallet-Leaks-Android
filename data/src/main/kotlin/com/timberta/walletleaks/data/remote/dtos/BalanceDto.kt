@@ -7,14 +7,14 @@ import com.timberta.walletleaks.domain.models.BalanceModel
 data class BalanceDto(
     @SerializedName("id")
     val id: Int,
+    @SerializedName("coin")
+    val coin: BalanceCoinDto,
+    @SerializedName("user")
+    val user: Int,
     @SerializedName("balance")
     val balance: Double,
     @SerializedName("created")
-    val created: String,
-    @SerializedName("coin")
-    val coin: Int,
-    @SerializedName("user")
-    val user: Int
+    val created: String
 ) : DataMapper<BalanceModel>, UserInfo() {
-    override fun toDomain() = BalanceModel(id, balance, created, coin, user)
+    override fun toDomain() = BalanceModel(id, balance, created, coin.toDomain(), user)
 }

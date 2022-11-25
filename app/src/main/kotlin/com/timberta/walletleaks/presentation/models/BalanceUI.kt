@@ -6,8 +6,8 @@ data class BalanceUI(
     val id: Int,
     val balance: Double,
     val created: String,
-    val coin: Int,
+    val coin: BalanceCoinUI,
     val user: Int
 )
 
-fun BalanceModel.toUI() = BalanceUI(id, balance, created, coin, user)
+fun BalanceModel.toUI() = BalanceUI(id, balance, created, coin.toUI(), user)

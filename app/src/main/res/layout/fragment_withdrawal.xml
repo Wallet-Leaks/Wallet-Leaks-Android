@@ -43,22 +43,10 @@
             tools:text="WalletLeaks-User830" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_user_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textColor="@color/shadeOfSlateGray"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_username"
-            tools:text="ID: 847302911" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_current_user_balance"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/balance_radial_background"
             android:gravity="center"
             android:textColor="@color/white"
@@ -138,6 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
+                android:inputType="number"
                 android:lines="1"
                 android:maxLength="19"
                 android:paddingStart="6dp"
