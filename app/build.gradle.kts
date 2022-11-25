@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":domain"))
     // UI Components
     implementation(libs.bundles.uiComponents)
+    implementation(libs.balloon.balloon)
 
     // Core
     implementation(libs.android.core)
