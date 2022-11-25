@@ -7,14 +7,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentProfileBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
+import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
+import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
 import com.timberta.walletleaks.presentation.ui.adapters.UserActionsInfoAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding, ProfileViewModel>(R.layout.fragment_profile) {
 
     override val binding by viewBinding(FragmentProfileBinding::bind)
-    override val viewModel by viewModels<ProfileViewModel>()
+    override val viewModel by viewModel<ProfileViewModel>()
     private val userActionsInfoAdapter = UserActionsInfoAdapter(this::onItemClick)
 
     override fun initialize() {
@@ -23,8 +26,15 @@ class ProfileFragment :
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    override fun assembleViews() {
-        userActionsInfoAdapter.submitList(viewModel.getUserActions())
+    override fun launchObservers() {
+        safeFlowGather {
+            viewModel.userState.spectateUiState(success = {
+                binding.tvNameUser.text = it.username
+                binding.tvIdUser.text = "ID: ${(it.id * 2222)}"
+            }, gatherIfSucceed = {
+                binding.progressCircular.bindToUIStateLoading(it)
+            })
+        }
     }
 
     private fun onItemClick(actionName: String) {
@@ -36,7 +46,11 @@ class ProfileFragment :
                 findNavController().navigate(R.id.premiumPurchaseDialog)
             }
             "Settings" -> {
-                findNavController().navigate(R.id.profileSettingsFragment)
+                findNavController().directionsSafeNavigation(
+                    ProfileFragmentDirections.actionProfileFragmentToProfileSettingsFragment(
+                        binding.tvNameUser.text.toString()
+                    )
+                )
             }
             "Exit" -> {
                 findNavController().navigateSafely(R.id.action_profileFragment_to_exitDialogFragment)
