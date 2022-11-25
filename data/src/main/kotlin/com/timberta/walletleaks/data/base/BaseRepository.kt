@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
 
 
 internal fun <T> makeNetworkRequest(
@@ -45,3 +46,6 @@ internal fun <ValueDto : DataMapper<Value>, Value : Any> makePagingRequest(
             pagingSource
         }
     ).flow
+
+internal fun createMultipartBodyForNetworkRequest() =
+    MultipartBody.Builder().setType(MultipartBody.FORM)
