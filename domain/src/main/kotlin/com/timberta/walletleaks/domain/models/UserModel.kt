@@ -7,5 +7,5 @@ data class UserModel(
     val isPremium: Boolean,
     val dateJoined: String,
     val isVerified: Boolean,
-    val balance: List<Any>
+    val balance: List<BalanceModel>
 )
