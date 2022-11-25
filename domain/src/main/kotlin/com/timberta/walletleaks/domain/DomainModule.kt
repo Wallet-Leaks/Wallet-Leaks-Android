@@ -26,4 +26,8 @@ val domainModule = module {
     factory {
         FetchCertainCoinsUseCase(get())
     }
+
+    factory {
+        ModifyUserInfoUseCase(get())
+    }
 }

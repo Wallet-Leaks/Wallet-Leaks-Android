@@ -11,3 +11,4 @@ data class BalanceUI(
 )
 
 fun BalanceModel.toUI() = BalanceUI(id, balance, created, coin.toUI(), user)
+fun BalanceUI.toDomain() = BalanceModel(id, balance, created, coin.toDomain(), user)
