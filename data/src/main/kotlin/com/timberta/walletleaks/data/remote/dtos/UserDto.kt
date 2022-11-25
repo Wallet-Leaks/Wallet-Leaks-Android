@@ -19,8 +19,15 @@ data class UserDto(
     @SerializedName("is_verified")
     val isVerified: Boolean,
     @SerializedName("balance")
-    val balance: List<Any>
-) : DataMapper<UserModel> {
+    val balance: List<BalanceDto>
+) : DataMapper<UserModel>, UserInfo() {
     override fun toDomain() =
-        UserModel(id, username, photo, isPremium, dateJoined, isVerified, balance)
+        UserModel(
+            id,
+            username,
+            photo,
+            isPremium,
+            dateJoined,
+            isVerified,
+            balance.map { it.toDomain() })
 }
