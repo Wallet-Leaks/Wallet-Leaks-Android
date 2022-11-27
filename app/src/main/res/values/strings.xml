@@ -59,4 +59,5 @@
     <string name="change">Change</string>
     <string name="confirm">Confirm</string>
     <string name="log_out">Log out</string>
+    <string name="cryptoAddress">crypto_address</string>
 </resources>
