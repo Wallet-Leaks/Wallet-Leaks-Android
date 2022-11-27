@@ -1,6 +1,6 @@
 package com.timberta.walletleaks.data.remote
 
-import com.timberta.walletleaks.BuildConfig
+import com.timberta.walletleaks.data.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
