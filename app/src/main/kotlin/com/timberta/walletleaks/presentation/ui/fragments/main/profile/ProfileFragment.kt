@@ -1,15 +1,12 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile
 
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentProfileBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
-import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.ui.adapters.UserActionsInfoAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,7 +23,21 @@ class ProfileFragment :
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
+    override fun constructListeners() {
+        binding.tvAddressCryptoWallet.setOnClickListener {
+            copyTheTextToClipboard(
+                getString(R.string.cryptoAddress),
+                binding.tvAddressCryptoWallet.text.toString()
+            )
+            showShortDurationSnackbar("The address is copied to the clipboard")
+        }
+    }
+
     override fun launchObservers() {
+        subscribeUser()
+    }
+
+    private fun subscribeUser() {
         safeFlowGather {
             viewModel.userState.spectateUiState(success = {
                 binding.tvNameUser.text = it.username
