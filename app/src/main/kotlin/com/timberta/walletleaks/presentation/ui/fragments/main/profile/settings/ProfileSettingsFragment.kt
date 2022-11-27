@@ -8,6 +8,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentProfileSettingsBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
+import com.timberta.walletleaks.presentation.extensions.copyTheTextToClipboard
 import com.timberta.walletleaks.presentation.extensions.hideSoftKeyboard
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
 import com.timberta.walletleaks.presentation.extensions.showShortDurationSnackbar
@@ -35,6 +36,7 @@ class ProfileSettingsFragment :
             toolbarSettings.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
+
             imApply.setOnClickListener {
                 if (etUsername.text.toString() != args.username) {
                     hideSoftKeyboard()
@@ -47,6 +49,15 @@ class ProfileSettingsFragment :
                     )
                 }
             }
+
+            imCopyPast.setOnClickListener {
+                copyTheTextToClipboard(
+                    getString(R.string.cryptoAddress),
+                    binding.etCryptocurrencyAddress.text.toString()
+                )
+                showShortDurationSnackbar("The address is copied to the clipboard")
+            }
+
             binding.etUsername.addTextChangedListener {
                 if (etUsername.text.toString() != args.username) {
                     imApply.isEnabled = true
