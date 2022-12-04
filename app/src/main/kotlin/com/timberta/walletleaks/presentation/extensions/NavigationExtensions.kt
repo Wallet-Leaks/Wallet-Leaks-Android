@@ -21,9 +21,6 @@ fun Fragment.flowNavController(@IdRes navHostId: Int) = requireActivity().findNa
     navHostId
 )
 
-fun Fragment.mainNavController(@IdRes layoutId: Int) =
-    requireActivity().findNavController(layoutId)
-
 fun Fragment.overrideOnBackPressed(onBackPressed: OnBackPressedCallback.() -> Unit) {
     requireActivity().onBackPressedDispatcher.addCallback(this) {
         onBackPressed()
