@@ -39,7 +39,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        WithdrawalConfirmationViewModel()
+        WithdrawalConfirmationViewModel(get())
     }
 
     viewModel {
