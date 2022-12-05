@@ -43,7 +43,7 @@
                 android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="399,14 $"
+                tools:text="399,14 $"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 

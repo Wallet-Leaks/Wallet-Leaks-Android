@@ -22,7 +22,7 @@ data class UserDto(
     val balance: List<BalanceDto>,
     @SerializedName("total")
     val totalBalance: Double
-) : DataMapper<UserModel>, UserInfo() {
+) : DataMapper<UserModel> {
     override fun toDomain() =
         UserModel(
             id,

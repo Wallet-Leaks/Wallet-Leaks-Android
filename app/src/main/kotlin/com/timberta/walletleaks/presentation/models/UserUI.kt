@@ -14,13 +14,4 @@ data class UserUI(
 )
 
 fun UserModel.toUI() =
-    UserUI(
-        id,
-        username,
-        photo,
-        isPremium,
-        dateJoined,
-        isVerified,
-        balance.map { it.toUI() },
-        totalBalance
-    )
+    UserUI(id, username, photo, isPremium, dateJoined, isVerified, balance.map { it.toUI() }, totalBalance)

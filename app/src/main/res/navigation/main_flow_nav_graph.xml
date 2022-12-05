@@ -45,6 +45,12 @@
             android:id="@+id/action_profileFragment_to_exitDialogFragment"
             app:destination="@id/exitDialogFragment"
             app:popUpTo="@id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_profileSettingsFragment"
+            app:destination="@id/profileSettingsFragment"
+            app:enterAnim="@anim/from_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <dialog
@@ -68,7 +74,17 @@
         android:id="@+id/profileSettingsFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings.ProfileSettingsFragment"
         android:label="ProfileSettingsFragment"
-        tools:layout="@layout/fragment_profile_settings" />
+        tools:layout="@layout/fragment_profile_settings">
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:enterAnim="@anim/from_left"
+            app:popUpToInclusive="true" />
+    </fragment>
     <dialog
         android:id="@+id/buyTheAppDialogFragment"
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.buyTheApp.BuyTheAppDialogFragment"

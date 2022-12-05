@@ -9,3 +9,4 @@ data class BalanceCoinUI(
 )
 
 fun BalanceCoinModel.toUI() = BalanceCoinUI(id, symbol, price)
+fun BalanceCoinUI.toDomain() = BalanceCoinModel(id, symbol, price)
