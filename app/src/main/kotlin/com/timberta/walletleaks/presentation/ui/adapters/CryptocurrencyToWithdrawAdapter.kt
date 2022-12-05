@@ -8,7 +8,7 @@ import com.timberta.walletleaks.databinding.ItemCryptocurrencyToWithdrawBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
 import com.timberta.walletleaks.presentation.models.CoinUI
 
-class CryptocurrencyToWithdrawAdapter(private val onItemClick: (symbol: String, price: String) -> Unit) :
+class CryptocurrencyToWithdrawAdapter(private val onItemClick: (id: Int, symbol: String, price: String) -> Unit) :
     ListAdapter<CoinUI, CryptocurrencyToWithdrawAdapter.CryptocurrencyToWithdrawViewHolder>(
         BaseDiffUtil()
     ) {
@@ -36,6 +36,7 @@ class CryptocurrencyToWithdrawAdapter(private val onItemClick: (symbol: String, 
         init {
             binding.root.setOnClickListener {
                 onItemClick(
+                    getItem(absoluteAdapterPosition).id,
                     getItem(absoluteAdapterPosition).symbol.toString(),
                     getItem(absoluteAdapterPosition).price?.replace(",", "")?.substringAfter("$")
                         .toString()

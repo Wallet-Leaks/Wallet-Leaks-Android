@@ -55,7 +55,7 @@ class MainFlowFragment :
     private fun establishBottomNavigationRendering(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.selectCoinsFragment, R.id.profileSettingsFragment, R.id.withdrawalFragment -> renderToolbarAndBottomNavigation(
+                R.id.selectCoinsFragment, R.id.profileSettingsFragment, R.id.withdrawalFragment, R.id.withdrawalConfirmationDialogFragment -> renderToolbarAndBottomNavigation(
                     false
                 )
                 R.id.premiumPurchaseDialog -> renderToolbarAndBottomNavigation(navController.previousBackStackEntry?.destination?.id == R.id.homeFragment || navController.previousBackStackEntry?.destination?.id == R.id.profileFragment)

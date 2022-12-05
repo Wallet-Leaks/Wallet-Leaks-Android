@@ -10,11 +10,11 @@ class WithdrawalConfirmationViewModel(
     private val modifyUserInfoUseCase: ModifyUserInfoUseCase
 ) :
     BaseViewModel() {
-    private val _userBalanceModificationState = mutableUiStateFlow<Unit>()
-    val userBalanceModificationState = _userBalanceModificationState.asStateFlow()
+    private val _withdrawalState = mutableUiStateFlow<Unit>()
+    val withdrawalState = _withdrawalState.asStateFlow()
 
-    fun modifyUserBalance(generalUserInfoUI: GeneralUserInfoUI) =
+    fun withdraw(generalUserInfoUI: GeneralUserInfoUI) =
         modifyUserInfoUseCase(generalUserInfoUI.toDomain()).gatherRequest(
-            _userBalanceModificationState
+            _withdrawalState
         )
 }

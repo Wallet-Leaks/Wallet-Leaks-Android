@@ -26,6 +26,7 @@ import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdrawAdapter
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DecimalFormat
 
 class WithdrawalFragment :
     BaseFragment<FragmentWithdrawalBinding, WithdrawalViewModel>(R.layout.fragment_withdrawal) {
@@ -34,6 +35,7 @@ class WithdrawalFragment :
     private var isCurrentDigitDirty = false
     private var isUserDeletingCardNumberDigits = false
     private val cryptocurrencyToWithdrawAdapter = CryptocurrencyToWithdrawAdapter(this::onItemClick)
+    private var selectedCryptocurrencyId = 0
     private var selectedCryptocurrencyUsdPrice = 0.0
     private val balloonMinimumTransaction by lazy {
         Balloon.Builder(requireContext())
@@ -256,18 +258,23 @@ class WithdrawalFragment :
                 })
         }
 
-    private fun proceedToWithdrawalConfirmation() {
-        binding.btnSubmit.setOnClickListener {
+    private fun proceedToWithdrawalConfirmation() = with(binding) {
+        btnSubmit.setOnClickListener {
             findNavController().directionsSafeNavigation(
                 WithdrawalFragmentDirections.actionWithdrawalFragmentToWithdrawalConfirmationDialogFragment(
                     cardProcessingNetwork,
-                    binding.etCardNumber.text.toString().replace(Regex("""^(?:\D*\d){12}""")) {
-                        it.value.replace(
-                            Regex("""\d"""),
-                            "*"
-                        )
-                    },
-                    binding.tvConvertedCryptocurrencyInUsd.text.toString()
+                    etCardNumber.text.toString().replace("  ", "")
+                        .replace(Regex("""^(?:\D*\d){12}""")) {
+                            it.value.replace(
+                                Regex("""\d"""),
+                                "*"
+                            )
+                        },
+                    tvConvertedCryptocurrencyInUsd.text.toString(),
+                    (etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+                        .toDouble() - etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString()
+                        .toDouble()).toString(),
+                    selectedCryptocurrencyId
                 )
             )
         }
@@ -279,19 +286,22 @@ class WithdrawalFragment :
         subscribeToOverallLoadingState()
     }
 
-    private fun subscribeToCurrentUser() {
+    private fun subscribeToCurrentUser() = with(binding) {
         viewModel.userState.spectateUiState(success = { user ->
             viewModel.modifyLoadingState()
-            binding.tvUsername.text = user.username
-            binding.tvCurrentUserBalance.text =
-                getString(
-                    R.string.money_with_dollar_sign,
-                    user.totalBalance.toString().replace(".", ",")
+            if (!sflWithdrawal.isShimmerVisible) {
+                tvUsername.text = user.username
+                tvCurrentUserBalance.setBackgroundResource(R.drawable.balance_radial_background)
+                tvCurrentUserBalance.text =
+                    getString(
+                        R.string.money_with_dollar_sign,
+                        DecimalFormat("#.##").format(user.totalBalance).toString().replace(".", ",")
+                    )
+                etCryptocurrencyAmountAvailableToWithdraw.setText(
+                    currentUserBalance.find { balance -> balance.coin.symbol == "BTC" }?.balance.toString()
                 )
+            }
             currentUserBalance.addAll(user.balance)
-            binding.etCryptocurrencyAmountAvailableToWithdraw.setText(
-                currentUserBalance.find { balance -> balance.coin.symbol == "BTC" }?.balance.toString()
-            )
         })
     }
 
@@ -300,6 +310,7 @@ class WithdrawalFragment :
             viewModel.modifyLoadingState()
             val sortedListByCoinId = it.sortedBy { unsortedList -> unsortedList.id }
             sortedListByCoinId.apply {
+                selectedCryptocurrencyId = first().id
                 cryptocurrencyToWithdrawAdapter.submitList(this)
                 if (!binding.sflWithdrawal.isShimmerVisible)
                     binding.tvSelectedCryptocurrencyToWithdraw.text = first().symbol
@@ -332,9 +343,10 @@ class WithdrawalFragment :
         }
     }
 
-    private fun onItemClick(symbol: String, price: String) = with(binding) {
+    private fun onItemClick(id: Int, symbol: String, price: String) = with(binding) {
         tvSelectedCryptocurrencyToWithdraw.text = symbol
         selectedCryptocurrencyUsdPrice = price.toDouble()
+        selectedCryptocurrencyId = id
         mcvCryptocurrencyToWithdraw.invisible()
         binding.etCryptocurrencyAmountAvailableToWithdraw.setText(
             currentUserBalance.find { balance -> symbol == balance.coin.symbol }?.balance.toString()
@@ -390,6 +402,7 @@ class WithdrawalFragment :
         etCryptocurrencyAmountAvailableToWithdraw.hint = "0.000000"
         etCryptocurrencyAmountToWithdrawConvertedToUsd.isEnabled = true
         tvSelectedCryptocurrencyToWithdraw.isEnabled = true
+        subscribeToCurrentUser()
         subscribeToCryptocurrencyToWithdraw()
     }
 }

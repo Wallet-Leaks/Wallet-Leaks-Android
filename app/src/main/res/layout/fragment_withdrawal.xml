@@ -64,7 +64,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="14dp"
-                android:background="@drawable/balance_radial_background"
+                android:background="@drawable/balance_background_shimmer"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="22sp"
@@ -120,7 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="40dp"
                 android:clipToPadding="false"
                 android:textAlignment="viewStart"
                 android:textColorHint="@color/blueSentinel"
@@ -128,7 +128,7 @@
                 app:boxStrokeColor="@color/edittext_stroke_color"
                 app:boxStrokeWidthFocused="1dp"
                 app:expandedHintEnabled="false"
-                app:layout_constraintEnd_toEndOf="@id/im_alert_circle"
+                app:layout_constraintEnd_toEndOf="@id/tv_converted_cryptocurrency_in_usd"
                 app:layout_constraintStart_toEndOf="@id/im_card_processing_network"
                 app:layout_constraintTop_toBottomOf="@id/tv_card_withdrawal">
 

@@ -40,6 +40,8 @@
         <action
             android:id="@+id/action_profileFragment_to_withdrawalFragment"
             app:destination="@id/withdrawalFragment"
+            app:enterAnim="@anim/from_right"
+            app:popEnterAnim="@anim/from_left"
             app:popUpTo="@id/profileFragment" />
         <action
             android:id="@+id/action_profileFragment_to_exitDialogFragment"
@@ -116,9 +118,16 @@
         <argument
             android:name="withdrawalAmountInUsd"
             app:argType="string" />
+        <argument
+            android:name="withdrawalAmountInCrypto"
+            app:argType="string" />
+        <argument
+            android:name="cryptoToWithdrawId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_withdrawalConfirmationDialogFragment_to_profileFragment"
             app:destination="@id/profileFragment"
+            app:enterAnim="@anim/from_right"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
     </dialog>
