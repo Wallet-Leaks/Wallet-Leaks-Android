@@ -40,8 +40,7 @@
         <action
             android:id="@+id/action_profileFragment_to_withdrawalFragment"
             app:destination="@id/withdrawalFragment"
-            app:popUpTo="@id/profileFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/profileFragment" />
         <action
             android:id="@+id/action_profileFragment_to_exitDialogFragment"
             app:destination="@id/exitDialogFragment"
@@ -90,6 +89,11 @@
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.confirmation.WithdrawalConfirmationDialogFragment"
         android:label="WithdrawalConfirmationDialogFragment"
         tools:layout="@layout/fragment_withdrawal_confirmation_dialog">
+
+        <argument
+            android:name="cardProcessingNetwork"
+            app:argType="com.timberta.walletleaks.presentation.models.CardProcessingNetwork" />
+
         <argument
             android:name="cardNumber"
             app:argType="string" />
