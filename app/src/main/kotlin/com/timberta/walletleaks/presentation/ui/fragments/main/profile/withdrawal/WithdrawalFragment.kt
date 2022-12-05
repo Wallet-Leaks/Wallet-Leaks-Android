@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
+import android.util.Log
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -19,11 +20,12 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
-import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
 import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
 import com.timberta.walletleaks.presentation.extensions.invisible
 import com.timberta.walletleaks.presentation.models.BalanceUI
+import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdrawAdapter
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WithdrawalFragment :
@@ -34,7 +36,7 @@ class WithdrawalFragment :
     private var isUserDeletingCardNumberDigits = false
     private val cryptocurrencyToWithdrawAdapter = CryptocurrencyToWithdrawAdapter(this::onItemClick)
     private var selectedCryptocurrencyUsdPrice = 0.0
-    private val balloon by lazy {
+    private val balloonMinimumTransaction by lazy {
         Balloon.Builder(requireContext())
             .setText("The minimum transaction is at least $100!")
             .setTextColorResource(R.color.blueSentinel)
@@ -63,7 +65,40 @@ class WithdrawalFragment :
             .setDismissWhenTouchOutside(false)
             .build()
     }
+    private val balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave by lazy {
+        Balloon.Builder(requireContext())
+            .setText("The cryptocurrency amount you want to \n withdraw is more than you currently own.")
+            .setTextColorResource(R.color.blueSentinel)
+            .setWidth(194)
+            .setTextTypeface(
+                ResourcesCompat.getFont(
+                    requireContext(),
+                    R.font.roboto_bold
+                ) as Typeface
+            )
+            .setHeight(54)
+            .setTextSize(11.5F)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowSize(10)
+            .setArrowDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_tooltip_arrow
+                )
+            )
+            .setArrowPosition(0.115F)
+            .setCornerRadius(6f)
+            .setBackgroundColorResource(R.color.white)
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setLifecycleOwner(viewLifecycleOwner)
+            .setDismissWhenTouchOutside(false)
+            .build()
+    }
     private val currentUserBalance = arrayListOf<BalanceUI>()
+    private var cardProcessingNetwork = CardProcessingNetwork.UNDEFINED
+    private var hasUserInputProperCard = false
+    private var isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable = false
+    private var isSelectedConvertedCryptocurrencyMoreThanHundredDollars = false
 
     override fun initialize() {
         constructRecycler()
@@ -72,16 +107,6 @@ class WithdrawalFragment :
     private fun constructRecycler() {
         binding.rvCryptocurrencyToWithdraw.adapter = cryptocurrencyToWithdrawAdapter
         binding.rvCryptocurrencyToWithdraw.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    override fun assembleViews() {
-        setCardNumberItalicHint()
-    }
-
-    private fun setCardNumberItalicHint() {
-        binding.etCardNumber.hint = SpannableStringBuilder().italic {
-            append("Card number...")
-        }
     }
 
     override fun constructListeners() {
@@ -106,29 +131,44 @@ class WithdrawalFragment :
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                hasUserInputProperCard =
+                    when (s.length == 22 && cardProcessingNetwork != CardProcessingNetwork.UNDEFINED) {
+                        true -> true
+                        false -> false
+                    }
                 isUserDeletingCardNumberDigits = before != 0
                 s.apply {
-                    when {
-                        startsWith("4") || matches(visa) -> imCardProcessingNetwork.setImageResource(
-                            R.drawable.ic_visa
-                        )
+                    cardProcessingNetwork = when {
+                        startsWith("4") || matches(visa) -> {
+                            imCardProcessingNetwork.setImageResource(
+                                R.drawable.ic_visa
+                            )
+                            CardProcessingNetwork.VISA
+                        }
                         startsWith("2") || startsWith("5") || matches(masterCard)
-                        -> imCardProcessingNetwork.setImageResource(
-                            R.drawable.ic_master_card
-                        )
-                        else -> imCardProcessingNetwork.setImageResource(R.drawable.ic_undefined_card)
+                        -> {
+                            imCardProcessingNetwork.setImageResource(
+                                R.drawable.ic_master_card
+                            )
+                            CardProcessingNetwork.MASTERCARD
+                        }
+                        else -> {
+                            imCardProcessingNetwork.setImageResource(R.drawable.ic_undefined_card)
+                            CardProcessingNetwork.UNDEFINED
+                        }
                     }
                 }
+                redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
             }
 
             override fun afterTextChanged(s: Editable) = with(StringBuilder(s.toString())) {
                 if (isCurrentDigitDirty) return
                 isCurrentDigitDirty = true
                 s.toString().apply {
-                    if (isNotEmpty() && length.rem(4 + 1) == 0) {
+                    if (isNotEmpty() && length.rem(4 + 2) == 0) {
                         when (isUserDeletingCardNumberDigits) {
-                            true -> deleteCharAt(length - 1)
-                            false -> insert(length - 1, ' ')
+                            true -> deleteCharAt(length - 2)
+                            false -> insert(length - 2, "  ")
                         }
                     }
                 }
@@ -139,35 +179,10 @@ class WithdrawalFragment :
         })
     }
 
-    private fun convertCryptocurrencyToUsdAndRestrictUserFromInputtingMoreThanOneDecimalSeparator() =
-        with(binding) {
-            etCryptocurrencyAmountToWithdrawConvertedToUsd.addTextChangedListenerAnonymously(
-                doSomethingAfterTextChanged = {
-                    when (it.contains('.')) {
-                        true -> etCryptocurrencyAmountToWithdrawConvertedToUsd.keyListener =
-                            DigitsKeyListener.getInstance("0123456789")
-                        false ->
-                            etCryptocurrencyAmountToWithdrawConvertedToUsd.keyListener =
-                                DigitsKeyListener.getInstance("0123456789.")
-                    }
-                    when (it.toString().isNotEmpty()) {
-                        true ->
-                            tvConvertedCryptocurrencyInUsd.text =
-                                (it.toString()
-                                    .toDouble() * selectedCryptocurrencyUsdPrice).toString()
-                        false -> tvConvertedCryptocurrencyInUsd.text = "0.0"
-                    }
-                    when (tvConvertedCryptocurrencyInUsd.text.toString().toDouble() < 100.00) {
-                        true -> binding.imAlertCircle.showAlignBottom(balloon)
-                        false -> balloon.dismiss()
-                    }
-                })
-        }
-
     private fun selectCryptocurrencyToWithdraw() {
         binding.tvSelectedCryptocurrencyToWithdraw.setOnClickListener {
-            binding.rvCryptocurrencyToWithdraw.isVisible =
-                !binding.rvCryptocurrencyToWithdraw.isVisible
+            binding.mcvCryptocurrencyToWithdraw.isVisible =
+                !binding.mcvCryptocurrencyToWithdraw.isVisible
         }
     }
 
@@ -175,17 +190,107 @@ class WithdrawalFragment :
     private fun hideRecyclerViewOnClickOutside() {
         binding.root.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN)
-                if (binding.rvCryptocurrencyToWithdraw.isVisible) binding.rvCryptocurrencyToWithdraw.invisible()
+                if (binding.mcvCryptocurrencyToWithdraw.isVisible) binding.mcvCryptocurrencyToWithdraw.invisible()
             true
         }
     }
+
+    private fun convertCryptocurrencyToUsdAndRestrictUserFromInputtingMoreThanOneDecimalSeparator() =
+        with(binding) {
+            etCryptocurrencyAmountToWithdrawConvertedToUsd.addTextChangedListenerAnonymously(
+                doSomethingAfterTextChanged = {
+                    etCryptocurrencyAmountToWithdrawConvertedToUsd.keyListener =
+                        when (it.contains('.')) {
+                            true ->
+                                DigitsKeyListener.getInstance("0123456789")
+                            false ->
+                                DigitsKeyListener.getInstance("0123456789.")
+                        }
+
+                    tvConvertedCryptocurrencyInUsd.text =
+                        when (it.toString().isNotEmpty() && it.matches(Regex(".*\\d.*"))) {
+                            true ->
+                                (it.toString()
+                                    .toDouble() * selectedCryptocurrencyUsdPrice).toString()
+                            false -> "0.0"
+                        }
+                    isSelectedConvertedCryptocurrencyMoreThanHundredDollars =
+                        when (it.isNotEmpty() && tvConvertedCryptocurrencyInUsd.text.toString()
+                            .toDouble() >= 100.00) {
+                            true -> {
+                                balloonMinimumTransaction.dismiss()
+                                true
+                            }
+                            false -> {
+                                if (!balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave.isShowing)
+                                    imAlertCircle.showAlignBottom(balloonMinimumTransaction)
+                                false
+                            }
+                        }
+                    isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable =
+                        when (it.isNotEmpty()
+                                && it.matches(Regex(".*\\d.*")) && etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+                            .isNotEmpty() && it.toString()
+                            .toDouble() <= etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+                            .toDouble()) {
+                            true -> {
+                                balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave.dismiss()
+                                true
+                            }
+                            false -> {
+                                when (it.isNotEmpty()) {
+                                    true -> {
+                                        imAlertCircleAmountToWithdrawIsMoreThanCurrentlyAvailable.showAlignBottom(
+                                            balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave
+                                        )
+                                        balloonMinimumTransaction.dismiss()
+                                    }
+                                    false -> {
+                                        balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave.dismiss()
+                                    }
+                                }
+                                balloonMinimumTransaction.dismiss()
+                                false
+                            }
+                        }
+                    redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
+                    Log.e(
+                        "gaypop1",
+                        hasUserInputProperCard.toString(),
+                    )
+                    Log.e(
+                        "gaypop2",
+                        isSelectedConvertedCryptocurrencyMoreThanHundredDollars.toString(),
+                    )
+                    Log.e(
+                        "gaypop3",
+                        isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable.toString(),
+                    )
+                }, doSomethingOnTextChanged = {
+//                    isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable =
+//                        when (it.toString().isNotEmpty() && it.toString()
+//                            .contains('.') && it.matches(Regex(".*\\d.*")) && it.toString()
+//                            .toDouble() <= etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+//                            .toDouble()) {
+//                            true -> true
+//                            false -> false
+//                        }
+                    redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
+                })
+        }
 
     private fun proceedToWithdrawalConfirmation() {
         binding.btnSubmit.setOnClickListener {
             findNavController().directionsSafeNavigation(
                 WithdrawalFragmentDirections.actionWithdrawalFragmentToWithdrawalConfirmationDialogFragment(
-                    binding.etCardNumber.text.toString(),
-                    binding.etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString()
+                    cardProcessingNetwork,
+                    binding.etCardNumber.text.toString().replace(Regex("""^(?:\D*\d){12}""")) {
+                        it.value.replace(
+                            Regex("""\d"""),
+                            "*"
+                        )
+                    },
+                    binding.tvConvertedCryptocurrencyInUsd.text.toString()
                 )
             )
         }
@@ -194,20 +299,33 @@ class WithdrawalFragment :
     override fun launchObservers() {
         subscribeToCurrentUser()
         subscribeToCryptocurrencyToWithdraw()
+        subscribeToOverallLoadingState()
     }
 
     private fun subscribeToCurrentUser() {
-        viewModel.userState.spectateUiState(success = {
-            currentUserBalance.addAll(it.balance)
+        viewModel.userState.spectateUiState(success = { user ->
+            viewModel.modifyLoadingState()
+            binding.tvUsername.text = user.username
+            binding.tvCurrentUserBalance.text =
+                getString(
+                    R.string.money_with_dollar_sign,
+                    user.totalBalance.toString().replace(".", ",")
+                )
+            currentUserBalance.addAll(user.balance)
+            binding.etCryptocurrencyAmountAvailableToWithdraw.setText(
+                currentUserBalance.find { balance -> balance.coin.symbol == "BTC" }?.balance.toString()
+            )
         })
     }
 
     private fun subscribeToCryptocurrencyToWithdraw() {
         viewModel.certainCoinsState.spectateUiState(success = {
+            viewModel.modifyLoadingState()
             val sortedListByCoinId = it.sortedBy { unsortedList -> unsortedList.id }
             sortedListByCoinId.apply {
                 cryptocurrencyToWithdrawAdapter.submitList(this)
-                binding.tvSelectedCryptocurrencyToWithdraw.text = first().symbol
+                if (!binding.sflWithdrawal.isShimmerVisible)
+                    binding.tvSelectedCryptocurrencyToWithdraw.text = first().symbol
                 selectedCryptocurrencyUsdPrice =
                     first().price?.replace(",", "")?.substringAfter("$").toString()
                         .toDouble()
@@ -216,21 +334,85 @@ class WithdrawalFragment :
                         binding.etCryptocurrencyAmountAvailableToWithdraw.setText(balance.balance.toString())
                 }
             }
-        }, gatherIfSucceed = {
-            binding.cpiCryptocurrencyToWithdraw.bindToUIStateLoading(it)
         })
     }
 
-    private fun onItemClick(id: Int, symbol: String, price: String) {
-        binding.tvSelectedCryptocurrencyToWithdraw.text = symbol
-        selectedCryptocurrencyUsdPrice = price.toDouble()
-        binding.rvCryptocurrencyToWithdraw.invisible()
-        currentUserBalance.forEach {
-            when (id == it.id) {
-                true ->
-                    binding.etCryptocurrencyAmountAvailableToWithdraw.setText(it.balance.toString())
-                false -> binding.etCryptocurrencyAmountAvailableToWithdraw.text?.clear()
+    private fun subscribeToOverallLoadingState() = with(binding.sflWithdrawal) {
+        binding.apply {
+            safeFlowGather {
+                viewModel.overallLoadingState.collectLatest {
+                    when (it) {
+                        in 0..1 ->
+                            startShimmer()
+                        2 -> {
+                            stopShimmer()
+                            hideShimmer()
+                            redrawViewsWhenShimmerIsInvisible()
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun onItemClick(symbol: String, price: String) = with(binding) {
+        tvSelectedCryptocurrencyToWithdraw.text = symbol
+        selectedCryptocurrencyUsdPrice = price.toDouble()
+        mcvCryptocurrencyToWithdraw.invisible()
+        binding.etCryptocurrencyAmountAvailableToWithdraw.setText(
+            currentUserBalance.find { balance -> symbol == balance.coin.symbol }?.balance.toString()
+        )
+        when (etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString().isNotEmpty()) {
+            true ->
+                tvConvertedCryptocurrencyInUsd.text =
+                    (etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString()
+                        .toDouble() * selectedCryptocurrencyUsdPrice).toString()
+            false -> tvConvertedCryptocurrencyInUsd.text = "0.0"
+        }
+    }
+
+    private fun redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal() {
+        binding.btnSubmit.isEnabled =
+            when (hasUserInputProperCard && isSelectedConvertedCryptocurrencyMoreThanHundredDollars && isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable) {
+                true -> {
+                    binding.btnSubmit.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.safetyOrange
+                        )
+                    )
+                    true
+                }
+                false -> {
+                    binding.btnSubmit.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.lola
+                        )
+                    )
+                    false
+                }
+            }
+    }
+
+    private fun redrawViewsWhenShimmerIsInvisible() = with(binding) {
+        imCardProcessingNetwork.setImageResource(R.drawable.ic_undefined_card)
+        imAlertCircle.setImageResource(R.drawable.ic_alert_circle)
+        imAlertCircleAmountToWithdrawIsMoreThanCurrentlyAvailable.setImageResource(
+            R.drawable.ic_alert_circle
+        )
+        imEquals.setImageResource(R.drawable.ic_equals)
+        etCardNumber.hint = SpannableStringBuilder().italic {
+            append("Card number...")
+        }
+        etCardNumber.isEnabled = true
+        imUsernameShimmer.invisible()
+        imCardWithdrawalShimmer.invisible()
+        btnSubmit.text = getString(R.string.submit)
+        redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
+        etCryptocurrencyAmountAvailableToWithdraw.hint = "0.000000"
+        etCryptocurrencyAmountToWithdrawConvertedToUsd.isEnabled = true
+        tvSelectedCryptocurrencyToWithdraw.isEnabled = true
+        subscribeToCryptocurrencyToWithdraw()
     }
 }

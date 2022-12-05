@@ -4,8 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.viewModelScope
 import com.timberta.walletleaks.domain.useCases.ModifyUserInfoUseCase
 import com.timberta.walletleaks.presentation.base.BaseViewModel
-import com.timberta.walletleaks.presentation.models.CoinUI
-import com.timberta.walletleaks.presentation.models.CryptoWalletUI
+import com.timberta.walletleaks.presentation.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -37,10 +36,10 @@ class HomeViewModel(
         viewModelScope.launch {
             symbols.forEach {
                 _getListCryptoWalletsState.value = when (it.symbol) {
-                    "BTC" -> defineCryptoWalletsAddress("bc1q", 0.1)
-                    "ETH" -> defineCryptoWalletsAddress("0x", 0.1)
-                    "BNB" -> defineCryptoWalletsAddress("bnb1", 0.1)
-                    else -> defineCryptoWalletsAddress("ltc1q", 0.1)
+                    "BTC" -> defineCryptoWalletsAddress("bc1q", 0.1, it)
+                    "ETH" -> defineCryptoWalletsAddress("0x", 0.1, it)
+                    "BNB" -> defineCryptoWalletsAddress("bnb1", 0.1, it)
+                    else -> defineCryptoWalletsAddress("ltc1q", 0.1, it)
                 }
             }
         }
@@ -79,11 +78,14 @@ class HomeViewModel(
 
     private fun defineCryptoWalletsAddress(
         nameAddressCoin: String,
-        maximumCountAvailableToMine: Double
+        maximumCountAvailableToMine: Double,
+        coinUI: CoinUI
     ): ArrayList<CryptoWalletUI> {
+        val list = arrayListOf<BalanceUI>()
         var coin = 0.0
         if (Random.nextInt(0, 100) == 1) {
             coin = Random.nextDouble(0.0000, maximumCountAvailableToMine)
+            changeUserBalance(GeneralUserInfoUI(balance = list))
         }
         modelList.add(
             CryptoWalletUI(
@@ -92,4 +94,7 @@ class HomeViewModel(
         )
         return modelList
     }
+
+    fun changeUserBalance(balance: GeneralUserInfoUI) =
+        modifyUserInfoUseCase(balance.toDomain()).gatherRequest(_balanceModificationState)
 }
