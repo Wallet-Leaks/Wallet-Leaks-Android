@@ -7,6 +7,6 @@ data class GeneralUserInfoModel(
     val isPremium: Boolean? = null,
     val dateJoined: String? = null,
     val isVerified: Boolean? = null,
-    val balance: List<BalanceModel>? = null,
+    val balance: List<ModifyUserBalanceModel>? = null,
     val totalBalance: Double? = null
 )

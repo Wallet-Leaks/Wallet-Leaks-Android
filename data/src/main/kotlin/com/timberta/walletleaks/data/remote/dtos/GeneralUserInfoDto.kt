@@ -17,7 +17,7 @@ data class GeneralUserInfoDto(
     @SerializedName("is_verified")
     val isVerified: Boolean? = null,
     @SerializedName("balance")
-    val balance: List<BalanceDto>? = null,
+    val balance: List<ModifyUserBalanceDto>? = null,
     @SerializedName("total")
     val totalBalance: Double? = null
 )

@@ -9,7 +9,7 @@ data class GeneralUserInfoUI(
     val isPremium: Boolean? = null,
     val dateJoined: String? = null,
     val isVerified: Boolean? = null,
-    val balance: List<BalanceUI>? = null,
+    val balance: List<ModifyUserBalanceUI>? = null,
     val totalBalance: Double? = null
 )
 
