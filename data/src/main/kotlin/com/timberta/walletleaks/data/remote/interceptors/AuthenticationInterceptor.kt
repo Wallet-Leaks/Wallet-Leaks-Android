@@ -12,7 +12,7 @@ class AuthenticationInterceptor(
         val request = chain
             .request()
             .newBuilder()
-            .addHeader("Authorization", "bearer ${userDataPreferencesManager.accessToken}")
+            .addHeader("Authorization", "Bearer ${userDataPreferencesManager.accessToken}")
             .build()
         return chain.proceed(request)
     }
