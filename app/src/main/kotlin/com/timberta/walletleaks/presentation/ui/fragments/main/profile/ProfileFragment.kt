@@ -26,8 +26,7 @@ class ProfileFragment :
     override fun constructListeners() {
         binding.tvAddressCryptoWallet.setOnClickListener {
             copyTheTextToClipboard(
-                getString(R.string.cryptoAddress),
-                binding.tvAddressCryptoWallet.text.toString()
+                getString(R.string.cryptoAddress), binding.tvAddressCryptoWallet.text.toString()
             )
             showShortDurationSnackbar("The address is copied to the clipboard")
         }
