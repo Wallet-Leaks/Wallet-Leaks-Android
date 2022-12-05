@@ -137,7 +137,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                             if (viewModel.processCryptoWorkState.value) {
                                 delay(Random.nextLong(200, 700))
                                 viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
-                                viewModel.searchCryptoWallets()
+                                args.selectedCoins?.let {
+                                    viewModel.searchCryptoWallets(it)
+                                }
                                 cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
                                 updateAdapterScroll()
                             } else {
@@ -184,7 +186,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     binding.containerInOperation.visible()
                     viewModel.startTimer(selectedTime)
                 } else {
-                    binding.tvClickStartOnStart.visible()
+                    if (cryptoAlgorithmAdapter.itemCount <= 0) {
+                        binding.tvClickStartOnStart.visible()
+                    }
                     binding.containerInStartOperation.visible()
                     binding.containerInOperation.invisible()
                     viewModel.pauseTimer()
