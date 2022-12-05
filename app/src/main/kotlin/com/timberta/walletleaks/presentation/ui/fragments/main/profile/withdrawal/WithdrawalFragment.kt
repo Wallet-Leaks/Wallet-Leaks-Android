@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
-import android.util.Log
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -253,28 +252,6 @@ class WithdrawalFragment :
                                 false
                             }
                         }
-                    redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
-                    Log.e(
-                        "gaypop1",
-                        hasUserInputProperCard.toString(),
-                    )
-                    Log.e(
-                        "gaypop2",
-                        isSelectedConvertedCryptocurrencyMoreThanHundredDollars.toString(),
-                    )
-                    Log.e(
-                        "gaypop3",
-                        isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable.toString(),
-                    )
-                }, doSomethingOnTextChanged = {
-//                    isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable =
-//                        when (it.toString().isNotEmpty() && it.toString()
-//                            .contains('.') && it.matches(Regex(".*\\d.*")) && it.toString()
-//                            .toDouble() <= etCryptocurrencyAmountAvailableToWithdraw.text.toString()
-//                            .toDouble()) {
-//                            true -> true
-//                            false -> false
-//                        }
                     redrawWithdrawalSubmissionButtonAccordingToUserAbilityToSubmitWithdrawal()
                 })
         }
