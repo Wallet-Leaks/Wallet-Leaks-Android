@@ -81,8 +81,8 @@
         <action
             android:id="@+id/action_profileSettingsFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:popUpTo="@id/profileFragment"
             app:enterAnim="@anim/from_left"
+            app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <dialog
@@ -114,7 +114,7 @@
             android:name="cardNumber"
             app:argType="string" />
         <argument
-            android:name="withdrawalAmount"
+            android:name="withdrawalAmountInUsd"
             app:argType="string" />
         <action
             android:id="@+id/action_withdrawalConfirmationDialogFragment_to_profileFragment"
