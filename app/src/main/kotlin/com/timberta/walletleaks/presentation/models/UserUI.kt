@@ -10,7 +10,7 @@ data class UserUI(
     val dateJoined: String,
     val isVerified: Boolean,
     val balance: List<BalanceUI>,
-    val totalBalance : Double
+    val totalBalance: Double
 )
 
 fun UserModel.toUI() =

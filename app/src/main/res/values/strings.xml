@@ -59,4 +59,6 @@
     <string name="change">Change</string>
     <string name="confirm">Confirm</string>
     <string name="log_out">Log out</string>
+    <string name="withdrawal_amount_in_usd">%1$s USD</string>
+    <string name="money_with_dollar_sign">%1$s$</string>
 </resources>

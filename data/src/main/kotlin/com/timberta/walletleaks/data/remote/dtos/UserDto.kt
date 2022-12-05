@@ -23,7 +23,6 @@ data class UserDto(
     @SerializedName("total")
     val totalBalance: Double
 ) : DataMapper<UserModel> {
-
     override fun toDomain() =
         UserModel(
             id,
@@ -32,6 +31,7 @@ data class UserDto(
             isPremium,
             dateJoined,
             isVerified,
-            balance.map { it.toDomain() }, totalBalance
+            balance.map { it.toDomain() },
+            totalBalance
         )
 }

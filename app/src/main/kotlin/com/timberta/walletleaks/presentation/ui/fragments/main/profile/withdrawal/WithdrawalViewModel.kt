@@ -7,6 +7,7 @@ import com.timberta.walletleaks.presentation.base.BaseViewModel
 import com.timberta.walletleaks.presentation.models.CoinUI
 import com.timberta.walletleaks.presentation.models.UserUI
 import com.timberta.walletleaks.presentation.models.toUI
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class WithdrawalViewModel(
@@ -20,6 +21,8 @@ class WithdrawalViewModel(
 
     private val _userState = mutableUiStateFlow<UserUI>()
     val userState = _userState.asStateFlow()
+    private val _overallLoadingState = MutableStateFlow(0)
+    val overallLoadingState = _overallLoadingState.asStateFlow()
 
     private fun fetchCertainCoins() =
         fetchCertainCoinsUseCase(
@@ -29,6 +32,10 @@ class WithdrawalViewModel(
 
     private fun fetchUser() =
         fetchUserUseCase(userDataPreferencesManager.userId.toString()).gatherRequest(_userState) { it.toUI() }
+
+    fun modifyLoadingState() {
+        _overallLoadingState.value = _overallLoadingState.value + 1
+    }
 
     init {
         fetchCertainCoins()

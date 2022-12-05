@@ -16,6 +16,15 @@ class ExitDialogFragment :
     override val viewModel by viewModel<ExitViewModel>()
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
 
+    override fun initialize() {
+        setDialogCancelableAndCancelableOnTouchOutside()
+    }
+
+    private fun setDialogCancelableAndCancelableOnTouchOutside() {
+        requireDialog().setCancelable(true)
+        requireDialog().setCanceledOnTouchOutside(true)
+    }
+
     override fun constructListeners() {
         dismissDialog()
         logOut()
@@ -30,7 +39,6 @@ class ExitDialogFragment :
     private fun logOut() {
         binding.btnLogOut.setOnClickListener {
             viewModel.logOut(userDataPreferencesManager.refreshToken.toString())
-            userDataPreferencesManager.logOut()
         }
     }
 
@@ -40,13 +48,13 @@ class ExitDialogFragment :
 
     private fun subscribeToLogOut() {
         viewModel.logOutState.spectateUiState(success = {
+            userDataPreferencesManager.logOut()
             flowNavController(R.id.nav_host_fragment).navigateSafely(R.id.action_mainFlowFragment_to_signInFragment)
         }, gatherIfSucceed = {
             binding.cpiLogOut.bindToUIStateLoading(it)
-            when (binding.cpiLogOut.isVisible) {
-                true -> binding.btnLogOut.text = ""
-                false -> binding.btnLogOut.text =
-                    getString(R.string.log_out)
+            binding.btnLogOut.text = when (binding.cpiLogOut.isVisible) {
+                true -> ""
+                false -> getString(R.string.log_out)
             }
         })
     }
