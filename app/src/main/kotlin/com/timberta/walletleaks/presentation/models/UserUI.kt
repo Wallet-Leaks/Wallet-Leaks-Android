@@ -9,8 +9,18 @@ data class UserUI(
     val isPremium: Boolean,
     val dateJoined: String,
     val isVerified: Boolean,
-    val balance: List<BalanceUI>
+    val balance: List<BalanceUI>,
+    val totalBalance: Double
 )
 
 fun UserModel.toUI() =
-    UserUI(id, username, photo, isPremium, dateJoined, isVerified, balance.map { it.toUI() })
+    UserUI(
+        id,
+        username,
+        photo,
+        isPremium,
+        dateJoined,
+        isVerified,
+        balance.map { it.toUI() },
+        totalBalance
+    )
