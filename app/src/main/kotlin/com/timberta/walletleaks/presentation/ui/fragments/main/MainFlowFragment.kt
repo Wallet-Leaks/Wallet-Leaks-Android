@@ -76,7 +76,10 @@ class MainFlowFragment :
                 isUserVerified = it.isVerified
                 when (it.isVerified) {
                     false -> navController.navigate(R.id.buyTheAppDialogFragment)
-                    true -> navController.navigate(R.id.homeFragment)
+                    true -> {
+                        if (navController.currentDestination?.id == R.id.buyTheAppDialogFragment)
+                            navController.navigate(R.id.homeFragment)
+                    }
                 }
             }
         })
