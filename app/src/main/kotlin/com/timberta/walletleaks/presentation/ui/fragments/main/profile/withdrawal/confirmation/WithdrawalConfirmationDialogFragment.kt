@@ -37,7 +37,7 @@ class WithdrawalConfirmationDialogFragment :
                 CardProcessingNetwork.VISA -> imCardProcessingNetwork.setImageResource(R.drawable.ic_visa)
                 else -> imCardProcessingNetwork.setImageResource(R.drawable.ic_master_card)
             }
-            tvMoneyCount.text = args.withdrawalAmount
+            tvMoneyCount.text = args.withdrawalAmountInUsd
             tvWithdrawToFollowingCardProcessingNetwork.text = args.cardNumber
             tvAmountToWithdraw.text =
                 getString(R.string.withdrawal_amount_in_usd)
