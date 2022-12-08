@@ -17,7 +17,6 @@ data class CoinUI(
     val symbol: String?,
     val icon: String? = "",
     val isAvailable: Boolean,
-    var isSelected: Boolean = false,
 ) : BaseDiffModel<Int>, Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -29,7 +28,6 @@ data class CoinUI(
         parcel.readString(),
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()
     )
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -43,7 +41,6 @@ data class CoinUI(
             write(symbol)
             write(icon)
             write(isAvailable.toByte())
-            write(isSelected.toByte())
         }
     }
 

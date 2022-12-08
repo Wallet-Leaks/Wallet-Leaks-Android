@@ -28,6 +28,53 @@
             tools:visibility="visible" />
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl_select_coins"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_coin_list"
+        app:shimmer_auto_start="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+
+            <include layout="@layout/item_select_coin_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <View
         android:id="@+id/v_toolbar_stroke"
         android:layout_width="match_parent"
@@ -40,55 +87,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:splitMotionEvents="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_toolbar_stroke"
         tools:listitem="@layout/item_coin" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_cpi_coin_list_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.273" />
-
-    <ProgressBar
-        android:id="@+id/cpi_coin_list"
-        style="@style/BaseProgressBar"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/gl_cpi_coin_list_top" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_premium_required"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43" />
-
-    <ImageView
-        android:id="@+id/im_soon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_lock"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/gl_premium_required"
-        tools:visibility="visible" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_soon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/soon"
-        android:textColor="@color/white"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/im_soon"
-        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

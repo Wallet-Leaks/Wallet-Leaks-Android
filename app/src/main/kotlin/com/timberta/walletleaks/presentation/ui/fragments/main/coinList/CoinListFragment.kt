@@ -6,6 +6,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentCoinListBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
+import com.timberta.walletleaks.presentation.extensions.bindViewsToPagingLoadStates
 import com.timberta.walletleaks.presentation.ui.adapters.CoinListAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +28,10 @@ class CoinListFragment :
 
     private fun constructAdapter() {
         binding.rvCoinList.adapter = coinListAdapter
+        coinListAdapter.bindViewsToPagingLoadStates(
+            binding.rvCoinList,
+            shimmerFrameLayout = binding.sflCoinList
+        )
         binding.rvCoinList.layoutManager = LinearLayoutManager(requireContext())
     }
 
