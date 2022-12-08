@@ -6,10 +6,12 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
+import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentMainFlowBinding
 import com.timberta.walletleaks.presentation.base.BaseFlowFragment
 import com.timberta.walletleaks.presentation.extensions.gone
 import com.timberta.walletleaks.presentation.extensions.visible
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -33,6 +35,7 @@ class MainFlowFragment :
             }
         }
     }
+    private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
 
     override fun setupNavigation(navController: NavController) {
         fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController)
@@ -43,7 +46,11 @@ class MainFlowFragment :
 
     private fun assembleViews() {
         viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = "$${it.totalBalance}"
+            binding.tvBalance.text = getString(
+                R.string.money_with_dollar_sign_reversed,
+                it.totalBalance.toString()
+            )
+            userDataPreferencesManager.doesUserHavePremium = it.isPremium
         })
     }
 
