@@ -9,6 +9,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentMainFlowBinding
 import com.timberta.walletleaks.presentation.base.BaseFlowFragment
 import com.timberta.walletleaks.presentation.extensions.gone
+import com.timberta.walletleaks.presentation.extensions.loge
 import com.timberta.walletleaks.presentation.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,20 +18,21 @@ class MainFlowFragment :
     BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
-    private val viewModel by viewModel<MainFlowViewModel>()
+    internal val viewModel by viewModel<MainFlowViewModel>()
     private var hasFetchedUserStatusFirstTime = false
     private var isUserVerified: Boolean? = null
     private val networkRequestHandler = Looper.myLooper()?.let { Handler(it) }
     private val fetchUserTask = object : Runnable {
         override fun run() {
             viewModel.fetchUser()
-            when (hasFetchedUserStatusFirstTime) {
-                false -> {
-                    networkRequestHandler?.postDelayed(this, 10000L)
-                    hasFetchedUserStatusFirstTime = true
-                }
-                true -> networkRequestHandler?.postDelayed(this, 60000L)
-            }
+            networkRequestHandler?.postDelayed(this, 5000L)
+//            when (hasFetchedUserStatusFirstTime) {
+//                false -> {
+//                    networkRequestHandler?.postDelayed(this, 10000L)
+//                    hasFetchedUserStatusFirstTime = true
+//                }
+//                true -> networkRequestHandler?.postDelayed(this, 60000L)
+//            }
         }
     }
 
@@ -42,9 +44,7 @@ class MainFlowFragment :
     }
 
     private fun assembleViews() {
-        viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = "$${it.totalBalance}"
-        })
+
     }
 
     private fun constructBottomNavigation(navController: NavController) {
@@ -79,6 +79,8 @@ class MainFlowFragment :
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
         viewModel.userState.spectateUiState(success = {
+            loge(it.totalBalance.toString())
+            binding.tvBalance.text = String.format("$%.2f", it.totalBalance)
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
                 when (it.isVerified) {
