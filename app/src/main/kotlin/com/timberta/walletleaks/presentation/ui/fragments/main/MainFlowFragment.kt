@@ -79,7 +79,6 @@ class MainFlowFragment :
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
         viewModel.userState.spectateUiState(success = {
-            loge(it.totalBalance.toString())
             binding.tvBalance.text = String.format("$%.2f", it.totalBalance)
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
