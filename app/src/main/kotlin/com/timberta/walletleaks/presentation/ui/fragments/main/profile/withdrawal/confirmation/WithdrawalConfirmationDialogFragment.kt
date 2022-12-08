@@ -1,14 +1,19 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.confirmation
 
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalConfirmationDialogBinding
 import com.timberta.walletleaks.presentation.base.BaseDialogFragment
+import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
 import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
+import com.timberta.walletleaks.presentation.models.GeneralUserInfoUI
+import com.timberta.walletleaks.presentation.models.ModifyUserBalanceUI
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DecimalFormat
 
 class WithdrawalConfirmationDialogFragment :
     BaseDialogFragment<FragmentWithdrawalConfirmationDialogBinding, WithdrawalConfirmationViewModel>(
@@ -40,7 +45,7 @@ class WithdrawalConfirmationDialogFragment :
             tvMoneyCount.text = args.withdrawalAmountInUsd
             tvWithdrawToFollowingCardProcessingNetwork.text = args.cardNumber
             tvAmountToWithdraw.text =
-                getString(R.string.withdrawal_amount_in_usd)
+                getString(R.string.withdrawal_amount_in_usd, args.withdrawalAmountInUsd)
         }
 
     override fun constructListeners() {
@@ -49,14 +54,41 @@ class WithdrawalConfirmationDialogFragment :
     }
 
     private fun dismissDialog() {
-        binding.btnChange.setOnClickListener {
-            dismiss()
+        listOf(binding.imClose, binding.btnChange).forEach {
+            it.setOnClickListener {
+                dismiss()
+            }
         }
     }
 
     private fun confirmWithdrawalAndNavigateToProfile() {
         binding.btnConfirm.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_withdrawalConfirmationDialogFragment_to_profileFragment)
+            viewModel.withdraw(
+                GeneralUserInfoUI(
+                    balance = listOf(
+                        ModifyUserBalanceUI(
+                            args.cryptoToWithdrawId,
+                            args.withdrawalAmountInCrypto.toDouble()
+                        )
+                    )
+                )
+            )
         }
+    }
+
+    override fun launchObservers() {
+        subscribeToWithdrawal()
+    }
+
+    private fun subscribeToWithdrawal() = with(binding) {
+        viewModel.withdrawalState.spectateUiState(success = {
+            findNavController().navigateSafely(R.id.action_withdrawalConfirmationDialogFragment_to_profileFragment)
+        }, gatherIfSucceed = {
+            cpiWithdrawalConfirmation.bindToUIStateLoading(it)
+            when (cpiWithdrawalConfirmation.isVisible) {
+                true -> btnConfirm.text = ""
+                false -> btnConfirm.text = getString(R.string.confirm)
+            }
+        })
     }
 }
