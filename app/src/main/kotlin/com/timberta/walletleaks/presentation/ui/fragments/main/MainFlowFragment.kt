@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main
 
+import android.app.DownloadManager.Request
 import android.os.Handler
 import android.os.Looper
 import androidx.navigation.NavController
@@ -41,17 +42,6 @@ class MainFlowFragment :
         fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController)
         constructBottomNavigation(navController)
         establishBottomNavigationRendering(navController)
-        assembleViews()
-    }
-
-    private fun assembleViews() {
-        viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = getString(
-                R.string.money_with_dollar_sign_reversed,
-                it.totalBalance.toString()
-            )
-            userDataPreferencesManager.doesUserHavePremium = it.isPremium
-        })
     }
 
     private fun constructBottomNavigation(navController: NavController) {
@@ -86,14 +76,20 @@ class MainFlowFragment :
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
         viewModel.userState.spectateUiState(success = {
+            binding.tvBalance.text = getString(
+                R.string.money_with_dollar_sign_reversed,
+                String.format("%.2f", it.totalBalance)
+            )
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
+                userDataPreferencesManager.doesUserHavePremium = it.isVerified
                 when (it.isVerified) {
                     false -> navController.navigate(R.id.buyTheAppDialogFragment)
                     true -> {
                         if (navController.currentDestination?.id == R.id.buyTheAppDialogFragment)
                             navController.navigate(R.id.homeFragment)
                     }
+
                 }
             }
         })
