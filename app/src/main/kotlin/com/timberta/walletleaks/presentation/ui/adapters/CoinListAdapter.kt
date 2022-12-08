@@ -1,20 +1,15 @@
 package com.timberta.walletleaks.presentation.ui.adapters
 
-import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.timberta.walletleaks.databinding.ItemCoinBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
-import com.timberta.walletleaks.presentation.extensions.invisible
 import com.timberta.walletleaks.presentation.extensions.loadImageWithGlide
-import com.timberta.walletleaks.presentation.extensions.visible
 import com.timberta.walletleaks.presentation.models.CoinUI
-import jp.wasabeef.blurry.Blurry
 
 
 class CoinListAdapter(
@@ -26,7 +21,6 @@ class CoinListAdapter(
     private var isUserSelectingCoins = false
     private var hasUserTriedToSelectMultipleCoins = false
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
-    private var firstSelectedPosition = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -50,23 +44,9 @@ class CoinListAdapter(
         fun onBind(item: CoinUI) {
             item.apply {
                 binding.apply {
-                    isSelected =
-                        when (lastlySelectedPosition == absoluteAdapterPosition || firstSelectedPosition == absoluteAdapterPosition) {
-                            true -> true
-                            false -> false
-                        }
-                    if (!isAvailable) {
-                        val handler = Looper.myLooper()?.let { Handler(it) }
-                        handler?.postDelayed({
-                            Blurry.with(root.context).radius(5)
-                                .color(Color.parseColor("#663D3D3D"))
-                                .onto(root)
-                        }, 0.1.toLong())
-                    }
-                    when (isSelected) {
-                        true -> imIsCoinSelected.visible()
-                        false -> imIsCoinSelected.invisible()
-                    }
+                    imIsCoinSelected.isVisible =
+                        lastlySelectedPosition == absoluteAdapterPosition
+
                     imCoin.loadImageWithGlide(icon)
                     tvCoinSymbol.text = symbol
                     tvCoinName.text = title
@@ -114,44 +94,18 @@ class CoinListAdapter(
                         }
                     }
                     true -> {
-//                        if (lastlySelectedPosition >= 0 && firstSelectedPosition != absoluteAdapterPosition) {
-//                            notifyItemChanged(lastlySelectedPosition)
-//                        }
-                        lastlySelectedPosition = absoluteAdapterPosition
-                        notifyItemChanged(lastlySelectedPosition)
-
-                        when (!selectedCoins.contains(
-                            coin
-                        ) && selectedCoins.count() < 3) {
+                        notifyItemChanged(absoluteAdapterPosition)
+                        when (!selectedCoins.contains(coin) && selectedCoins.count() < 4) {
                             true -> {
-                                if (firstSelectedPosition == RecyclerView.NO_POSITION) {
-                                    firstSelectedPosition = absoluteAdapterPosition
-                                }
-                                selectedCoins.add(
-                                    coin
-                                )
+                                selectedCoins.add(coin)
+                                lastlySelectedPosition = absoluteAdapterPosition
+                                notifyItemChanged(lastlySelectedPosition)
                             }
                             false -> {
                                 selectedCoins.remove(coin)
-                                if (firstSelectedPosition == absoluteAdapterPosition) {
-                                    firstSelectedPosition = RecyclerView.NO_POSITION
-                                    notifyItemChanged(firstSelectedPosition)
-                                }
                                 lastlySelectedPosition = RecyclerView.NO_POSITION
                                 notifyItemChanged(lastlySelectedPosition)
                             }
-                        }
-                        if (selectedCoins.count() == 3 && !selectedCoins.contains(
-                                coin
-                            )
-                        ) {
-                            selectedCoins[0] =
-                                coin
-//                            firstSelectedPosition = absoluteAdapterPosition
-                            lastlySelectedPosition = absoluteAdapterPosition
-                            notifyItemChanged(lastlySelectedPosition)
-//                            Log.e("gaypopNewlySelectedItem", firstSelectedPosition.toString())
-//                            notifyItemChanged(firstSelectedPosition)
                         }
                     }
                 }
