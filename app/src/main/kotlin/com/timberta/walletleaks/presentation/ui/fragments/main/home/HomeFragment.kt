@@ -20,7 +20,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.random.Random
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home) {
@@ -135,11 +134,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
                     for (i in viewModel.processIndex..10000) {
                         if (viewModel.processCryptoWorkState.value) {
-                            delay(Random.nextLong(1500))
-                            viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
+                            delay(500)
                             args.selectedCoins?.let {
                                 viewModel.searchCryptoWallets(it)
                             }
+                            viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
                             cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
                             updateAdapterScroll()
                         } else {
@@ -198,7 +197,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     private fun stopWalletMining() {
         binding.btnStopSearch.setOnClickListener {
-            viewModel.processCryptoWorkState.value = false
+            safeFlowGather {
+                viewModel.processCryptoWorkState.value = false
+                binding.btnStartOperation.isEnabled = false
+                binding.btnStartOperation.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_btn_start_inactive)
+                delay(1500)
+                binding.btnStartOperation.isEnabled = true
+                binding.btnStartOperation.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_btn_start)
+            }
         }
     }
 
