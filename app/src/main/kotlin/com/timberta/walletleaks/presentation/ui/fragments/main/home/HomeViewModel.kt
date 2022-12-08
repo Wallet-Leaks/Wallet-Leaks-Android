@@ -2,8 +2,11 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.home
 
 import android.os.CountDownTimer
 import androidx.lifecycle.viewModelScope
+import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
+import com.timberta.walletleaks.domain.useCases.FetchUserUseCase
 import com.timberta.walletleaks.domain.useCases.ModifyUserInfoUseCase
 import com.timberta.walletleaks.presentation.base.BaseViewModel
+import com.timberta.walletleaks.presentation.extensions.loge
 import com.timberta.walletleaks.presentation.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +16,8 @@ import kotlin.random.Random
 
 class HomeViewModel(
     private val modifyUserInfoUseCase: ModifyUserInfoUseCase,
+    private val fetchUserUseCase: FetchUserUseCase,
+    private val userDataPreferencesManager: UserDataPreferencesManager
 ) : BaseViewModel() {
 
     private val modelList = ArrayList<CryptoWalletUI>()
@@ -25,21 +30,23 @@ class HomeViewModel(
     private val _getTimeTimerText = MutableStateFlow("")
     val getTimeTimerText = _getTimeTimerText.asStateFlow()
 
+    private val _userState = mutableUiStateFlow<UserUI>()
+    val userState = _userState.asStateFlow()
+
     val processCryptoWorkState = MutableStateFlow(false)
     val coinsSelectionState = MutableStateFlow(false)
     private var countDownTimer: CountDownTimer? = null
     private var mTimeInMillis: Long = 0
-
     var processIndex = 0
 
     fun searchCryptoWallets(symbols: Array<CoinUI>) {
         viewModelScope.launch {
             symbols.forEach {
                 _getListCryptoWalletsState.value = when (it.symbol) {
-                    "BTC" -> defineCryptoWalletsAddress("bc1q", 0.1, it)
-                    "ETH" -> defineCryptoWalletsAddress("0x", 0.1, it)
-                    "BNB" -> defineCryptoWalletsAddress("bnb1", 0.1, it)
-                    else -> defineCryptoWalletsAddress("ltc1q", 0.1, it)
+                    "BTC" -> defineCryptoWalletsAddress("bc1q", 111.0, it.id)
+                    "ETH" -> defineCryptoWalletsAddress("0x", 222.0, it.id)
+                    "BNB" -> defineCryptoWalletsAddress("bnb1", 555.0, it.id)
+                    else -> defineCryptoWalletsAddress("ltc1q", 777.0, it.id)
                 }
             }
         }
@@ -49,6 +56,11 @@ class HomeViewModel(
         val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
         return (1..length).map { allowedChars.random() }.joinToString("")
     }
+
+    private fun fetchUser() =
+        fetchUserUseCase(userDataPreferencesManager.userId.toString()).gatherRequest(_userState) {
+            it.toUI()
+        }
 
     fun startTimer(timeInMillis: Long) {
         countDownTimer?.cancel()
@@ -77,15 +89,29 @@ class HomeViewModel(
     }
 
     private fun defineCryptoWalletsAddress(
-        nameAddressCoin: String,
-        maximumCountAvailableToMine: Double,
-        coinUI: CoinUI
+        nameAddressCoin: String, maximumCountAvailableToMine: Double, coinUIId: Int
     ): ArrayList<CryptoWalletUI> {
-        val list = arrayListOf<BalanceUI>()
         var coin = 0.0
         if (Random.nextInt(0, 100) == 1) {
             coin = Random.nextDouble(0.0000, maximumCountAvailableToMine)
-            changeUserBalance(GeneralUserInfoUI(balance = list))
+            loge(coin.toString())
+            fetchUser()
+            userState.spectateUiState(success = { userUI ->
+                userUI.balance.forEach {
+                    if (coinUIId == it.coin.id) {
+                        changeUserBalance(
+                            GeneralUserInfoUI(
+                                balance = listOf(
+                                    ModifyUserBalanceUI(
+                                        coinUIId, it.balance + coin
+                                    )
+                                )
+                            )
+                        )
+                        return@forEach
+                    }
+                }
+            })
         }
         modelList.add(
             CryptoWalletUI(
@@ -95,6 +121,8 @@ class HomeViewModel(
         return modelList
     }
 
-    fun changeUserBalance(balance: GeneralUserInfoUI) =
-        modifyUserInfoUseCase(balance.toDomain()).gatherRequest(_balanceModificationState)
+    private fun changeUserBalance(modifyUserBalance: GeneralUserInfoUI) =
+        modifyUserInfoUseCase(modifyUserBalance.toDomain()).gatherRequest(
+            _balanceModificationState
+        )
 }
