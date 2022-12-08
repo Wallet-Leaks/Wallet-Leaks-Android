@@ -33,27 +33,23 @@ class SelectCoinsFragment :
         adapter = coinListAdapter.withLoadStateFooter(BaseLoadStateAdapter())
         itemAnimator = null
         coinListAdapter.bindViewsToPagingLoadStates(
+            recyclerView =
             this,
-            binding.cpiCoinList,
-            binding.imSoon,
-            binding.tvSoon,
+            shimmerFrameLayout = binding.sflSelectCoins
         )
     }
 
     override fun constructListeners() {
+        overrideOnBackPressedToHideToolbar()
         navigateBackToHomeFragment()
         navigateToHomeFragmentWithSelectedCoins()
-        overrideOnBackPressedToHideToolbar()
     }
 
     private fun overrideOnBackPressedToHideToolbar() = with(binding) {
         overrideOnBackPressed {
             makeMultipleViewsInvisible(
                 toolbarCoinList,
-                cpiCoinList,
                 vToolbarStroke,
-                imSoon,
-                tvSoon
             )
             setBackStackData("coinSelection", true)
         }
