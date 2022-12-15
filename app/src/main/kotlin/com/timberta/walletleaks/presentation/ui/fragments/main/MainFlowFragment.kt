@@ -20,20 +20,12 @@ class MainFlowFragment :
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
     internal val viewModel by viewModel<MainFlowViewModel>()
-    private var hasFetchedUserStatusFirstTime = false
     private var isUserVerified: Boolean? = null
     private val networkRequestHandler = Looper.myLooper()?.let { Handler(it) }
     private val fetchUserTask = object : Runnable {
         override fun run() {
             viewModel.fetchUser()
             networkRequestHandler?.postDelayed(this, 5000L)
-//            when (hasFetchedUserStatusFirstTime) {
-//                false -> {
-//                    networkRequestHandler?.postDelayed(this, 10000L)
-//                    hasFetchedUserStatusFirstTime = true
-//                }
-//                true -> networkRequestHandler?.postDelayed(this, 60000L)
-//            }
         }
     }
     private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
@@ -42,17 +34,6 @@ class MainFlowFragment :
         fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController)
         constructBottomNavigation(navController)
         establishBottomNavigationRendering(navController)
-        assembleViews()
-    }
-
-    private fun assembleViews() {
-        viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = getString(
-                R.string.money_with_dollar_sign_reversed,
-                it.totalBalance.toString()
-            )
-            userDataPreferencesManager.doesUserHavePremium = it.isPremium
-        })
     }
 
     private fun constructBottomNavigation(navController: NavController) {
@@ -87,9 +68,13 @@ class MainFlowFragment :
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
         viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = String.format("$%.2f", it.totalBalance)
+            binding.tvBalance.text = getString(
+                R.string.money_with_dollar_sign_reversed,
+                String.format("%.2f", it.totalBalance)
+            )
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
+                userDataPreferencesManager.doesUserHavePremium = it.isVerified
                 when (it.isVerified) {
                     false -> navController.navigate(R.id.buyTheAppDialogFragment)
                     true -> {
