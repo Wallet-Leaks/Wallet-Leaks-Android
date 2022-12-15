@@ -1,6 +1,5 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main
 
-import android.app.DownloadManager.Request
 import android.os.Handler
 import android.os.Looper
 import androidx.navigation.NavController
@@ -20,20 +19,13 @@ class MainFlowFragment :
     BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
-    private val viewModel by viewModel<MainFlowViewModel>()
-    private var hasFetchedUserStatusFirstTime = false
+    internal val viewModel by viewModel<MainFlowViewModel>()
     private var isUserVerified: Boolean? = null
     private val networkRequestHandler = Looper.myLooper()?.let { Handler(it) }
     private val fetchUserTask = object : Runnable {
         override fun run() {
             viewModel.fetchUser()
-            when (hasFetchedUserStatusFirstTime) {
-                false -> {
-                    networkRequestHandler?.postDelayed(this, 10000L)
-                    hasFetchedUserStatusFirstTime = true
-                }
-                true -> networkRequestHandler?.postDelayed(this, 60000L)
-            }
+            networkRequestHandler?.postDelayed(this, 5000L)
         }
     }
     private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
@@ -89,7 +81,6 @@ class MainFlowFragment :
                         if (navController.currentDestination?.id == R.id.buyTheAppDialogFragment)
                             navController.navigate(R.id.homeFragment)
                     }
-
                 }
             }
         })

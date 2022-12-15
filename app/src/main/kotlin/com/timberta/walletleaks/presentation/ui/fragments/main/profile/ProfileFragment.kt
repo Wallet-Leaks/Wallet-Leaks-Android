@@ -1,16 +1,14 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile
 
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentProfileBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
-import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.ui.adapters.UserActionsInfoAdapter
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment :
@@ -26,13 +24,50 @@ class ProfileFragment :
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
+    override fun constructListeners() {
+        binding.tvAddressCryptoWallet.setOnClickListener {
+            copyTheTextToClipboard(
+                getString(R.string.cryptoAddress), binding.tvAddressCryptoWallet.text.toString()
+            )
+            showShortDurationSnackbar("The address is copied to the clipboard")
+        }
+    }
+
     override fun launchObservers() {
+        subscribeUser()
+        subscribeToOverallLoadingState()
+    }
+
+    private fun subscribeToOverallLoadingState() = with(binding.sflUserActionsList) {
+        safeFlowGather {
+            viewModel.overallLoadingState.collectLatest {
+                loge(it.toString())
+                when (it) {
+                    0 -> startShimmer()
+                    1 -> {
+                        stopShimmer()
+                        hideShimmer()
+                        redrawViewsWhenShimmerIsInvisible()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun redrawViewsWhenShimmerIsInvisible() {
+        userActionsInfoAdapter.submitList(viewModel.getListMenuItem())
+        binding.sflContainerUserInfo.gone()
+        binding.sflUserActionsList.gone()
+        binding.rvUserActionsInfo.visible()
+        binding.containerUserInfo.visible()
+    }
+
+    private fun subscribeUser() {
         safeFlowGather {
             viewModel.userState.spectateUiState(success = {
+                viewModel.modifyLoadingState()
                 binding.tvNameUser.text = it.username
                 binding.tvIdUser.text = "ID: ${(it.id * 2222)}"
-            }, gatherIfSucceed = {
-                binding.progressCircular.bindToUIStateLoading(it)
             })
         }
     }
@@ -48,7 +83,8 @@ class ProfileFragment :
             "Settings" -> {
                 findNavController().directionsSafeNavigation(
                     ProfileFragmentDirections.actionProfileFragmentToProfileSettingsFragment(
-                        binding.tvNameUser.text.toString()
+                        binding.tvNameUser.text.toString(),
+                        binding.tvAddressCryptoWallet.text.toString()
                     )
                 )
             }

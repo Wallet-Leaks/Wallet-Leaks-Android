@@ -7,6 +7,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_settings"
+        style="@style/SelectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/darkBlue"
@@ -18,12 +19,14 @@
 
         <ImageView
             android:id="@+id/im_apply"
+            style="@style/SelectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
             android:alpha="0.5"
             android:contentDescription="@null"
+            android:padding="4dp"
             android:src="@drawable/ic_apply" />
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -88,48 +91,53 @@
 
         <ImageView
             android:id="@+id/ic_nano_crypto_wallet"
+            style="@style/SelectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="12dp"
+            android:clickable="true"
             android:contentDescription="@null"
+            android:padding="4dp"
             android:src="@drawable/ic_nano_crypto_wallet"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_cryptocurrency_address"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/im_user_avatar" />
+            app:layout_constraintTop_toBottomOf="@id/v_stroke" />
 
         <EditText
+            android:id="@+id/et_cryptocurrency_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="14dp"
             android:backgroundTint="@android:color/transparent"
             android:ellipsize="end"
             android:hint="@string/add_a_crypto_wallet"
             android:inputType="textMultiLine"
             android:maxLines="4"
+            android:paddingHorizontal="4dp"
             android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumbnail"
             android:scrollbars="vertical"
             android:text="0xe35f8687Ce9AdE860C659b905C4E188Aa229DF53"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
-            app:layout_constraintBottom_toBottomOf="@id/ic_nano_crypto_wallet"
             app:layout_constraintEnd_toStartOf="@id/im_copy_past"
             app:layout_constraintStart_toEndOf="@id/ic_nano_crypto_wallet"
-            app:layout_constraintTop_toTopOf="@id/ic_nano_crypto_wallet" />
+            app:layout_constraintTop_toTopOf="@id/v_stroke" />
 
         <ImageView
             android:id="@+id/im_copy_past"
+            style="@style/SelectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginHorizontal="12dp"
             android:contentDescription="@null"
+            android:padding="4dp"
             android:src="@drawable/ic_copy_past"
             app:layout_constraintBottom_toBottomOf="@id/ic_nano_crypto_wallet"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/et_cryptocurrency_address"
             app:layout_constraintTop_toTopOf="@id/ic_nano_crypto_wallet" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

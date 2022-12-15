@@ -1,6 +1,7 @@
 package com.timberta.walletleaks.presentation.models
 
 import com.timberta.walletleaks.domain.models.UserModel
+import java.math.BigDecimal
 
 data class UserUI(
     val id: Int,
@@ -10,7 +11,7 @@ data class UserUI(
     val dateJoined: String,
     val isVerified: Boolean,
     val balance: List<BalanceUI>,
-    val totalBalance: Double
+    val totalBalance: BigDecimal
 )
 
 fun UserModel.toUI() =
