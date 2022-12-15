@@ -27,8 +27,11 @@ class ProfileSettingsFragment :
     private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
 
     override fun assembleViews() {
-        binding.imApply.isEnabled = false
-        binding.etUsername.setText(args.username)
+        binding.apply {
+            imApply.isEnabled = false
+            etUsername.setText(args.username)
+            etCryptocurrencyAddress.setText(args.cryptoWalletsAddress)
+        }
     }
 
     override fun constructListeners() {
@@ -58,17 +61,24 @@ class ProfileSettingsFragment :
                 showShortDurationSnackbar("The address is copied to the clipboard")
             }
 
-            binding.etUsername.addTextChangedListener {
-                if (etUsername.text.toString() != args.username) {
-                    imApply.isEnabled = true
-                    imApply.alpha = 1.0F
-                } else {
-                    imApply.isEnabled = false
-                    imApply.alpha = 0.5F
-                }
+            etCryptocurrencyAddress.addTextChangedListener {
+                enabledApplyButton()
+            }
+            etUsername.addTextChangedListener {
+                enabledApplyButton()
             }
         }
+    }
 
+    private fun enabledApplyButton() = with(binding) {
+        val cryptoAddress = etCryptocurrencyAddress.text.toString()
+        if (etUsername.text.toString() != args.username || cryptoAddress != args.cryptoWalletsAddress) {
+            imApply.isEnabled = true
+            imApply.alpha = 1.0F
+        } else {
+            imApply.isEnabled = false
+            imApply.alpha = 0.5F
+        }
     }
 
     override fun launchObservers() {
