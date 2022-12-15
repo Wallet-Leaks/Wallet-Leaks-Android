@@ -7,12 +7,82 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.fragments.main.profile.ProfileFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl_container_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/shimmer_container_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/darkBlue"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/im_user_avatar_shimmer"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
+                app:cardCornerRadius="28dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_avatar_shimmer" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/tv_name_user_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_username_shimmer" />
+
+            <ImageView
+                android:id="@+id/tv_id_user_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_user_id_shimmer" />
+
+            <ImageView
+                android:id="@+id/tv_address_crypto_wallet_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="22dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_crypto_address_shimmer" />
+
+            <View
+                android:id="@+id/view_stroke_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/blueSentinel" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <LinearLayout
         android:id="@+id/container_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/darkBlue"
         android:orientation="vertical"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
@@ -27,6 +97,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@null"
                 android:src="@drawable/ic_profile_active" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -76,27 +147,57 @@
             android:background="@color/blueSentinel" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        style="@style/BaseProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/container_user_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_user_actions_info"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl_user_actions_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container_user_info"
-        tools:listitem="@layout/item_user_actions" />
+        app:shimmer_auto_start="true">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+
+            <include layout="@layout/item_user_action_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_user_actions_info"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_user_info"
+        tools:listitem="@layout/item_user_actions" />
 </androidx.constraintlayout.widget.ConstraintLayout>
