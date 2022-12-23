@@ -11,7 +11,7 @@ data class GeneralUserInfoDto(
     @SerializedName("photo")
     val photo: String? = null,
     @SerializedName("coin_token")
-    val cryptoWalletAddress: String?,
+    val cryptoWalletAddress: String? = null,
     @SerializedName("is_premium")
     val isPremium: Boolean? = null,
     @SerializedName("date_joined")

@@ -21,9 +21,10 @@ appCompat = "1.5.1"
 splashScreen = "1.0.0-beta01"
 maskedEditText = "1.0.0"
 emojiPopUp = "0.15.0"
-blurry = "4.0.1"
 balloon = "1.4.7"
 shimmer = "0.5.0"
+swipeToRefresh = "1.1.0"
+lottie = "5.2.0"
 #Core
 core = "1.8.0"
 #Activity
@@ -104,9 +105,10 @@ ui-dotsIndicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsI
 ui-emojiMaterial = { module = "com.vanniktech:emoji-material", version.ref = "emojiPopUp" }
 ui-emojiGoogle = { module = "com.vanniktech:emoji-google", version.ref = "emojiPopUp" }
 glide-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-blurry-blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
 balloon-balloon = { module = "com.github.skydoves:balloon", version.ref = "balloon" }
 shimmer-shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
+ui-swipeToRefresh = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swipeToRefresh" }
+ui-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 
 #Legacy Support
 legacySupport-legacySupport = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupport" }
@@ -175,7 +177,7 @@ koin-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.
 
 [bundles]
 #UI Components
-uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen", "blurry-blurry"]
+uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen", "ui-swipeToRefresh"]
 
 #Coroutines
 coroutines = ["coroutines-core", "coroutines-android"]
