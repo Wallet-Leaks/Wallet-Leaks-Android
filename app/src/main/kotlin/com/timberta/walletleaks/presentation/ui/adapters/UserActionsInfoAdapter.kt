@@ -35,6 +35,7 @@ class UserActionsInfoAdapter(private val onItemClick: ((actionName: String) -> U
             }
         }
     }
+
     init {
         submitList(
             listOf(
