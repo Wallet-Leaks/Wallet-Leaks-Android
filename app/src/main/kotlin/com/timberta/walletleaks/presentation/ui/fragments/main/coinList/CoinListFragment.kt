@@ -7,6 +7,7 @@ import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManage
 import com.timberta.walletleaks.databinding.FragmentCoinListBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.bindViewsToPagingLoadStates
+import com.timberta.walletleaks.presentation.extensions.postHandler
 import com.timberta.walletleaks.presentation.ui.adapters.CoinListAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,9 +31,23 @@ class CoinListFragment :
         binding.rvCoinList.adapter = coinListAdapter
         coinListAdapter.bindViewsToPagingLoadStates(
             binding.rvCoinList,
-            shimmerFrameLayout = binding.sflCoinList
+            shimmerFrameLayout = binding.sflCoinList,
+            refreshLayout = binding.srlCoinList
         )
         binding.rvCoinList.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun constructListeners() {
+        handleSwipeToRefresh()
+    }
+
+    private fun handleSwipeToRefresh() {
+        binding.srlCoinList.setOnRefreshListener {
+            postHandler(1500L) {
+                subscribeToCoinList()
+                binding.srlCoinList.isRefreshing = false
+            }
+        }
     }
 
     override fun launchObservers() {
