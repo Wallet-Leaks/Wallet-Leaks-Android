@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.domain.models
 
+import java.math.BigDecimal
+
 data class UserModel(
     val id: Int,
     val username: String,
@@ -9,5 +11,5 @@ data class UserModel(
     val dateJoined: String,
     val isVerified: Boolean,
     val balance: List<BalanceModel>,
-    val totalBalance: Double
+    val totalBalance: BigDecimal
 )
