@@ -51,4 +51,18 @@
         <item name="android:maxLength">16</item>
         <item name="android:textColor">@color/blueSentinel</item>
     </style>
+
+    <style name="selectableItemTheme">
+        <item name="colorControlHighlight">@color/gray</item>
+    </style>
+
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/selectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="SelectableItemForeground">
+        <item name="android:theme">@style/selectableItemTheme</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+    </style>
 </resources>
