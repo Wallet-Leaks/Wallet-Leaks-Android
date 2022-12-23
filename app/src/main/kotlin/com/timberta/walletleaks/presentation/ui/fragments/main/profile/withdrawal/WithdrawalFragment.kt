@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.text.Editable
@@ -27,6 +28,7 @@ import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdra
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
+
 
 class WithdrawalFragment :
     BaseFragment<FragmentWithdrawalBinding, WithdrawalViewModel>(R.layout.fragment_withdrawal) {
@@ -292,11 +294,20 @@ class WithdrawalFragment :
             if (!sflWithdrawal.isShimmerVisible) {
                 tvUsername.text = user.username
                 tvCurrentUserBalance.setBackgroundResource(R.drawable.balance_radial_background)
-                tvCurrentUserBalance.text =
-                    getString(
-                        R.string.money_with_dollar_sign,
-                        DecimalFormat("#.##").format(user.totalBalance).toString().replace(".", ",")
-                    )
+                ValueAnimator.ofFloat(
+                    0.0f,
+                    DecimalFormat("#.##").format(user.totalBalance).toString().replace(".", ".")
+                        .toFloat()
+                ).apply {
+                    duration = 2500
+                    addUpdateListener { animation ->
+                        tvCurrentUserBalance.text = getString(
+                            R.string.money_with_dollar_sign,
+                            animation.animatedValue.toString()
+                        )
+                    }
+                    start()
+                }
                 etCryptocurrencyAmountAvailableToWithdraw.setText(
                     currentUserBalance.find { balance -> balance.coin.symbol == "BTC" }?.balance.toString()
                 )
