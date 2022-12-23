@@ -30,7 +30,9 @@ class ProfileSettingsFragment :
         binding.apply {
             imApply.isEnabled = false
             etUsername.setText(args.username)
-            etCryptocurrencyAddress.setText(args.cryptoWalletsAddress)
+            if (args.cryptoWalletsAddress != getString(R.string.add_a_crypto_wallet)) {
+                etCryptocurrencyAddress.setText(args.cryptoWalletsAddress)
+            }
         }
     }
 
@@ -46,7 +48,16 @@ class ProfileSettingsFragment :
                     viewModel.changeUserName(
                         GeneralUserInfoUI(
                             userDataPreferencesManager.userId,
-                            etUsername.text.toString(),
+                            username = etUsername.text.toString(),
+                            balance = emptyList()
+                        )
+                    )
+                } else if (etCryptocurrencyAddress.text.toString() != args.cryptoWalletsAddress) {
+                    hideSoftKeyboard()
+                    viewModel.changeUserName(
+                        GeneralUserInfoUI(
+                            userDataPreferencesManager.userId,
+                            cryptoWalletAddress = etCryptocurrencyAddress.text.toString(),
                             balance = emptyList()
                         )
                     )
