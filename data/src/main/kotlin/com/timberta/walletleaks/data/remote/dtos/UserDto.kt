@@ -12,6 +12,8 @@ data class UserDto(
     val username: String,
     @SerializedName("photo")
     val photo: String?,
+    @SerializedName("coin_token")
+    val cryptoWalletAddress: String?,
     @SerializedName("is_premium")
     val isPremium: Boolean,
     @SerializedName("date_joined")
@@ -27,7 +29,8 @@ data class UserDto(
         UserModel(
             id,
             username,
-            photo,
+            photo.toString(),
+            cryptoWalletAddress.toString(),
             isPremium,
             dateJoined,
             isVerified,
