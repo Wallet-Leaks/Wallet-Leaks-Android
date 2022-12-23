@@ -191,6 +191,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btn_change" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav_success"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:translationZ="100dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/btn_confirm"
+                app:layout_constraintEnd_toEndOf="@id/btn_confirm"
+                app:layout_constraintStart_toStartOf="@id/btn_confirm"
+                app:layout_constraintTop_toTopOf="@id/btn_confirm"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/success_pro" />
+
+
             <ProgressBar
                 android:id="@+id/cpi_withdrawal_confirmation"
                 style="@style/BaseProgressBar"
