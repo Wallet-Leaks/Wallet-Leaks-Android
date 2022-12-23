@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.bundles.uiComponents)
     implementation(libs.balloon.balloon)
     implementation(libs.shimmer.shimmer)
+    implementation(libs.ui.lottie)
 
     // Core
     implementation(libs.android.core)
