@@ -19,7 +19,7 @@ class MainFlowFragment :
     BaseFlowFragment(R.layout.fragment_main_flow, R.id.nav_host_fragment_container_main) {
 
     private val binding by viewBinding(FragmentMainFlowBinding::bind)
-    internal val viewModel by viewModel<MainFlowViewModel>()
+    private val viewModel by viewModel<MainFlowViewModel>()
     private var isUserVerified: Boolean? = null
     private val networkRequestHandler = Looper.myLooper()?.let { Handler(it) }
     private val fetchUserTask = object : Runnable {
