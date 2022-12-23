@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.activity
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -37,5 +39,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val navController =
             findNavController(R.id.nav_host_fragment_container_main)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(newBase)
+        applyOverrideConfiguration(Configuration(newBase.resources.configuration).apply {
+            fontScale = 0.85f
+        })
     }
 }
