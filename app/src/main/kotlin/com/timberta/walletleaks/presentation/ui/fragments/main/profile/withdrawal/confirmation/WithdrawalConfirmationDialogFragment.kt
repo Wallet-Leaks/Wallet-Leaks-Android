@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.confirmation
 
+import android.media.MediaPlayer
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -9,11 +11,12 @@ import com.timberta.walletleaks.databinding.FragmentWithdrawalConfirmationDialog
 import com.timberta.walletleaks.presentation.base.BaseDialogFragment
 import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
+import com.timberta.walletleaks.presentation.extensions.postHandler
+import com.timberta.walletleaks.presentation.extensions.visible
 import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.models.GeneralUserInfoUI
 import com.timberta.walletleaks.presentation.models.ModifyUserBalanceUI
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.DecimalFormat
 
 class WithdrawalConfirmationDialogFragment :
     BaseDialogFragment<FragmentWithdrawalConfirmationDialogBinding, WithdrawalConfirmationViewModel>(
@@ -82,7 +85,17 @@ class WithdrawalConfirmationDialogFragment :
 
     private fun subscribeToWithdrawal() = with(binding) {
         viewModel.withdrawalState.spectateUiState(success = {
-            findNavController().navigateSafely(R.id.action_withdrawalConfirmationDialogFragment_to_profileFragment)
+            btnConfirm.text = ""
+            btnConfirm.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lola))
+            lavSuccess.visible()
+            lavSuccess.playAnimation()
+            postHandler(1000L) {
+                MediaPlayer.create(requireContext(), R.raw.success_sound_pro).start()
+                postHandler(1500L) {
+                    findNavController().navigateSafely(R.id.action_withdrawalConfirmationDialogFragment_to_profileFragment)
+                }
+            }
+
         }, gatherIfSucceed = {
             cpiWithdrawalConfirmation.bindToUIStateLoading(it)
             when (cpiWithdrawalConfirmation.isVisible) {
