@@ -81,7 +81,6 @@ class MainFlowFragment :
                         if (navController.currentDestination?.id == R.id.buyTheAppDialogFragment)
                             navController.navigate(R.id.homeFragment)
                     }
-
                 }
             }
         })

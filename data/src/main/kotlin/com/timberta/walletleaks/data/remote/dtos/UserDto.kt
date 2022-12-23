@@ -4,6 +4,7 @@ package com.timberta.walletleaks.data.remote.dtos
 import com.google.gson.annotations.SerializedName
 import com.timberta.walletleaks.data.utils.DataMapper
 import com.timberta.walletleaks.domain.models.UserModel
+import java.math.BigDecimal
 
 data class UserDto(
     @SerializedName("id")
@@ -23,7 +24,7 @@ data class UserDto(
     @SerializedName("balance")
     val balance: List<BalanceDto>,
     @SerializedName("total")
-    val totalBalance: Double
+    val totalBalance: BigDecimal
 ) : DataMapper<UserModel> {
     override fun toDomain() =
         UserModel(
