@@ -21,8 +21,8 @@
         <action
             android:id="@+id/action_homeFragment_to_selectCoinsFragment"
             app:destination="@id/selectCoinsFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:popEnterAnim="@anim/slide_out_up"
+            app:enterAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
             app:popUpTo="@id/homeFragment" />
     </fragment>
 
