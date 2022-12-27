@@ -296,7 +296,7 @@ class WithdrawalFragment :
                 tvCurrentUserBalance.setBackgroundResource(R.drawable.balance_radial_background)
                 ValueAnimator.ofFloat(
                     0.0f,
-                    DecimalFormat("#.##").format(user.totalBalance).toString().replace(".", ".")
+                    DecimalFormat("#.##").format(user.totalBalance.toDouble()).toString().replace(".", ",")
                         .toFloat()
                 ).apply {
                     duration = 2500
