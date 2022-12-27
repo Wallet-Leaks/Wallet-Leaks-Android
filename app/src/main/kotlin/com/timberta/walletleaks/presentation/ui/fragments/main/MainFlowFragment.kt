@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main
 
+import android.animation.ValueAnimator
 import android.os.Handler
 import android.os.Looper
 import androidx.navigation.NavController
@@ -68,10 +69,19 @@ class MainFlowFragment :
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
         viewModel.userState.spectateUiState(success = {
-            binding.tvBalance.text = getString(
-                R.string.money_with_dollar_sign_reversed,
-                String.format("%.2f", it.totalBalance)
-            )
+            ValueAnimator.ofFloat(
+                0.0f,
+                it.totalBalance.toFloat()
+            ).apply {
+                duration = 2500
+                addUpdateListener { animation ->
+                    binding.tvBalance.text = getString(
+                        R.string.money_with_dollar_sign_reversed,
+                        animation.animatedValue.toString()
+                    )
+                }
+                start()
+            }
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
                 userDataPreferencesManager.doesUserHavePremium = it.isVerified
