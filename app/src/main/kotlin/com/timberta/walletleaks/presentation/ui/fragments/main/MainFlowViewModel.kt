@@ -15,7 +15,7 @@ class MainFlowViewModel(
     private val _userState = mutableUiStateFlow<UserUI>()
     val userState = _userState.asStateFlow()
 
-     fun fetchUser() =
+    fun fetchUser() =
         fetchUserUseCase(userDataPreferencesManager.userId.toString()).gatherRequest(_userState) { it.toUI() }
 
     init {

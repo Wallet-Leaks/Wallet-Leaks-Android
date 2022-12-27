@@ -6,7 +6,7 @@ data class UserModel(
     val id: Int,
     val username: String,
     val photo: String,
-    val cryptoWalletAddress :String,
+    val cryptoWalletAddress: String,
     val isPremium: Boolean,
     val dateJoined: String,
     val isVerified: Boolean,

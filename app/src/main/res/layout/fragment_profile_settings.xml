@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -74,13 +75,13 @@
             android:inputType="text"
             android:paddingStart="8dp"
             android:paddingEnd="22dp"
-            android:text="@string/amir_gay"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/im_user_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/im_user_avatar"
-            app:layout_constraintTop_toTopOf="@id/im_user_avatar" />
+            app:layout_constraintTop_toTopOf="@id/im_user_avatar"
+            tools:text="@string/amir_gay" />
 
         <View
             android:id="@+id/v_stroke"
@@ -96,7 +97,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="12dp"
-            android:clickable="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:contentDescription="@null"
             android:padding="4dp"
             android:src="@drawable/ic_nano_crypto_wallet"
@@ -118,12 +120,13 @@
             android:paddingHorizontal="4dp"
             android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumbnail"
             android:scrollbars="vertical"
-            android:text="0xe35f8687Ce9AdE860C659b905C4E188Aa229DF53"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/im_copy_past"
             app:layout_constraintStart_toEndOf="@id/ic_nano_crypto_wallet"
-            app:layout_constraintTop_toTopOf="@id/v_stroke" />
+            app:layout_constraintTop_toTopOf="@id/v_stroke"
+            tools:text="0xe35f8687Ce9AdE860C659b905C4E188Aa229DF53" />
 
         <ImageView
             android:id="@+id/im_copy_past"

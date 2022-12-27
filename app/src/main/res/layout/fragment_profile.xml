@@ -134,8 +134,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="4dp"
-            android:text="@string/enter_the_cryptocurrency_in_the_settings"
             android:textColor="@color/shadeOfSlateGray"
+            android:textColorHint="@color/white"
             android:textSize="13sp"
             app:drawableStartCompat="@drawable/ic_copy_past" />
 

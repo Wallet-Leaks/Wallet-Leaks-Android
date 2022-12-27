@@ -41,7 +41,6 @@ class ProfileFragment :
     private fun subscribeToOverallLoadingState() = with(binding.sflUserActionsList) {
         safeFlowGather {
             viewModel.overallLoadingState.collectLatest {
-                loge(it.toString())
                 when (it) {
                     0 -> startShimmer()
                     1 -> {
@@ -67,7 +66,14 @@ class ProfileFragment :
             viewModel.userState.spectateUiState(success = {
                 viewModel.modifyLoadingState()
                 binding.tvNameUser.text = it.username
-                binding.tvIdUser.text = "ID: ${(it.id * 2222)}"
+                binding.tvIdUser.text =
+                    getString(R.string.user_id_multiplied, (it.id * 2222).toString())
+                when (it.cryptoWalletAddress) {
+                    "null" -> {
+                        binding.tvAddressCryptoWallet.text = getString(R.string.add_a_crypto_wallet)
+                    }
+                    else -> binding.tvAddressCryptoWallet.text = it.cryptoWalletAddress
+                }
             })
         }
     }
