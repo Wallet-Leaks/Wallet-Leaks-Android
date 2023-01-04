@@ -5,7 +5,8 @@
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.fragments.main.home.HomeFragment">
+    tools:context=".presentation.ui.fragments.main.home.HomeFragment"
+    tools:ignore="ContentDescription">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_crypto_algorithm"
@@ -59,8 +60,7 @@
                 android:layout_width="32dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_filter_not_activated"
-                android:contentDescription="@null" />
+                android:src="@drawable/ic_filter_not_activated" />
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
