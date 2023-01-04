@@ -106,7 +106,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         stopWalletMining()
         checkCoinsToWalletMine()
         selectCoinsToWalletMine()
-        reselectCoinsToWalletMine()
         saveCoinsToWalletMine()
     }
 
@@ -114,9 +113,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         binding.imAddCoins.setOnClickListener {
             findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
         }
-    }
-
-    private fun reselectCoinsToWalletMine() {
         binding.imReselectCoins.setOnClickListener {
             findNavController().navigateSafely(R.id.action_homeFragment_to_selectCoinsFragment)
         }

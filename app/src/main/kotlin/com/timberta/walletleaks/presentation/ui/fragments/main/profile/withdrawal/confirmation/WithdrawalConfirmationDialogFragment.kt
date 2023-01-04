@@ -90,7 +90,7 @@ class WithdrawalConfirmationDialogFragment :
             lavSuccess.visible()
             lavSuccess.playAnimation()
             postHandler(1000L) {
-                MediaPlayer.create(requireContext(), R.raw.success_sound_pro).start()
+                MediaPlayer.create(requireContext(), R.raw.success_sound).start()
                 postHandler(1500L) {
                     findNavController().navigateSafely(R.id.action_withdrawalConfirmationDialogFragment_to_profileFragment)
                 }

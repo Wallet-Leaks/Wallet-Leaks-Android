@@ -6,44 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_settings"
-        style="@style/SelectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/darkBlue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="@string/settings"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:titleTextColor="@color/white">
-
-        <ImageView
-            android:id="@+id/im_apply"
-            style="@style/SelectableItemBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:alpha="0.5"
-            android:contentDescription="@null"
-            android:padding="4dp"
-            android:src="@drawable/ic_apply" />
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <View
-        android:id="@+id/v_toolbar_stroke"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/blueSentinel"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_settings" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_user_name_avatar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/darkBlue"
-        app:layout_constraintTop_toBottomOf="@id/v_toolbar_stroke">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/im_user_avatar"
@@ -142,7 +114,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/et_cryptocurrency_address"
             app:layout_constraintTop_toTopOf="@id/ic_nano_crypto_wallet" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

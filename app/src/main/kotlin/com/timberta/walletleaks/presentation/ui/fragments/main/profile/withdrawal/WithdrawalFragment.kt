@@ -27,7 +27,6 @@ import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdrawAdapter
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.DecimalFormat
 
 
 class WithdrawalFragment :
@@ -102,6 +101,7 @@ class WithdrawalFragment :
     private var hasUserInputProperCard = false
     private var isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable = false
     private var isSelectedConvertedCryptocurrencyMoreThanHundredDollars = false
+    private val userTotalBalanceValueAnimator = ValueAnimator()
 
     override fun initialize() {
         constructRecycler()
@@ -110,6 +110,14 @@ class WithdrawalFragment :
     private fun constructRecycler() {
         binding.rvCryptocurrencyToWithdraw.adapter = cryptocurrencyToWithdrawAdapter
         binding.rvCryptocurrencyToWithdraw.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun assembleViews() {
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        binding.toolbar.mtToolbar.title = getString(R.string.withdrawal)
     }
 
     override fun constructListeners() {
@@ -122,7 +130,7 @@ class WithdrawalFragment :
     }
 
     private fun navigateBack() {
-        binding.mtWithdrawal.setNavigationOnClickListener {
+        binding.toolbar.mtToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -294,10 +302,8 @@ class WithdrawalFragment :
             if (!sflWithdrawal.isShimmerVisible) {
                 tvUsername.text = user.username
                 tvCurrentUserBalance.setBackgroundResource(R.drawable.balance_radial_background)
-                ValueAnimator.ofFloat(
-                    0.0f,
-                    user.totalBalance.toFloat()
-                ).apply {
+                userTotalBalanceValueAnimator.setFloatValues(0.0f, user.totalBalance.toFloat())
+                userTotalBalanceValueAnimator.apply {
                     duration = 2500
                     addUpdateListener { animation ->
                         tvCurrentUserBalance.text = getString(
@@ -414,5 +420,15 @@ class WithdrawalFragment :
         tvSelectedCryptocurrencyToWithdraw.isEnabled = true
         subscribeToCurrentUser()
         subscribeToCryptocurrencyToWithdraw()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userTotalBalanceValueAnimator.pause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        userTotalBalanceValueAnimator.pause()
     }
 }
