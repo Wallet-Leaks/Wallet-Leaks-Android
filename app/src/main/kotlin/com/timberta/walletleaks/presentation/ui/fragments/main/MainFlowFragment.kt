@@ -10,6 +10,7 @@ import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManage
 import com.timberta.walletleaks.databinding.FragmentMainFlowBinding
 import com.timberta.walletleaks.presentation.base.BaseFlowFragment
 import com.timberta.walletleaks.presentation.extensions.gone
+import com.timberta.walletleaks.presentation.extensions.postHandler
 import com.timberta.walletleaks.presentation.extensions.visible
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,8 +61,10 @@ class MainFlowFragment :
                 bottomNavigation.visible()
             }
             false -> {
-                mainToolbar.gone()
-                bottomNavigation.gone()
+                postHandler(80L) {
+                    mainToolbar.gone()
+                    bottomNavigation.gone()
+                }
             }
         }
     }
@@ -72,15 +75,14 @@ class MainFlowFragment :
                 R.string.money_with_dollar_sign_reversed,
                 String.format("%.2f", it.totalBalance)
             )
+            userDataPreferencesManager.doesUserHavePremium = it.isPremium
             if (isUserVerified == null || isUserVerified != it.isVerified) {
                 isUserVerified = it.isVerified
-                userDataPreferencesManager.doesUserHavePremium = it.isVerified
                 when (it.isVerified) {
                     false -> navController.navigate(R.id.buyTheAppDialogFragment)
-                    true -> {
+                    true ->
                         if (navController.currentDestination?.id == R.id.buyTheAppDialogFragment)
                             navController.navigate(R.id.homeFragment)
-                    }
                 }
             }
         })
