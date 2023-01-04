@@ -10,7 +10,7 @@ interface UserApiService {
     suspend fun fetchUser(@Path("id") id: String): UserDto
 
     @POST("api/v1/users/logout/")
-    suspend fun logout(@Body refreshTokenDto: RefreshTokenDto) : Response<Unit>
+    suspend fun logout(@Body refreshTokenDto: RefreshTokenDto): Response<Unit>
 
     @PATCH("api/v1/users/profile/")
     suspend fun modifyUserProfile(@Body userInfo: GeneralUserInfoDto)

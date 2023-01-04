@@ -15,4 +15,5 @@ data class BalanceCoinDto(
 ) : DataMapper<BalanceCoinModel> {
     override fun toDomain() = BalanceCoinModel(id, symbol, price)
 }
-fun BalanceCoinModel.toData() = BalanceCoinDto(id,symbol,price)
+
+fun BalanceCoinModel.toData() = BalanceCoinDto(id, symbol, price)
