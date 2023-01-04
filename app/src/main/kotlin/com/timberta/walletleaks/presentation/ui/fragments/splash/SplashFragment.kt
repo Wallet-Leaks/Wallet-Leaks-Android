@@ -3,6 +3,7 @@ package com.timberta.walletleaks.presentation.ui.fragments.splash
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
@@ -22,12 +23,23 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         super.onViewCreated(view, savedInstanceState)
         renderAppName()
         renderMadeBy()
-        postHandler(1000L) {
-            when (userDataPreferencesManager.isAuthenticated) {
-                true ->
-                    findNavController().navigateSafely(R.id.action_splashFragment_to_mainFlowFragment)
-                false -> findNavController().navigate(R.id.action_splashFragment_to_signInFragment)
-            }
+        navigateToTheDefinedDestination()
+    }
+
+    private fun navigateToTheDefinedDestination() {
+        when (userDataPreferencesManager.isAuthenticated) {
+            true ->
+                postHandler(1000L) {
+                    lifecycleScope.launchWhenResumed {
+                        findNavController().navigateSafely(R.id.action_splashFragment_to_mainFlowFragment)
+                    }
+                }
+            false ->
+                postHandler(1000L) {
+                    lifecycleScope.launchWhenResumed {
+                        findNavController().navigateSafely(R.id.action_splashFragment_to_signInFragment)
+                    }
+                }
         }
     }
 
@@ -38,5 +50,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     private fun renderMadeBy() {
         binding.tvMadeBy.text =
             transformTextFont(getString(R.string.made_by_the_uss), R.font.mitr_medium, 4, 11)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        navigateToTheDefinedDestination()
     }
 }
