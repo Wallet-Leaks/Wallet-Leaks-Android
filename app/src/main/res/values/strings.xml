@@ -3,6 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="coin_list">Coin list</string>
+    <string name ="coins">Coins</string>
     <string name="settings">Settings</string>
     <string name="profile">Profile</string>
     <string name="title_wallet_premium_dialog">Go beyond the limits of base version, extend \nexisting features and support our product in order \nprovide it with the opportunity to grow.</string>
@@ -48,6 +49,7 @@
     <string name="telegram_wallet_leaks_link">https://t.me/walletcryptoleaks</string>
     <string name="telegram_faq_channel_link">https://t.me/walletleaksfaq</string>
     <string name="submit">Submit</string>
+    <string name="withdrawal">Withdrawal</string>
     <string name="withdrawal_confirmation">Withdrawal Confirmation</string>
     <string name="you_will_get">You will get</string>
     <string name="usd">USD</string>
