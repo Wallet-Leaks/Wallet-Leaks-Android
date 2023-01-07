@@ -3,6 +3,8 @@ package com.timberta.walletleaks.presentation.extensions
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.Spannable
@@ -10,15 +12,21 @@ import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
+import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.presentation.utils.CustomTypefaceSpan
 
@@ -159,3 +167,49 @@ fun Fragment.openTelegramBasedAppViaLink(
         }
     }
 }
+
+fun Fragment.buildBalloon(
+    @StringRes stringId: Int,
+    @ColorRes textColor: Int = R.color.blueSentinel,
+    width: Int = 194,
+    typeface: Typeface? = (ResourcesCompat.getFont(
+        requireContext(),
+        R.font.roboto_bold
+    ) as Typeface),
+    height: Int,
+    textSize: Float = 11.5F,
+    arrowPositionRules: ArrowPositionRules = ArrowPositionRules.ALIGN_ANCHOR,
+    arrowSize: Int = 10,
+    arrowDrawable: Drawable? = ContextCompat.getDrawable(
+        requireContext(),
+        R.drawable.ic_tooltip_arrow
+    ),
+    arrowPosition: Float,
+    cornerRadius: Float = 6f,
+    @ColorRes backgroundColor: Int = R.color.white,
+    balloonAnimation: BalloonAnimation = BalloonAnimation.OVERSHOOT,
+    lifecycleOwner: LifecycleOwner = viewLifecycleOwner,
+    dismissWhenTouchOutside: Boolean = false
+
+) =
+    Balloon.Builder(requireContext())
+        .setText(getString(stringId))
+        .setTextColorResource(textColor)
+        .setWidth(width)
+        .setTextTypeface(
+            typeface as Typeface
+        )
+        .setHeight(height)
+        .setTextSize(textSize)
+        .setArrowPositionRules(arrowPositionRules)
+        .setArrowSize(arrowSize)
+        .setArrowDrawable(
+            arrowDrawable
+        )
+        .setArrowPosition(arrowPosition)
+        .setCornerRadius(cornerRadius)
+        .setBackgroundColorResource(backgroundColor)
+        .setBalloonAnimation(balloonAnimation)
+        .setLifecycleOwner(lifecycleOwner)
+        .setDismissWhenTouchOutside(dismissWhenTouchOutside)
+        .build()
