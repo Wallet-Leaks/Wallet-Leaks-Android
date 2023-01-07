@@ -2,14 +2,12 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdraw
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.italic
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -20,6 +18,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
+import com.timberta.walletleaks.presentation.extensions.buildBalloon
 import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
 import com.timberta.walletleaks.presentation.extensions.invisible
 import com.timberta.walletleaks.presentation.models.BalanceUI
@@ -38,64 +37,21 @@ class WithdrawalFragment :
     private val cryptocurrencyToWithdrawAdapter = CryptocurrencyToWithdrawAdapter(this::onItemClick)
     private var selectedCryptocurrencyId = 0
     private var selectedCryptocurrencyUsdPrice = 0.0
+
     private val balloonMinimumTransaction by lazy {
-        Balloon.Builder(requireContext())
-            .setText("The minimum transaction is at least $100!")
-            .setTextColorResource(R.color.blueSentinel)
-            .setWidth(194)
-            .setTextTypeface(
-                ResourcesCompat.getFont(
-                    requireContext(),
-                    R.font.roboto_bold
-                ) as Typeface
-            )
-            .setHeight(34)
-            .setTextSize(11.5F)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowSize(10)
-            .setArrowDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_tooltip_arrow
-                )
-            )
-            .setArrowPosition(0.5f)
-            .setCornerRadius(6f)
-            .setBackgroundColorResource(R.color.white)
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setDismissWhenTouchOutside(false)
-            .build()
+        buildBalloon(
+            R.string.minimum_transaction, height = 34, arrowPosition = 0.5f
+        )
     }
+
     private val balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave by lazy {
-        Balloon.Builder(requireContext())
-            .setText("The cryptocurrency amount you want to \n withdraw is more than you currently own.")
-            .setTextColorResource(R.color.blueSentinel)
-            .setWidth(194)
-            .setTextTypeface(
-                ResourcesCompat.getFont(
-                    requireContext(),
-                    R.font.roboto_bold
-                ) as Typeface
-            )
-            .setHeight(54)
-            .setTextSize(11.5F)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
-            .setArrowSize(10)
-            .setArrowDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_tooltip_arrow
-                )
-            )
-            .setArrowPosition(0.115F)
-            .setCornerRadius(6f)
-            .setBackgroundColorResource(R.color.white)
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setDismissWhenTouchOutside(false)
-            .build()
+        buildBalloon(
+            R.string.cryptocurrency_amount_is_more_than_you_own,
+            height = 54,
+            arrowPosition = 0.115f
+        )
     }
+
     private val currentUserBalance = arrayListOf<BalanceUI>()
     private var cardProcessingNetwork = CardProcessingNetwork.UNDEFINED
     private var hasUserInputProperCard = false
