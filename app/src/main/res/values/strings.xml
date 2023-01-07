@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="coin_list">Coin list</string>
-    <string name ="coins">Coins</string>
+    <string name="coins">Coins</string>
     <string name="settings">Settings</string>
     <string name="profile">Profile</string>
     <string name="title_wallet_premium_dialog">Go beyond the limits of base version, extend \nexisting features and support our product in order \nprovide it with the opportunity to grow.</string>
@@ -66,4 +66,7 @@
     <string name="cryptoAddress">crypto_address</string>
     <string name="money_with_dollar_sign_reversed">$%1$s</string>
     <string name="user_id_multiplied">ID: %1$s</string>
+    <string name="coming_soon">Coming soon…</string>
+    <string name="minimum_transaction">The minimum transaction is at least $100!</string>
+    <string name="cryptocurrency_amount_is_more_than_you_own">"The cryptocurrency amount you want to \n withdraw is more than you currently own."</string>
 </resources>
