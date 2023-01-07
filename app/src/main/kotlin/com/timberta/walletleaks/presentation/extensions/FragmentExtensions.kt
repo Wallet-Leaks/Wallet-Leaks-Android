@@ -13,7 +13,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
@@ -181,7 +180,7 @@ fun Fragment.buildBalloon(
     textSize: Float = 11.5F,
     arrowPositionRules: ArrowPositionRules = ArrowPositionRules.ALIGN_ANCHOR,
     arrowSize: Int = 10,
-    @DrawableRes arrowDrawable: Drawable? = ContextCompat.getDrawable(
+    arrowDrawable: Drawable? = ContextCompat.getDrawable(
         requireContext(),
         R.drawable.ic_tooltip_arrow
     ),
