@@ -5,9 +5,11 @@ import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.ACCESS_TO
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.DOES_USER_HAVE_PREMIUM
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.IS_USER_AUTHENTICATED
+import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_TIME_PAUSE_TIMER
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_TIME_TIMER
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.REFRESH_TOKEN
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.USER_ID
+import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.lAST_SELECTED_POSITION
 
 class UserDataPreferencesManager constructor(private val preferences: SharedPreferences) {
     var isAuthenticated: Boolean
@@ -33,9 +35,18 @@ class UserDataPreferencesManager constructor(private val preferences: SharedPref
     private var hasNonPremiumUserTriedToSelectMultipleCoins: Boolean
         get() = preferences.getBoolean(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, false)
         set(value) = preferences.put(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, value)
+
     var miningTimeTimer: Long
         get() = preferences.getLong(MINING_TIME_TIMER, 0)
         set(value) = preferences.edit().putLong(MINING_TIME_TIMER, value).apply()
+
+    var miningTimePauseTimer: Long
+        get() = preferences.getLong(MINING_TIME_PAUSE_TIMER, 0)
+        set(value) = preferences.edit().putLong(MINING_TIME_PAUSE_TIMER, value).apply()
+
+    var lastSelectedPosition: Int
+        get() = preferences.getInt(lAST_SELECTED_POSITION, 0)
+        set(value) = preferences.edit().putInt(lAST_SELECTED_POSITION, value).apply()
 
     fun actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime(action: () -> Unit) {
         if (!hasNonPremiumUserTriedToSelectMultipleCoins && !doesUserHavePremium) {
