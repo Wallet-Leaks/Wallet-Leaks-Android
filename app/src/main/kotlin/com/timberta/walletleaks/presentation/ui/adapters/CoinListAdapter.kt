@@ -94,6 +94,7 @@ class CoinListAdapter(
                         }
                     }
                     true -> {
+                        notifyItemChanged(absoluteAdapterPosition)
                         when (!selectedCoins.contains(coin) && selectedCoins.count() < 4) {
                             true -> {
                                 selectedCoins.add(coin)
