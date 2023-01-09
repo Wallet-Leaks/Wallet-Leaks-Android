@@ -30,7 +30,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private val cryptoAlgorithmAdapter = CryptoAlgorithmAdapter()
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
     private val walletMiningTimeAdapter =
-        WalletMiningTimeAdapter(userDataPreferencesManager.doesUserHavePremium, this::onItemClick)
+        WalletMiningTimeAdapter(
+            userDataPreferencesManager.doesUserHavePremium,
+            this::onItemClick,
+            userDataPreferencesManager.miningTimePauseTimer
+        )
     private val selectedCoinsAdapter = SelectedCoinsAdapter()
     private var selectedTime: Long = 0
 
@@ -97,8 +101,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private fun retrieveLastSelectedTime() {
         getBinding(
             R.layout.item_wallet_mining_time, ItemWalletMiningTimeBinding::bind
-        ).imSelectedTime.isSelected = lastSelectedPosition > 0
-        walletMiningTimeAdapter.notifyItemChanged(lastSelectedPosition)
+        ).imSelectedTime.isSelected = userDataPreferencesManager.lastSelectedPosition > 0
+        walletMiningTimeAdapter.notifyItemChanged(userDataPreferencesManager.lastSelectedPosition)
     }
 
     override fun constructListeners() {
@@ -123,26 +127,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun startWalletMining() {
-        val cashTime = userDataPreferencesManager.miningTimeTimer
+        var cashTime = userDataPreferencesManager.miningTimeTimer
         binding.btnStartOperation.setOnClickListener {
             viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
 //            if (cashTime.toInt() == 0 || cashTime + selectedTime < System.currentTimeMillis()) {
-            if (args.selectedCoins?.isNotEmpty() == true && selectedTime > 0) {
-                viewModel.processCryptoWorkState.value = true
-                viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-                safeFlowGather {
-                    userDataPreferencesManager.miningTimeTimer = System.currentTimeMillis()
-                    for (i in viewModel.processIndex..10000) {
-                        if (viewModel.processCryptoWorkState.value) {
-                            delay(500)
-                            args.selectedCoins?.let {
-                                viewModel.searchCryptoWallets(it)
+            if (args.selectedCoins?.isNotEmpty() == true) {
+                if (selectedTime > 0) {
+                    userDataPreferencesManager.miningTimePauseTimer = selectedTime
+                }
+                if (userDataPreferencesManager.miningTimePauseTimer > 0) {
+                    viewModel.processCryptoWorkState.value = true
+                    viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
+                    safeFlowGather {
+                        cashTime = System.currentTimeMillis()
+                        for (i in viewModel.processIndex..10000) {
+                            loge(userDataPreferencesManager.miningTimePauseTimer.toString())
+                            if (viewModel.processCryptoWorkState.value && userDataPreferencesManager.miningTimePauseTimer > 0) {
+                                args.selectedCoins?.forEach {
+                                    delay(500)
+                                    viewModel.searchCryptoWallets(it)
+                                    viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
+                                    cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
+                                    updateAdapterScroll()
+                                }
+                            } else {
+                                break
                             }
-                            viewModel.processIndex = cryptoAlgorithmAdapter.itemCount
-                            cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
-                            updateAdapterScroll()
-                        } else {
-                            break
                         }
                     }
                 }
@@ -182,7 +192,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                     binding.tvClickStartOnStart.gone()
                     binding.containerInStartOperation.invisible()
                     binding.containerInOperation.visible()
-                    viewModel.startTimer(selectedTime)
+                    if (userDataPreferencesManager.miningTimePauseTimer.toInt() > 0) {
+                        viewModel.startTimer(userDataPreferencesManager.miningTimePauseTimer)
+                    } else {
+                        viewModel.startTimer(selectedTime)
+                        userDataPreferencesManager.miningTimePauseTimer = selectedTime
+                    }
                 } else {
                     if (cryptoAlgorithmAdapter.itemCount <= 0) {
                         binding.tvClickStartOnStart.visible()
@@ -224,7 +239,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     private fun spectateAndUpdateTimerCrypto() {
         safeFlowGather {
-            viewModel.getTimeTimerText.collectLatest {
+            viewModel.getTimeTimerTextState.collectLatest {
                 binding.btnTimerOperation.text = it
             }
         }
@@ -245,8 +260,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun onItemClick(amountOfHours: Long, isUnlocked: Boolean, position: Int) {
-        lastSelectedPosition = position
-        selectedTime = amountOfHours
+        userDataPreferencesManager.lastSelectedPosition = position
+        if (userDataPreferencesManager.miningTimePauseTimer <= 0) {
+            selectedTime = amountOfHours
+        }
+        loge(amountOfHours.toString())
         if (!isUnlocked) findNavController().navigate(
             R.id.premiumPurchaseDialog
         )
@@ -264,7 +282,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     companion object {
-        var lastSelectedPosition = -1
         var wasCoinsSelectionValueTrue = false
     }
 }

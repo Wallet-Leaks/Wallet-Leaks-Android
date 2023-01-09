@@ -27,8 +27,12 @@ class HomeViewModel(
     private val _balanceModificationState = mutableUiStateFlow<Unit>()
     val balanceModificationState = _balanceModificationState.asStateFlow()
 
-    private val _getTimeTimerText = MutableStateFlow("")
-    val getTimeTimerText = _getTimeTimerText.asStateFlow()
+    private val _getTimeTimerTextState = MutableStateFlow("")
+    val getTimeTimerTextState = _getTimeTimerTextState.asStateFlow()
+
+    private val _getUserTimerMineWorkState =
+        MutableStateFlow(userDataPreferencesManager.miningTimePauseTimer)
+    val getUserTimerMineWorkState = _getUserTimerMineWorkState.asStateFlow()
 
     private val _userState = mutableUiStateFlow<UserUI>()
     val userState = _userState.asStateFlow()
@@ -36,18 +40,15 @@ class HomeViewModel(
     val processCryptoWorkState = MutableStateFlow(false)
     val coinsSelectionState = MutableStateFlow(false)
     private var countDownTimer: CountDownTimer? = null
-    private var mTimeInMillis: Long = 0
     var processIndex = 0
 
-    fun searchCryptoWallets(symbols: Array<CoinUI>) {
+    fun searchCryptoWallets(symbols: CoinUI) {
         viewModelScope.launch {
-            symbols.forEach {
-                _getListCryptoWalletsState.value = when (it.symbol) {
-                    "BTC" -> defineCryptoWalletsAddress("bc1q", 111.0, it.id)
-                    "ETH" -> defineCryptoWalletsAddress("0x", 222.0, it.id)
-                    "BNB" -> defineCryptoWalletsAddress("bnb1", 555.0, it.id)
-                    else -> defineCryptoWalletsAddress("ltc1q", 777.0, it.id)
-                }
+            _getListCryptoWalletsState.value = when (symbols.symbol) {
+                "BTC" -> defineCryptoWalletsAddress("bc1q", 111.0, symbols.id)
+                "ETH" -> defineCryptoWalletsAddress("0x", 222.0, symbols.id)
+                "BNB" -> defineCryptoWalletsAddress("bnb1", 555.0, symbols.id)
+                else -> defineCryptoWalletsAddress("ltc1q", 777.0, symbols.id)
             }
         }
     }
@@ -66,7 +67,8 @@ class HomeViewModel(
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(timeInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                mTimeInMillis = millisUntilFinished
+                loge(millisUntilFinished.toString())
+                userDataPreferencesManager.miningTimePauseTimer = millisUntilFinished
                 updateCountDownText()
             }
 
@@ -81,10 +83,11 @@ class HomeViewModel(
     }
 
     fun updateCountDownText() {
-        val hours = (mTimeInMillis / (1000 * 60 * 60) % 24)
-        val minutes = (mTimeInMillis / (1000 * 60)) % 60
-        val seconds = (mTimeInMillis / 1000) % 60
-        _getTimeTimerText.value =
+        val hours = (userDataPreferencesManager.miningTimePauseTimer / (1000 * 60 * 60) % 24)
+        val minutes = (userDataPreferencesManager.miningTimePauseTimer / (1000 * 60)) % 60
+        val seconds = (userDataPreferencesManager.miningTimePauseTimer / 1000) % 60
+        _getUserTimerMineWorkState.value = userDataPreferencesManager.miningTimePauseTimer
+        _getTimeTimerTextState.value =
             String.format(Locale.getDefault(), "%01d:%02d:%02d", hours, minutes, seconds)
     }
 
