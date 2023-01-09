@@ -11,14 +11,17 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.ItemWalletMiningTimeBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
+import com.timberta.walletleaks.presentation.extensions.loge
 import com.timberta.walletleaks.presentation.models.WalletMiningTimeUI
 import java.util.concurrent.TimeUnit
 
 class WalletMiningTimeAdapter(
     private val doesUserHavePremium: Boolean,
-    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit
+    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit,
+    private val miningTimePauseTimer: Long
 ) :
     ListAdapter<WalletMiningTimeUI, WalletMiningTimeAdapter.WalletMiningTimeViewHolder>(BaseDiffUtil()) {
+
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = WalletMiningTimeViewHolder(
@@ -32,7 +35,7 @@ class WalletMiningTimeAdapter(
     private fun createWalletMiningTimeConstraints() =
         submitList(
             listOf(
-                WalletMiningTimeUI(1, 3600000),
+                WalletMiningTimeUI(1, 30000),
                 WalletMiningTimeUI(2, 10800000),
                 WalletMiningTimeUI(3, 18000000),
                 WalletMiningTimeUI(4, 36000000, doesUserHavePremium)
@@ -63,15 +66,17 @@ class WalletMiningTimeAdapter(
 
         init {
             binding.root.setOnClickListener {
-                if (lastlySelectedPosition >= 0)
+                if (miningTimePauseTimer.toInt() == 0) {
+                    if (lastlySelectedPosition >= 0)
+                        notifyItemChanged(lastlySelectedPosition)
+                    lastlySelectedPosition = absoluteAdapterPosition
                     notifyItemChanged(lastlySelectedPosition)
-                lastlySelectedPosition = absoluteAdapterPosition
-                notifyItemChanged(lastlySelectedPosition)
-                onItemClick(
-                    getItem(absoluteAdapterPosition).time,
-                    getItem(absoluteAdapterPosition).isUnlocked,
-                    absoluteAdapterPosition
-                )
+                    onItemClick(
+                        getItem(absoluteAdapterPosition).time,
+                        getItem(absoluteAdapterPosition).isUnlocked,
+                        absoluteAdapterPosition
+                    )
+                }
             }
         }
     }
