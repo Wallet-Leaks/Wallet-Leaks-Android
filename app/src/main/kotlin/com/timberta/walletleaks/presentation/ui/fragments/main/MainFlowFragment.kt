@@ -26,7 +26,7 @@ class MainFlowFragment :
     private val fetchUserTask = object : Runnable {
         override fun run() {
             viewModel.fetchUser()
-            networkRequestHandler?.postDelayed(this, 5000L)
+            networkRequestHandler?.postDelayed(this, 30000L)
         }
     }
     private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
