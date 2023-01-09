@@ -63,4 +63,5 @@
     <string name="cryptoAddress">crypto_address</string>
     <string name="money_with_dollar_sign_reversed">$%1$s</string>
     <string name="user_id_multiplied">ID: %1$s</string>
+    <string name="copy_address_clipboard">The address is copied to the clipboard</string>
 </resources>
