@@ -92,8 +92,8 @@ class WithdrawalFragment :
     }
 
     private fun renderCardProcessingNetworkAndInsertSpaceEveryFourDigits() = with(binding) {
-        val visa = "^4[0-9]{12}(?:[0-9]{3}){0,2}$".toRegex()
-        val masterCard = "^(?:5[1-5]|2(?!2([01]|20)|7(2[1-9]|3))[2-7])\\d{14}$".toRegex()
+        val visaRegex = "^4[0-9]{12}(?:[0-9]{3}){0,2}$".toRegex()
+        val masterCardRegex = "^(?:5[1-5]|2(?!2([01]|20)|7(2[1-9]|3))[2-7])\\d{14}$".toRegex()
         etCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -106,13 +106,13 @@ class WithdrawalFragment :
                 isUserDeletingCardNumberDigits = before != 0
                 s.apply {
                     cardProcessingNetwork = when {
-                        startsWith("4") || matches(visa) -> {
+                        startsWith("4") || matches(visaRegex) -> {
                             imCardProcessingNetwork.setImageResource(
                                 R.drawable.ic_visa
                             )
                             CardProcessingNetwork.VISA
                         }
-                        startsWith("2") || startsWith("5") || matches(masterCard)
+                        startsWith("2") || startsWith("5") || matches(masterCardRegex)
                         -> {
                             imCardProcessingNetwork.setImageResource(
                                 R.drawable.ic_master_card
@@ -228,19 +228,19 @@ class WithdrawalFragment :
         btnSubmit.setOnClickListener {
             findNavController().directionsSafeNavigation(
                 WithdrawalFragmentDirections.actionWithdrawalFragmentToWithdrawalConfirmationDialogFragment(
-                    cardProcessingNetwork,
-                    etCardNumber.text.toString().replace("  ", "")
+                    cardProcessingNetwork = cardProcessingNetwork,
+                    cardNumber = etCardNumber.text.toString().replace("  ", "")
                         .replace(Regex("""^(?:\D*\d){12}""")) {
                             it.value.replace(
                                 Regex("""\d"""),
                                 "*"
                             )
                         },
-                    tvConvertedCryptocurrencyInUsd.text.toString(),
-                    (etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+                    withdrawalAmountInUsd = tvConvertedCryptocurrencyInUsd.text.toString(),
+                    withdrawalAmountInCrypto = (etCryptocurrencyAmountAvailableToWithdraw.text.toString()
                         .toDouble() - etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString()
                         .toDouble()).toString(),
-                    selectedCryptocurrencyId
+                    cryptoToWithdrawId = selectedCryptocurrencyId
                 )
             )
         }
