@@ -9,4 +9,6 @@ object PreferencesKeys {
     const val HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS =
         "hasNonPremiumUserTriedToSelectMultipleCoins"
     const val MINING_TIME_TIMER = "miningTimeTimer"
+    const val MINING_TIME_PAUSE_TIMER = "miningTimePauseTimer"
+    const val lAST_SELECTED_POSITION = "lastSelectedPosition"
 }
