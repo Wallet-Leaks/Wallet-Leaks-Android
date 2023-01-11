@@ -19,9 +19,9 @@ fun <T : Any, VH : RecyclerView.ViewHolder> PagingDataAdapter<T, VH>.bindViewsTo
     addLoadStateListener { loadState ->
         recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
         progressBar?.isVisible = loadState.refresh is LoadState.Loading
-        refreshLayout?.isEnabled = shimmerFrameLayout?.isVisible == false
         when (loadState.refresh is LoadState.Loading) {
             true -> {
+                refreshLayout?.isEnabled = false
                 shimmerFrameLayout?.visible()
                 shimmerFrameLayout?.showShimmer(false)
                 shimmerFrameLayout?.startShimmer()
@@ -30,6 +30,7 @@ fun <T : Any, VH : RecyclerView.ViewHolder> PagingDataAdapter<T, VH>.bindViewsTo
                 shimmerFrameLayout?.stopShimmer()
                 shimmerFrameLayout?.hideShimmer()
                 shimmerFrameLayout?.gone()
+                refreshLayout?.isEnabled = true
             }
         }
         viewsToBindToLoadStateNotLoading.forEach {

@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings
+package com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.settings
 
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
@@ -8,10 +8,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentProfileSettingsBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.copyTheTextToClipboard
-import com.timberta.walletleaks.presentation.extensions.hideSoftKeyboard
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
-import com.timberta.walletleaks.presentation.extensions.showShortDurationSnackbar
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.models.GeneralUserInfoUI
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,7 +25,8 @@ class ProfileSettingsFragment :
 
     override fun assembleViews() {
         binding.apply {
-            imApply.isEnabled = false
+            toolbar.imApply.isEnabled = false
+            toolbar.imApply.visible()
             etUsername.setText(args.username)
             if (args.cryptoWalletsAddress != getString(R.string.add_a_crypto_wallet)) {
                 etCryptocurrencyAddress.setText(args.cryptoWalletsAddress)
@@ -38,11 +36,11 @@ class ProfileSettingsFragment :
 
     override fun constructListeners() {
         binding.apply {
-            toolbarSettings.setNavigationOnClickListener {
+            toolbar.mtToolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
 
-            imApply.setOnClickListener {
+            toolbar.imApply.setOnClickListener {
                 if (etUsername.text.toString() != args.username) {
                     hideSoftKeyboard()
                     viewModel.changeUserName(
@@ -83,12 +81,14 @@ class ProfileSettingsFragment :
 
     private fun enabledApplyButton() = with(binding) {
         val cryptoAddress = etCryptocurrencyAddress.text.toString()
-        if (etUsername.text.toString() != args.username || cryptoAddress != args.cryptoWalletsAddress) {
-            imApply.isEnabled = true
-            imApply.alpha = 1.0F
-        } else {
-            imApply.isEnabled = false
-            imApply.alpha = 0.5F
+        toolbar.imApply.apply {
+            if (etUsername.text.toString() != args.username || cryptoAddress != args.cryptoWalletsAddress) {
+                isEnabled = true
+                alpha = 1.0F
+            } else {
+                isEnabled = false
+                alpha = 0.5F
+            }
         }
     }
 

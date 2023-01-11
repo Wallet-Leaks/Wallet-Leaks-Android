@@ -5,6 +5,7 @@ import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.ACCESS_TO
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.DOES_USER_HAVE_PREMIUM
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.IS_USER_AUTHENTICATED
+import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_AVAILABILITY
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_TIME_PAUSE_TIMER
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.MINING_TIME_TIMER
 import com.timberta.walletleaks.data.local.preferences.PreferencesKeys.REFRESH_TOKEN
@@ -36,17 +37,22 @@ class UserDataPreferencesManager constructor(private val preferences: SharedPref
         get() = preferences.getBoolean(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, false)
         set(value) = preferences.put(HAS_NON_PREMIUM_USER_TRIED_TO_SELECT_MULTIPLE_COINS, value)
 
-    var miningTimeTimer: Long
+    var timeLeftToMine: Long
         get() = preferences.getLong(MINING_TIME_TIMER, 0)
-        set(value) = preferences.edit().putLong(MINING_TIME_TIMER, value).apply()
+        set(value) = preferences.put(MINING_TIME_TIMER, value)
 
-    var miningTimePauseTimer: Long
+    var selectedTimeToMine: Long
         get() = preferences.getLong(MINING_TIME_PAUSE_TIMER, 0)
-        set(value) = preferences.edit().putLong(MINING_TIME_PAUSE_TIMER, value).apply()
+        set(value) = preferences.put(MINING_TIME_PAUSE_TIMER, value)
+
+    var miningAvailability: Boolean
+        get() = preferences.getBoolean(MINING_AVAILABILITY, false)
+        set(value) = preferences.put(MINING_AVAILABILITY, value)
+
 
     var lastSelectedPosition: Int
         get() = preferences.getInt(lAST_SELECTED_POSITION, 0)
-        set(value) = preferences.edit().putInt(lAST_SELECTED_POSITION, value).apply()
+        set(value) = preferences.put(lAST_SELECTED_POSITION, value)
 
     fun actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime(action: () -> Unit) {
         if (!hasNonPremiumUserTriedToSelectMultipleCoins && !doesUserHavePremium) {

@@ -31,7 +31,7 @@ class HomeViewModel(
     val getTimeTimerTextState = _getTimeTimerTextState.asStateFlow()
 
     private val _getUserTimerMineWorkState =
-        MutableStateFlow(userDataPreferencesManager.miningTimePauseTimer)
+        MutableStateFlow(userDataPreferencesManager.selectedTimeToMine)
     val getUserTimerMineWorkState = _getUserTimerMineWorkState.asStateFlow()
 
     private val _userState = mutableUiStateFlow<UserUI>()
@@ -67,8 +67,13 @@ class HomeViewModel(
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(timeInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                loge(millisUntilFinished.toString())
-                userDataPreferencesManager.miningTimePauseTimer = millisUntilFinished
+                loge(millisUntilFinished.toString() + "timer")
+                userDataPreferencesManager.selectedTimeToMine = millisUntilFinished
+                if (millisUntilFinished < 1000) {
+                    userDataPreferencesManager.selectedTimeToMine = 0
+                    countDownTimer?.cancel()
+                    countDownTimer?.onFinish()
+                }
                 updateCountDownText()
             }
 
@@ -83,10 +88,10 @@ class HomeViewModel(
     }
 
     fun updateCountDownText() {
-        val hours = (userDataPreferencesManager.miningTimePauseTimer / (1000 * 60 * 60) % 24)
-        val minutes = (userDataPreferencesManager.miningTimePauseTimer / (1000 * 60)) % 60
-        val seconds = (userDataPreferencesManager.miningTimePauseTimer / 1000) % 60
-        _getUserTimerMineWorkState.value = userDataPreferencesManager.miningTimePauseTimer
+        val hours = (userDataPreferencesManager.selectedTimeToMine / (1000 * 60 * 60) % 24)
+        val minutes = (userDataPreferencesManager.selectedTimeToMine / (1000 * 60)) % 60
+        val seconds = (userDataPreferencesManager.selectedTimeToMine / 1000) % 60
+        _getUserTimerMineWorkState.value = userDataPreferencesManager.selectedTimeToMine
         _getTimeTimerTextState.value =
             String.format(Locale.getDefault(), "%01d:%02d:%02d", hours, minutes, seconds)
     }

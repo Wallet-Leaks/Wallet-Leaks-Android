@@ -11,4 +11,5 @@ object PreferencesKeys {
     const val MINING_TIME_TIMER = "miningTimeTimer"
     const val MINING_TIME_PAUSE_TIMER = "miningTimePauseTimer"
     const val lAST_SELECTED_POSITION = "lastSelectedPosition"
+    const val MINING_AVAILABILITY = "mining_availability"
 }

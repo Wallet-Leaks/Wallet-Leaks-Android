@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/BaseRootStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:ignore="ContentDescription">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/sfl_withdrawal"
@@ -18,24 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mt_withdrawal"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@color/darkBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIcon="@drawable/ic_back"
-                app:title="Withdrawal"
-                app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-                app:titleTextColor="@color/white" />
-
-            <View
-                android:id="@+id/v_toolbar_stroke"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/blueSentinel"
-                app:layout_constraintTop_toBottomOf="@id/mt_withdrawal" />
-
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
@@ -46,7 +32,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mt_withdrawal"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="WalletLeaks-User830" />
 
             <ImageView
@@ -57,7 +43,7 @@
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_username_shimmer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mt_withdrawal" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_current_user_balance"
@@ -327,4 +313,4 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_submit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

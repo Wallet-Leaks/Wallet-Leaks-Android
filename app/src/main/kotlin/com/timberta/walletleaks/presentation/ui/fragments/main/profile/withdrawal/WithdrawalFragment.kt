@@ -2,14 +2,12 @@ package com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdraw
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.italic
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -20,6 +18,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
+import com.timberta.walletleaks.presentation.extensions.buildBalloon
 import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
 import com.timberta.walletleaks.presentation.extensions.invisible
 import com.timberta.walletleaks.presentation.models.BalanceUI
@@ -27,7 +26,6 @@ import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdrawAdapter
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.DecimalFormat
 
 
 class WithdrawalFragment :
@@ -39,69 +37,27 @@ class WithdrawalFragment :
     private val cryptocurrencyToWithdrawAdapter = CryptocurrencyToWithdrawAdapter(this::onItemClick)
     private var selectedCryptocurrencyId = 0
     private var selectedCryptocurrencyUsdPrice = 0.0
+
     private val balloonMinimumTransaction by lazy {
-        Balloon.Builder(requireContext())
-            .setText("The minimum transaction is at least $100!")
-            .setTextColorResource(R.color.blueSentinel)
-            .setWidth(194)
-            .setTextTypeface(
-                ResourcesCompat.getFont(
-                    requireContext(),
-                    R.font.roboto_bold
-                ) as Typeface
-            )
-            .setHeight(34)
-            .setTextSize(11.5F)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowSize(10)
-            .setArrowDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_tooltip_arrow
-                )
-            )
-            .setArrowPosition(0.5f)
-            .setCornerRadius(6f)
-            .setBackgroundColorResource(R.color.white)
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setDismissWhenTouchOutside(false)
-            .build()
+        buildBalloon(
+            R.string.minimum_transaction, height = 34, arrowPosition = 0.5f
+        )
     }
+
     private val balloonYouWantToWithdrawIsMoreThanYouCurrentlyHave by lazy {
-        Balloon.Builder(requireContext())
-            .setText("The cryptocurrency amount you want to \n withdraw is more than you currently own.")
-            .setTextColorResource(R.color.blueSentinel)
-            .setWidth(194)
-            .setTextTypeface(
-                ResourcesCompat.getFont(
-                    requireContext(),
-                    R.font.roboto_bold
-                ) as Typeface
-            )
-            .setHeight(54)
-            .setTextSize(11.5F)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
-            .setArrowSize(10)
-            .setArrowDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_tooltip_arrow
-                )
-            )
-            .setArrowPosition(0.115F)
-            .setCornerRadius(6f)
-            .setBackgroundColorResource(R.color.white)
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setDismissWhenTouchOutside(false)
-            .build()
+        buildBalloon(
+            R.string.cryptocurrency_amount_is_more_than_you_own,
+            height = 54,
+            arrowPosition = 0.115f
+        )
     }
+
     private val currentUserBalance = arrayListOf<BalanceUI>()
     private var cardProcessingNetwork = CardProcessingNetwork.UNDEFINED
     private var hasUserInputProperCard = false
     private var isSelectedAmountOfCryptocurrencyLessOrEqualToCurrentlyAvailable = false
     private var isSelectedConvertedCryptocurrencyMoreThanHundredDollars = false
+    private val userTotalBalanceValueAnimator = ValueAnimator()
 
     override fun initialize() {
         constructRecycler()
@@ -110,6 +66,14 @@ class WithdrawalFragment :
     private fun constructRecycler() {
         binding.rvCryptocurrencyToWithdraw.adapter = cryptocurrencyToWithdrawAdapter
         binding.rvCryptocurrencyToWithdraw.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun assembleViews() {
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        binding.toolbar.mtToolbar.title = getString(R.string.withdrawal)
     }
 
     override fun constructListeners() {
@@ -122,14 +86,14 @@ class WithdrawalFragment :
     }
 
     private fun navigateBack() {
-        binding.mtWithdrawal.setNavigationOnClickListener {
+        binding.toolbar.mtToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
 
     private fun renderCardProcessingNetworkAndInsertSpaceEveryFourDigits() = with(binding) {
-        val visa = "^4[0-9]{12}(?:[0-9]{3}){0,2}$".toRegex()
-        val masterCard = "^(?:5[1-5]|2(?!2([01]|20)|7(2[1-9]|3))[2-7])\\d{14}$".toRegex()
+        val visaRegex = "^4[0-9]{12}(?:[0-9]{3}){0,2}$".toRegex()
+        val masterCardRegex = "^(?:5[1-5]|2(?!2([01]|20)|7(2[1-9]|3))[2-7])\\d{14}$".toRegex()
         etCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -142,13 +106,13 @@ class WithdrawalFragment :
                 isUserDeletingCardNumberDigits = before != 0
                 s.apply {
                     cardProcessingNetwork = when {
-                        startsWith("4") || matches(visa) -> {
+                        startsWith("4") || matches(visaRegex) -> {
                             imCardProcessingNetwork.setImageResource(
                                 R.drawable.ic_visa
                             )
                             CardProcessingNetwork.VISA
                         }
-                        startsWith("2") || startsWith("5") || matches(masterCard)
+                        startsWith("2") || startsWith("5") || matches(masterCardRegex)
                         -> {
                             imCardProcessingNetwork.setImageResource(
                                 R.drawable.ic_master_card
@@ -264,19 +228,19 @@ class WithdrawalFragment :
         btnSubmit.setOnClickListener {
             findNavController().directionsSafeNavigation(
                 WithdrawalFragmentDirections.actionWithdrawalFragmentToWithdrawalConfirmationDialogFragment(
-                    cardProcessingNetwork,
-                    etCardNumber.text.toString().replace("  ", "")
+                    cardProcessingNetwork = cardProcessingNetwork,
+                    cardNumber = etCardNumber.text.toString().replace("  ", "")
                         .replace(Regex("""^(?:\D*\d){12}""")) {
                             it.value.replace(
                                 Regex("""\d"""),
                                 "*"
                             )
                         },
-                    tvConvertedCryptocurrencyInUsd.text.toString(),
-                    (etCryptocurrencyAmountAvailableToWithdraw.text.toString()
+                    withdrawalAmountInUsd = tvConvertedCryptocurrencyInUsd.text.toString(),
+                    withdrawalAmountInCrypto = (etCryptocurrencyAmountAvailableToWithdraw.text.toString()
                         .toDouble() - etCryptocurrencyAmountToWithdrawConvertedToUsd.text.toString()
                         .toDouble()).toString(),
-                    selectedCryptocurrencyId
+                    cryptoToWithdrawId = selectedCryptocurrencyId
                 )
             )
         }
@@ -294,10 +258,8 @@ class WithdrawalFragment :
             if (!sflWithdrawal.isShimmerVisible) {
                 tvUsername.text = user.username
                 tvCurrentUserBalance.setBackgroundResource(R.drawable.balance_radial_background)
-                ValueAnimator.ofFloat(
-                    0.0f,
-                    user.totalBalance.toFloat()
-                ).apply {
+                userTotalBalanceValueAnimator.setFloatValues(0.0f, user.totalBalance.toFloat())
+                userTotalBalanceValueAnimator.apply {
                     duration = 2500
                     addUpdateListener { animation ->
                         tvCurrentUserBalance.text = getString(
@@ -414,5 +376,15 @@ class WithdrawalFragment :
         tvSelectedCryptocurrencyToWithdraw.isEnabled = true
         subscribeToCurrentUser()
         subscribeToCryptocurrencyToWithdraw()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userTotalBalanceValueAnimator.pause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        userTotalBalanceValueAnimator.pause()
     }
 }

@@ -24,6 +24,10 @@
             app:enterAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popUpTo="@id/homeFragment" />
+        <action
+            app:popUpTo="@id/homeFragment"
+            android:id="@+id/action_homeFragment_to_attemptMiningDialog"
+            app:destination="@id/attemptMiningDialog" />
     </fragment>
 
     <fragment
@@ -74,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileSettingsFragment"
-        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings.ProfileSettingsFragment"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.settings.ProfileSettingsFragment"
         android:label="ProfileSettingsFragment"
         tools:layout="@layout/fragment_profile_settings">
         <argument
@@ -140,4 +144,8 @@
         android:name="com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.ExitDialogFragment"
         android:label="ExitDialogFragment"
         tools:layout="@layout/fragment_exit_dialog" />
+    <dialog
+        android:id="@+id/attemptMiningDialog"
+        android:name="com.timberta.walletleaks.presentation.ui.fragments.main.home.dialog.AttemptMiningDialog"
+        android:label="AttemptMiningDialog" />
 </navigation>

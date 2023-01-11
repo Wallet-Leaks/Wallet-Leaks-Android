@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings
+package com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.settings
 
 import com.timberta.walletleaks.domain.useCases.ModifyUserInfoUseCase
 import com.timberta.walletleaks.presentation.base.BaseViewModel

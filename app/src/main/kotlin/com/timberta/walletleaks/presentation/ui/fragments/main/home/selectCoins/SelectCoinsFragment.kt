@@ -1,6 +1,5 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.home.selectCoins
 
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -25,6 +24,8 @@ class SelectCoinsFragment :
 
     override fun initialize() {
         constructRecycler()
+        binding.toolbar.imApply.isEnabled = false
+        binding.toolbar.imApply.visible()
         coinListAdapter.startSelectingCoins()
     }
 
@@ -33,10 +34,18 @@ class SelectCoinsFragment :
         adapter = coinListAdapter.withLoadStateFooter(BaseLoadStateAdapter())
         itemAnimator = null
         coinListAdapter.bindViewsToPagingLoadStates(
-            recyclerView =
-            this,
-            shimmerFrameLayout = binding.sflSelectCoins
+            recyclerView = this,
+            shimmerFrameLayout = binding.sflSelectCoins,
+            viewsToBindToLoadStateNotLoading = arrayOf(binding.toolbar.imApply)
         )
+    }
+
+    override fun assembleViews() {
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        binding.toolbar.mtToolbar.title = getString(R.string.coins)
     }
 
     override fun constructListeners() {
@@ -47,24 +56,18 @@ class SelectCoinsFragment :
 
     private fun overrideOnBackPressedToHideToolbar() = with(binding) {
         overrideOnBackPressed {
-            makeMultipleViewsInvisible(
-                toolbarCoinList,
-                vToolbarStroke,
-            )
             setBackStackData("coinSelection", true)
         }
     }
 
     private fun navigateBackToHomeFragment() {
-        binding.toolbarCoinList.setNavigationOnClickListener {
-            binding.toolbarCoinList.invisible()
+        binding.toolbar.mtToolbar.setNavigationOnClickListener {
             setBackStackData("coinSelection", true)
         }
     }
 
     private fun navigateToHomeFragmentWithSelectedCoins() {
-        binding.imApply.setOnClickListener {
-            binding.toolbarCoinList.gone()
+        binding.toolbar.imApply.setOnClickListener {
             findNavController().directionsSafeNavigation(
                 SelectCoinsFragmentDirections.actionSelectCoinsFragmentToHomeFragment(
                     coinListAdapter.getSelectedCoins()
@@ -83,11 +86,16 @@ class SelectCoinsFragment :
         }
     }
 
-    private fun onItemClick(coinsCount: Int, hasUserTriedToSelectMultipleCoins: Boolean) {
-        binding.imApply.isVisible = coinsCount >= 1
-        if (hasUserTriedToSelectMultipleCoins)
-            userDataPreferencesManager.actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime {
-                findNavController().navigate(R.id.premiumPurchaseDialog)
+    private fun onItemClick(coinsCount: Int, hasUserTriedToSelectMultipleCoins: Boolean) =
+        with(binding) {
+            toolbar.imApply.isEnabled = coinsCount >= 1
+            toolbar.imApply.alpha = when (toolbar.imApply.isEnabled) {
+                true -> 1.0F
+                false -> 0.5F
             }
-    }
+            if (hasUserTriedToSelectMultipleCoins)
+                userDataPreferencesManager.actionIfNonPremiumUserSelectsMultipleCoinsForTheFirstTime {
+                    findNavController().navigate(R.id.premiumPurchaseDialog)
+                }
+        }
 }
