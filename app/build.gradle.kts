@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.balloon.balloon)
     implementation(libs.shimmer.shimmer)
     implementation(libs.ui.lottie)
+    implementation(libs.bundles.smartSwipeToRefresh)
 
     // Core
     implementation(libs.android.core)
