@@ -61,6 +61,5 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             tools:listitem="@layout/item_coin" />
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>
