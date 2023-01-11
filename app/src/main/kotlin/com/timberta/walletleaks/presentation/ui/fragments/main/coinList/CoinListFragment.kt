@@ -32,7 +32,7 @@ class CoinListFragment :
         coinListAdapter.bindViewsToPagingLoadStates(
             binding.rvCoinList,
             shimmerFrameLayout = binding.sflCoinList,
-            refreshLayout = binding.srlCoinList
+            smartRefreshLayout = binding.srlCoinList
         )
         binding.rvCoinList.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -42,10 +42,11 @@ class CoinListFragment :
     }
 
     private fun handleSwipeToRefresh() {
+        binding.srlCoinList.setRefreshHeader(binding.srlChCoinList)
         binding.srlCoinList.setOnRefreshListener {
             postHandler(1500L) {
                 subscribeToCoinList()
-                binding.srlCoinList.isRefreshing = false
+                binding.srlCoinList.finishRefresh()
             }
         }
     }

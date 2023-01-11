@@ -186,17 +186,10 @@ koin-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.
 
 [bundles]
 #UI Components
-uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen", "ui-swipeToRefresh"]
-#Smart SwipeToRefresh
+uiComponents = ["ui-activity", "ui-fragment", "ui-appCompat", "ui-constraint", "ui-material", "ui-viewBindingPropertyDelegate", "glide-glide", "ui-splashScreen"]
+#SmartSwipeToRefresh
 smartSwipeToRefresh = ["smartSwipeToRefresh-layout-kernel", "smartSwipeToRefresh-header-classics", "smartSwipeToRefresh-header-radar", "smartSwipeToRefresh-header-falsify", "smartSwipeToRefresh-header-material", "smartSwipeToRefresh-header-material", "smartSwipeToRefresh-header-twoLevel", "smartSwipeToRefresh-footer-ball", "smartSwipeToRefresh-footer-classics"]
-#smartSwipeToRefresh-layout-kernel = { module = "io.github.scwang90:refresh-layout-kernel", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-header-classics = { module = "io.github.scwang90:refresh-header-classics", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-header-radar = { module = "io.github.scwang90:refresh-header-radar", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-header-falsify = { module = "io.github.scwang90:refresh-header-falsify", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-header-material = { module = "io.github.scwang90:refresh-header-material", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-header-twoLevel = { module = "io.github.scwang90:refresh-header-two-level", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-footer-ball = { module = "io.github.scwang90:refresh-footer-ball", version.ref = "smartSwipeToRefresh" }
-#smartSwipeToRefresh-footer-classics = { module = "io.github.scwang90:refresh-footer-classics", version.ref = "smartSwipeToRefresh" }
+smartSwipeToRefreshCoreAndClassicsHeader = ["smartSwipeToRefresh-layout-kernel", "smartSwipeToRefresh-header-classics"]
 
 #Coroutines
 coroutines = ["coroutines-core", "coroutines-android"]

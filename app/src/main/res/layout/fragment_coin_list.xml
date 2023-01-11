@@ -50,16 +50,35 @@
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl_coin_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:id="@+id/srl_ch_coin_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_srlSpinnerStyle="MatchLayout"
+            app:srlDrawableArrow="@drawable/ic_progressbar_spinning"
+            app:srlDrawableMarginRight="-12dp"
+            app:srlDrawableProgress="@drawable/ic_progressbar_spinning"
+            app:srlDrawableProgressSize="30dp"
+            app:srlDrawableSize="30dp"
+            app:srlTextFailed=""
+            app:srlTextFinish=""
+            app:srlTextLoading=""
+            app:srlTextPulling=""
+            app:srlTextRefreshing=""
+            app:srlTextRelease=""
+            app:srlTextSecondary=""
+            app:srlTextUpdate="" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_coin_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            tools:listitem="@layout/item_coin" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:overScrollMode="never"
+            android:visibility="gone" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </FrameLayout>
