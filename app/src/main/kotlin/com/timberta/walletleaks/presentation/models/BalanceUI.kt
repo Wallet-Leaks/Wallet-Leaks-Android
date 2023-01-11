@@ -2,7 +2,7 @@ package com.timberta.walletleaks.presentation.models
 
 import com.timberta.walletleaks.domain.models.BalanceModel
 
-data class  BalanceUI(
+data class BalanceUI(
     val id: Int,
     val balance: Double,
     val created: String,
