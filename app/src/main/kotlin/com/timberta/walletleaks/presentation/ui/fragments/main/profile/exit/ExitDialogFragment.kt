@@ -6,7 +6,9 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentExitDialogBinding
 import com.timberta.walletleaks.presentation.base.BaseDialogFragment
-import com.timberta.walletleaks.presentation.extensions.*
+import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
+import com.timberta.walletleaks.presentation.extensions.flowNavController
+import com.timberta.walletleaks.presentation.extensions.navigateSafely
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
