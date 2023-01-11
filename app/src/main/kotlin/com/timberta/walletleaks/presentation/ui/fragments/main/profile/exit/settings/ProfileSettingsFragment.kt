@@ -1,4 +1,4 @@
-package com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings
+package com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.settings
 
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController

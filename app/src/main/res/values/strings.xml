@@ -69,4 +69,6 @@
     <string name="coming_soon">Coming soon…</string>
     <string name="minimum_transaction">The minimum transaction is at least $100!</string>
     <string name="cryptocurrency_amount_is_more_than_you_own">"The cryptocurrency amount you want to \n withdraw is more than you currently own."</string>
+    <string name="copy_address_clipboard">The address is copied to the clipboard</string>
+    <string name="oops_you_have_already">Oops, you have already wallet-mined.\nTry in %1$s</string>
 </resources>

@@ -5,10 +5,11 @@ import com.timberta.walletleaks.presentation.ui.fragments.authentication.signUp.
 import com.timberta.walletleaks.presentation.ui.fragments.main.MainFlowViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.coinList.CoinListViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.home.HomeViewModel
+import com.timberta.walletleaks.presentation.ui.fragments.main.home.dialog.AttemptMiningViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.home.selectCoins.SelectCoinsViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.profile.ProfileViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.ExitViewModel
-import com.timberta.walletleaks.presentation.ui.fragments.main.profile.settings.ProfileSettingsViewModel
+import com.timberta.walletleaks.presentation.ui.fragments.main.profile.exit.settings.ProfileSettingsViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.WithdrawalViewModel
 import com.timberta.walletleaks.presentation.ui.fragments.main.profile.withdrawal.confirmation.WithdrawalConfirmationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -57,5 +58,9 @@ val viewModelModule = module {
 
     viewModel {
         HomeViewModel(get(), get(), get())
+    }
+
+    viewModel {
+        AttemptMiningViewModel(get())
     }
 }

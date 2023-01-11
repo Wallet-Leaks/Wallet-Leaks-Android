@@ -27,7 +27,7 @@ class MainFlowFragment :
     private val fetchUserTask = object : Runnable {
         override fun run() {
             viewModel.fetchUser()
-            networkRequestHandler?.postDelayed(this, 5000L)
+            networkRequestHandler?.postDelayed(this, 30000L)
         }
     }
     private val userDataPreferencesManager by inject<UserDataPreferencesManager>()
@@ -71,6 +71,9 @@ class MainFlowFragment :
     }
 
     private fun fetchCurrentUserAndNavigateToBuyTheAppDialogIfOneIsNotVerified(navController: NavController) {
+        binding.tvBalance.setOnClickListener {
+            userDataPreferencesManager.selectedTimeToMine = 0
+        }
         viewModel.userState.spectateUiState(success = {
             ValueAnimator.ofFloat(
                 0.0f,

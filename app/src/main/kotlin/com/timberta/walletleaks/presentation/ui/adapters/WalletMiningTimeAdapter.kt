@@ -11,14 +11,18 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.ItemWalletMiningTimeBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
+import com.timberta.walletleaks.presentation.extensions.loge
 import com.timberta.walletleaks.presentation.models.WalletMiningTimeUI
 import java.util.concurrent.TimeUnit
 
 class WalletMiningTimeAdapter(
     private val doesUserHavePremium: Boolean,
-    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit
+    private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit,
+    private var selectedTimeToMine: Long,
+    private var miningAvailability: Boolean
 ) :
     ListAdapter<WalletMiningTimeUI, WalletMiningTimeAdapter.WalletMiningTimeViewHolder>(BaseDiffUtil()) {
+
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = WalletMiningTimeViewHolder(
@@ -32,12 +36,17 @@ class WalletMiningTimeAdapter(
     private fun createWalletMiningTimeConstraints() =
         submitList(
             listOf(
-                WalletMiningTimeUI(1, 3600000),
-                WalletMiningTimeUI(2, 10800000),
-                WalletMiningTimeUI(3, 18000000),
-                WalletMiningTimeUI(4, 36000000, doesUserHavePremium)
+                WalletMiningTimeUI(1, 10000),
+                WalletMiningTimeUI(2, 20000),
+                WalletMiningTimeUI(3, 30000),
+                WalletMiningTimeUI(4, 40000, doesUserHavePremium)
             )
         )
+
+    fun modifyMining(_miningTimePauseTimer: Long, _miningAvailability: Boolean) {
+        selectedTimeToMine = _miningTimePauseTimer
+        miningAvailability = _miningAvailability
+    }
 
     inner class WalletMiningTimeViewHolder(private val binding: ItemWalletMiningTimeBinding) :
         ViewHolder(binding.root) {
@@ -59,19 +68,23 @@ class WalletMiningTimeAdapter(
                     this.paint.shader = textShader
                 }
             }
+            loge(selectedTimeToMine.toString())
+            loge(miningAvailability.toString())
         }
 
         init {
             binding.root.setOnClickListener {
-                if (lastlySelectedPosition >= 0)
+                if (selectedTimeToMine.toInt() == 0 && !miningAvailability) {
+                    if (lastlySelectedPosition >= 0)
+                        notifyItemChanged(lastlySelectedPosition)
+                    lastlySelectedPosition = absoluteAdapterPosition
                     notifyItemChanged(lastlySelectedPosition)
-                lastlySelectedPosition = absoluteAdapterPosition
-                notifyItemChanged(lastlySelectedPosition)
-                onItemClick(
-                    getItem(absoluteAdapterPosition).time,
-                    getItem(absoluteAdapterPosition).isUnlocked,
-                    absoluteAdapterPosition
-                )
+                    onItemClick(
+                        getItem(absoluteAdapterPosition).time,
+                        getItem(absoluteAdapterPosition).isUnlocked,
+                        absoluteAdapterPosition
+                    )
+                }
             }
         }
     }

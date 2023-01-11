@@ -26,10 +26,14 @@ class ProfileFragment :
 
     override fun constructListeners() {
         binding.tvAddressCryptoWallet.setOnClickListener {
-            copyTheTextToClipboard(
-                getString(R.string.cryptoAddress), binding.tvAddressCryptoWallet.text.toString()
-            )
-            showShortDurationSnackbar("The address is copied to the clipboard")
+            if (binding.tvAddressCryptoWallet.text.equals(R.string.add_a_crypto_wallet)) {
+                actionProfileFragToProfileSettingsFrag()
+            } else {
+                copyTheTextToClipboard(
+                    getString(R.string.cryptoAddress), binding.tvAddressCryptoWallet.text.toString()
+                )
+                showShortDurationSnackbar(getString(R.string.copy_address_clipboard))
+            }
         }
     }
 
@@ -78,6 +82,15 @@ class ProfileFragment :
         }
     }
 
+    private fun actionProfileFragToProfileSettingsFrag() {
+        findNavController().directionsSafeNavigation(
+            ProfileFragmentDirections.actionProfileFragmentToProfileSettingsFragment(
+                binding.tvNameUser.text.toString(),
+                binding.tvAddressCryptoWallet.text.toString()
+            )
+        )
+    }
+
     private fun onItemClick(actionName: String) {
         when (actionName) {
             "Withdrawal" -> {
@@ -87,12 +100,7 @@ class ProfileFragment :
                 findNavController().navigate(R.id.premiumPurchaseDialog)
             }
             "Settings" -> {
-                findNavController().directionsSafeNavigation(
-                    ProfileFragmentDirections.actionProfileFragmentToProfileSettingsFragment(
-                        binding.tvNameUser.text.toString(),
-                        binding.tvAddressCryptoWallet.text.toString()
-                    )
-                )
+                actionProfileFragToProfileSettingsFrag()
             }
             "Exit" -> {
                 findNavController().navigateSafely(R.id.action_profileFragment_to_exitDialogFragment)
