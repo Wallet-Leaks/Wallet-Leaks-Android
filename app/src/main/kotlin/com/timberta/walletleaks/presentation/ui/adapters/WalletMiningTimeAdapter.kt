@@ -20,8 +20,7 @@ class WalletMiningTimeAdapter(
     private val onItemClick: (amountOfHours: Long, isPremiumSupported: Boolean, position: Int) -> Unit,
     private var selectedTimeToMine: Long,
     private var miningAvailability: Boolean
-) :
-    ListAdapter<WalletMiningTimeUI, WalletMiningTimeAdapter.WalletMiningTimeViewHolder>(BaseDiffUtil()) {
+) : ListAdapter<WalletMiningTimeUI, WalletMiningTimeAdapter.WalletMiningTimeViewHolder>(BaseDiffUtil()) {
 
     private var lastlySelectedPosition = RecyclerView.NO_POSITION
 
@@ -33,15 +32,14 @@ class WalletMiningTimeAdapter(
         getItem(position)?.let { holder.onBind(it) }
     }
 
-    private fun createWalletMiningTimeConstraints() =
-        submitList(
-            listOf(
-                WalletMiningTimeUI(1, 10000),
-                WalletMiningTimeUI(2, 20000),
-                WalletMiningTimeUI(3, 30000),
-                WalletMiningTimeUI(4, 40000, doesUserHavePremium)
-            )
+    private fun createWalletMiningTimeConstraints() = submitList(
+        listOf(
+            WalletMiningTimeUI(1, 3600000),
+            WalletMiningTimeUI(2, 10800000),
+            WalletMiningTimeUI(3, 18000000),
+            WalletMiningTimeUI(4, 36000000, doesUserHavePremium)
         )
+    )
 
     fun modifyMining(_miningTimePauseTimer: Long, _miningAvailability: Boolean) {
         selectedTimeToMine = _miningTimePauseTimer
@@ -61,8 +59,7 @@ class WalletMiningTimeAdapter(
                     val width = paint.measureText(text.toString())
                     val textShader: Shader = LinearGradient(
                         0f, 0f, width, textSize, intArrayOf(
-                            Color.parseColor("#FF0075"),
-                            Color.parseColor("#E900FF")
+                            Color.parseColor("#FF0075"), Color.parseColor("#E900FF")
                         ), null, Shader.TileMode.REPEAT
                     )
                     this.paint.shader = textShader
@@ -75,8 +72,7 @@ class WalletMiningTimeAdapter(
         init {
             binding.root.setOnClickListener {
                 if (selectedTimeToMine.toInt() == 0 && !miningAvailability) {
-                    if (lastlySelectedPosition >= 0)
-                        notifyItemChanged(lastlySelectedPosition)
+                    if (lastlySelectedPosition >= 0) notifyItemChanged(lastlySelectedPosition)
                     lastlySelectedPosition = absoluteAdapterPosition
                     notifyItemChanged(lastlySelectedPosition)
                     onItemClick(
