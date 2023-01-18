@@ -7,7 +7,9 @@ import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManage
 import com.timberta.walletleaks.databinding.FragmentCoinListBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
 import com.timberta.walletleaks.presentation.extensions.bindViewsToPagingLoadStates
+import com.timberta.walletleaks.presentation.extensions.observeNetworkConnectionStatusAndAction
 import com.timberta.walletleaks.presentation.extensions.postHandler
+import com.timberta.walletleaks.presentation.extensions.showCustomToast
 import com.timberta.walletleaks.presentation.ui.adapters.CoinListAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,14 +47,25 @@ class CoinListFragment :
         binding.srlCoinList.setRefreshHeader(binding.srlChCoinList)
         binding.srlCoinList.setOnRefreshListener {
             postHandler(1500L) {
-                subscribeToCoinList()
+                observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+                    subscribeToCoinList()
+                }, actionWhenDisconnected = {
+                    showCustomToast(getString(R.string.unable_to_refresh_coins))
+                })
                 binding.srlCoinList.finishRefresh()
             }
         }
     }
 
     override fun launchObservers() {
-        subscribeToCoinList()
+        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+            subscribeToCoinList()
+        }, actionWhenDisconnected = {
+            if (coinListAdapter.snapshot().items.isEmpty()) {
+                binding.srlCoinList.isEnabled = false
+                showCustomToast(getString(R.string.unable_to_load_coins))
+            }
+        })
     }
 
     private fun subscribeToCoinList() {
