@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.presentation.extensions
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
@@ -9,11 +10,14 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
+import androidx.annotation.GravityInt
 import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,20 +27,13 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textview.MaterialTextView
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.presentation.utils.CustomTypefaceSpan
-
-fun Fragment.showShortDurationSnackbar(text: CharSequence) {
-    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).show()
-}
-
-fun Fragment.showLongDurationSnackbar(text: CharSequence) {
-    Snackbar.make(requireView(), text, Snackbar.LENGTH_LONG).show()
-}
+import com.timberta.walletleaks.presentation.utils.InternetConnectivityManager
 
 fun Fragment.checkWhetherPermissionHasBeenGrantedOrNot(
     context: Context,
@@ -163,7 +160,7 @@ fun Fragment.openTelegramBasedAppViaLink(
             action?.invoke()
             startActivity(this)
         } catch (activityNotFoundException: ActivityNotFoundException) {
-            showShortDurationSnackbar(getString(R.string.telegram_is_not_installed))
+            showCustomToast(getString(R.string.telegram_is_not_installed))
         }
     }
 }
@@ -213,3 +210,38 @@ fun Fragment.buildBalloon(
         .setLifecycleOwner(lifecycleOwner)
         .setDismissWhenTouchOutside(dismissWhenTouchOutside)
         .build()
+
+@SuppressLint("InflateParams")
+@Suppress("DEPRECATION")
+fun Fragment.showCustomToast(
+    message: String,
+    @GravityInt gravity: Int = Gravity.CENTER,
+    xOffset: Int = 0,
+    yOffset: Int = 0,
+    toastDuration: Int = Toast.LENGTH_SHORT
+) {
+    val layout: View = layoutInflater.inflate((R.layout.default_toast), null)
+    val text = layout.findViewById<MaterialTextView>(R.id.tv_toast_message)
+    text.text = message
+    Toast(requireContext()).apply {
+        setGravity(gravity, xOffset, yOffset)
+        view = layout
+        duration = toastDuration
+        show()
+    }
+}
+
+fun Fragment.observeNetworkConnectionStatusAndAction(
+    actionWhenConnected: () -> Unit = {},
+    actionWhenDisconnected: () -> Unit = {}
+) {
+    val internetConnectivityManager by lazy {
+        InternetConnectivityManager(requireContext())
+    }
+    internetConnectivityManager.observe(viewLifecycleOwner) {
+        when (it) {
+            true -> actionWhenConnected()
+            false -> actionWhenDisconnected()
+        }
+    }
+}
