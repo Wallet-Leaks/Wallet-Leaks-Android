@@ -1,5 +1,6 @@
 package com.timberta.walletleaks.presentation.ui.fragments.main.profile
 
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -32,14 +33,22 @@ class ProfileFragment :
                 copyTheTextToClipboard(
                     getString(R.string.cryptoAddress), binding.tvAddressCryptoWallet.text.toString()
                 )
-                showShortDurationSnackbar(getString(R.string.copy_address_clipboard))
+                if (android.os.Build.MANUFACTURER != "samsung")
+                    showCustomToast(
+                        getString(R.string.copy_address_clipboard),
+                    )
             }
         }
     }
 
     override fun launchObservers() {
-        subscribeUser()
-        subscribeToOverallLoadingState()
+        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+            subscribeUser()
+            subscribeToOverallLoadingState()
+        }, actionWhenDisconnected = {
+            if (!binding.rvUserActionsInfo.isVisible || !binding.containerUserInfo.isVisible)
+                showCustomToast(getString(R.string.cant_load_your_profile_info))
+        })
     }
 
     private fun subscribeToOverallLoadingState() = with(binding.sflUserActionsList) {
@@ -58,7 +67,6 @@ class ProfileFragment :
     }
 
     private fun redrawViewsWhenShimmerIsInvisible() {
-        userActionsInfoAdapter.submitList(viewModel.getListMenuItem())
         binding.sflContainerUserInfo.gone()
         binding.sflUserActionsList.gone()
         binding.rvUserActionsInfo.visible()
@@ -78,6 +86,7 @@ class ProfileFragment :
                     }
                     else -> binding.tvAddressCryptoWallet.text = it.cryptoWalletAddress
                 }
+                userActionsInfoAdapter.submitList(viewModel.getListMenuItem(it.isPremium))
             })
         }
     }

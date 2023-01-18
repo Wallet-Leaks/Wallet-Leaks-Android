@@ -131,7 +131,7 @@ class SignInFragment :
             userDataPreferencesManager.isAuthenticated = true
             findNavController().navigateSafely(R.id.action_signInFragment_to_mainFlowFragment)
         }, error = {
-            showShortDurationSnackbar(it)
+            showCustomToast(it)
         }, gatherIfSucceed = {
             binding.cpiLogIn.bindToUIStateLoading(it)
             when (cpiLogIn.isVisible) {

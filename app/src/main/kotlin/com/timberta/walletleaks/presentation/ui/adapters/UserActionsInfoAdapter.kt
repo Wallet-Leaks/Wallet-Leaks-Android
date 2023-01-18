@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.ItemUserActionsBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
 import com.timberta.walletleaks.presentation.models.UserActionsInfoUI
@@ -34,16 +33,5 @@ class UserActionsInfoAdapter(private val onItemClick: ((actionName: String) -> U
                 }
             }
         }
-    }
-
-    init {
-        submitList(
-            listOf(
-                UserActionsInfoUI("Withdrawal", R.drawable.ic_wallet_withdrawal, 1),
-                UserActionsInfoUI("Premium+", R.drawable.ic_premium, 3),
-                UserActionsInfoUI("Settings", R.drawable.ic_settings, 4),
-                UserActionsInfoUI("Exit", R.drawable.ic_exit, 5)
-            )
-        )
     }
 }

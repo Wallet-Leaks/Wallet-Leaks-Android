@@ -21,15 +21,15 @@ fun <T : Any, VH : RecyclerView.ViewHolder> PagingDataAdapter<T, VH>.bindViewsTo
         progressBar?.isVisible = loadState.refresh is LoadState.Loading
         when (loadState.refresh is LoadState.Loading) {
             true -> {
+                smartRefreshLayout?.isEnabled = false
                 shimmerFrameLayout?.visible()
                 shimmerFrameLayout?.showShimmer(true)
-                smartRefreshLayout?.isEnabled = false
             }
             false -> {
+                smartRefreshLayout?.isEnabled = true
                 shimmerFrameLayout?.stopShimmer()
                 shimmerFrameLayout?.hideShimmer()
                 shimmerFrameLayout?.gone()
-                smartRefreshLayout?.isEnabled = true
             }
         }
         viewsToBindToLoadStateNotLoading.forEach {

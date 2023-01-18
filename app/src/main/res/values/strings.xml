@@ -71,4 +71,9 @@
     <string name="cryptocurrency_amount_is_more_than_you_own">"The cryptocurrency amount you want to \n withdraw is more than you currently own."</string>
     <string name="copy_address_clipboard">The address is copied to the clipboard</string>
     <string name="oops_you_have_already">Oops, you have already wallet-mined.\nTry in %1$s</string>
+    <string name="unable_to_load_coins">Unable to load coins.</string>
+    <string name="unable_to_refresh_coins">Unable to refresh coins.</string>
+    <string name="cant_select_coins_due_to_lost_internet_connection">"Unable to select coins due to lost connection"</string>
+    <string name="cant_load_user_balance">Can\'t load your balance and thus withdraw </string>
+    <string name="cant_load_your_profile_info">Can\'t load your profile info</string>
 </resources>

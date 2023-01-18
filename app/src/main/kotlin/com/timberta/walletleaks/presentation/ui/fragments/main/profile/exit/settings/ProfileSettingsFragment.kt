@@ -67,7 +67,7 @@ class ProfileSettingsFragment :
                     getString(R.string.cryptoAddress),
                     binding.etCryptocurrencyAddress.text.toString()
                 )
-                showShortDurationSnackbar("The address is copied to the clipboard")
+                showCustomToast(getString(R.string.copy_address_clipboard))
             }
 
             etCryptocurrencyAddress.addTextChangedListener {
@@ -100,7 +100,7 @@ class ProfileSettingsFragment :
         viewModel.usernameModificationState.spectateUiState(success = {
             findNavController().navigateSafely(R.id.action_profileSettingsFragment_to_profileFragment)
         }, error = {
-            showShortDurationSnackbar(it)
+            showCustomToast(it)
         })
     }
 }

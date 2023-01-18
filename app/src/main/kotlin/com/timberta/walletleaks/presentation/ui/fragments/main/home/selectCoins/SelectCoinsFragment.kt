@@ -54,7 +54,7 @@ class SelectCoinsFragment :
         navigateToHomeFragmentWithSelectedCoins()
     }
 
-    private fun overrideOnBackPressedToHideToolbar() = with(binding) {
+    private fun overrideOnBackPressedToHideToolbar() {
         overrideOnBackPressed {
             setBackStackData("coinSelection", true)
         }
@@ -68,16 +68,25 @@ class SelectCoinsFragment :
 
     private fun navigateToHomeFragmentWithSelectedCoins() {
         binding.toolbar.imApply.setOnClickListener {
-            findNavController().directionsSafeNavigation(
-                SelectCoinsFragmentDirections.actionSelectCoinsFragmentToHomeFragment(
-                    coinListAdapter.getSelectedCoins()
+            observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+                findNavController().directionsSafeNavigation(
+                    SelectCoinsFragmentDirections.actionSelectCoinsFragmentToHomeFragment(
+                        coinListAdapter.getSelectedCoins()
+                    )
                 )
-            )
+            }, actionWhenDisconnected = {
+                showCustomToast(getString(R.string.cant_select_coins_due_to_lost_internet_connection))
+            })
         }
     }
 
     override fun launchObservers() {
-        subscribeToCoins()
+        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+            subscribeToCoins()
+        }, actionWhenDisconnected = {
+            if (coinListAdapter.snapshot().items.isEmpty())
+                showCustomToast(getString(R.string.unable_to_load_coins))
+        })
     }
 
     private fun subscribeToCoins() {

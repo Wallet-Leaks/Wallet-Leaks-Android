@@ -17,10 +17,7 @@ import com.skydoves.balloon.*
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
-import com.timberta.walletleaks.presentation.extensions.buildBalloon
-import com.timberta.walletleaks.presentation.extensions.directionsSafeNavigation
-import com.timberta.walletleaks.presentation.extensions.invisible
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.models.BalanceUI
 import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.ui.adapters.CryptocurrencyToWithdrawAdapter
@@ -247,9 +244,14 @@ class WithdrawalFragment :
     }
 
     override fun launchObservers() {
-        subscribeToCurrentUser()
-        subscribeToCryptocurrencyToWithdraw()
-        subscribeToOverallLoadingState()
+        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+            subscribeToCurrentUser()
+            subscribeToCryptocurrencyToWithdraw()
+            subscribeToOverallLoadingState()
+        },
+            actionWhenDisconnected = {
+                showCustomToast(getString(R.string.cant_load_user_balance))
+            })
     }
 
     private fun subscribeToCurrentUser() = with(binding) {
