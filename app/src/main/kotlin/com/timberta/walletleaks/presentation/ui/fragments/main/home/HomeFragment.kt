@@ -152,35 +152,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     }
 
     private fun startMining() {
-        if (selectedTime > 0) {
-            userDataPreferencesManager.selectedTimeToMine = selectedTime
-            userDataPreferencesManager.miningAvailability = true
-            selectedTime = 0
-        }
-        if (userDataPreferencesManager.selectedTimeToMine > 0) {
-            userDataPreferencesManager.timeLeftToMine = System.currentTimeMillis()
-            viewModel.processCryptoWorkState.value = true
-            viewModel.coinsSelectionState.value =
-                !viewModel.processCryptoWorkState.value
-            initMiningAvailability()
-            safeFlowGather {
-                for (i in viewModel.processIndex..10000) {
-                    if (viewModel.processCryptoWorkState.value && userDataPreferencesManager.selectedTimeToMine > 0) {
-                        args.selectedCoins?.forEach {
-                            delay(500)
-                            viewModel.searchCryptoWallets(it)
-                            viewModel.processIndex =
-                                cryptoAlgorithmAdapter.itemCount
-                            cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
-                            updateAdapterScroll()
+        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+            if (selectedTime > 0) {
+                userDataPreferencesManager.selectedTimeToMine = selectedTime
+                userDataPreferencesManager.miningAvailability = true
+                selectedTime = 0
+            }
+            if (userDataPreferencesManager.selectedTimeToMine > 0) {
+                userDataPreferencesManager.timeLeftToMine = System.currentTimeMillis()
+                viewModel.processCryptoWorkState.value = true
+                viewModel.coinsSelectionState.value =
+                    !viewModel.processCryptoWorkState.value
+                initMiningAvailability()
+                safeFlowGather {
+                    for (i in viewModel.processIndex..10000) {
+                        if (viewModel.processCryptoWorkState.value && userDataPreferencesManager.selectedTimeToMine > 0) {
+                            args.selectedCoins?.forEach {
+                                delay(500)
+                                viewModel.searchCryptoWallets(it)
+                                viewModel.processIndex =
+                                    cryptoAlgorithmAdapter.itemCount
+                                cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
+                                updateAdapterScroll()
+                            }
+                        } else {
+                            stopWalletMining()
+                            break
                         }
-                    } else {
-                        stopWalletMining()
-                        break
                     }
                 }
             }
-        }
+        }, actionWhenDisconnected = {
+            showCustomToast(getString(R.string.wallet_mining_requires_stable_internet_connection))
+        })
     }
 
     override fun launchObservers() {
