@@ -9,6 +9,7 @@ import com.timberta.walletleaks.presentation.base.BaseDialogFragment
 import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
 import com.timberta.walletleaks.presentation.extensions.flowNavController
 import com.timberta.walletleaks.presentation.extensions.navigateSafely
+import com.timberta.walletleaks.presentation.extensions.observeNetworkConnectionStatusAndAction
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,12 @@ class ExitDialogFragment :
 
     private fun logOut() {
         binding.btnLogOut.setOnClickListener {
-            viewModel.logOut(userDataPreferencesManager.refreshToken.toString())
+            observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+                viewModel.logOut(userDataPreferencesManager.refreshToken.toString())
+            }, actionWhenDisconnected = {
+                userDataPreferencesManager.logOut()
+                flowNavController(R.id.nav_host_fragment).navigateSafely(R.id.action_mainFlowFragment_to_signInFragment)
+            })
         }
     }
 
