@@ -6,6 +6,9 @@ plugins {
     // Kotlin
     id("kotlin-android")
 
+    // Parcelize
+    id("kotlin-parcelize")
+
     // Kapt
     id("kotlin-kapt")
 

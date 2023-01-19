@@ -9,10 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.FragmentWithdrawalConfirmationDialogBinding
 import com.timberta.walletleaks.presentation.base.BaseDialogFragment
-import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
-import com.timberta.walletleaks.presentation.extensions.postHandler
-import com.timberta.walletleaks.presentation.extensions.visible
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.models.CardProcessingNetwork
 import com.timberta.walletleaks.presentation.models.GeneralUserInfoUI
 import com.timberta.walletleaks.presentation.models.ModifyUserBalanceUI
@@ -66,16 +63,20 @@ class WithdrawalConfirmationDialogFragment :
 
     private fun confirmWithdrawalAndNavigateToProfile() {
         binding.btnConfirm.setOnClickListener {
-            viewModel.withdraw(
-                GeneralUserInfoUI(
-                    balance = listOf(
-                        ModifyUserBalanceUI(
-                            args.cryptoToWithdrawId,
-                            args.withdrawalAmountInCrypto.toDouble()
+            observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+                viewModel.withdraw(
+                    GeneralUserInfoUI(
+                        balance = listOf(
+                            ModifyUserBalanceUI(
+                                args.cryptoToWithdrawId,
+                                args.withdrawalAmountInCrypto.toDouble()
+                            )
                         )
                     )
                 )
-            )
+            }, actionWhenDisconnected = {
+                showCustomToast(getString(R.string.in_order_to_withdraw_we_need_internet_connection))
+            })
         }
     }
 
