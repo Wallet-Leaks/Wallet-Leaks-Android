@@ -1,6 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.fragments.authentication.signUp
 
-import android.util.Log
+import android.view.Gravity
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -9,10 +10,7 @@ import com.timberta.walletleaks.R
 import com.timberta.walletleaks.data.local.preferences.UserDataPreferencesManager
 import com.timberta.walletleaks.databinding.FragmentSignUpBinding
 import com.timberta.walletleaks.presentation.base.BaseFragment
-import com.timberta.walletleaks.presentation.extensions.addTextChangedListenerAnonymously
-import com.timberta.walletleaks.presentation.extensions.bindToUIStateLoading
-import com.timberta.walletleaks.presentation.extensions.navigateSafely
-import com.timberta.walletleaks.presentation.extensions.renderTextColorUsingTwoColors
+import com.timberta.walletleaks.presentation.extensions.*
 import com.timberta.walletleaks.presentation.utils.AsteriskPasswordTransformationMethod
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -144,8 +142,24 @@ class SignUpFragment :
             userDataPreferencesManager.isAuthenticated = true
             findNavController().navigateSafely(R.id.action_signUpFragment_to_mainFlowFragment)
         }, error = {
-            Log.e("gaypop", it)
-        }, gatherIfSucceed = {
+            when (it.filter { char -> char.isDigit() }.toInt()) {
+                500 ->
+                    showCustomToast(
+                        getString(R.string.internal_server_error),
+                        gravity = Gravity.BOTTOM,
+                        toastDuration = Toast.LENGTH_LONG,
+                        yOffset = 270
+                    )
+                400 ->
+                    showCustomToast(
+                        getString(R.string.this_username_isnt_available),
+                        gravity = Gravity.BOTTOM,
+                        toastDuration = Toast.LENGTH_LONG,
+                        yOffset = 270
+                    )
+            }
+        }, gatherIfSucceed =
+        {
             cpiSignUp.bindToUIStateLoading(it)
             when (cpiSignUp.isVisible) {
                 true -> btnSignUp.text = ""

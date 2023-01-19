@@ -1,5 +1,7 @@
 package com.timberta.walletleaks.presentation.ui.fragments.authentication.signIn
 
+import android.view.Gravity
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -131,7 +133,18 @@ class SignInFragment :
             userDataPreferencesManager.isAuthenticated = true
             findNavController().navigateSafely(R.id.action_signInFragment_to_mainFlowFragment)
         }, error = {
-            showCustomToast(it)
+            when (it.filter { char -> char.isDigit() }.toInt()) {
+                500 ->
+                    showCustomToast(
+                        getString(R.string.internal_server_error),
+                        gravity = Gravity.BOTTOM, toastDuration = Toast.LENGTH_LONG, yOffset = 270
+                    )
+                403 ->
+                    showCustomToast(
+                        getString(R.string.wrong_authentication_credentials),
+                        gravity = Gravity.BOTTOM, toastDuration = Toast.LENGTH_LONG, yOffset = 270
+                    )
+            }
         }, gatherIfSucceed = {
             binding.cpiLogIn.bindToUIStateLoading(it)
             when (cpiLogIn.isVisible) {
