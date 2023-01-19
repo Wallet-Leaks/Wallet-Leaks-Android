@@ -78,4 +78,7 @@
     <string name="cant_load_your_profile_info">Can\'t load your profile info.</string>
     <string name="wallet_mining_requires_stable_internet_connection">Wallet-mining requires stable internet connection. Looks like you don\'t have one.</string>
     <string name="in_order_to_withdraw_we_need_internet_connection">In order to withdraw, we need internet connection.</string>
+    <string name="wrong_authentication_credentials">Your password is incorrect. Double-check your password.</string>
+    <string name="internal_server_error">Oops, our server is out of order. Wait and try again.</string>
+    <string name="this_username_isnt_available">This username isn\'t available. Please try another.</string>
 </resources>
