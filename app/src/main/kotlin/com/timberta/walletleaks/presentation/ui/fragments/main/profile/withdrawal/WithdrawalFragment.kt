@@ -89,7 +89,7 @@ class WithdrawalFragment :
     }
 
     private fun renderCardProcessingNetworkAndInsertSpaceEveryFourDigits() = with(binding) {
-        val visaRegex = "^4[0-9]{12}(?:[0-9]{3}){0,2}$".toRegex()
+        val visaRegex = "^4\\d{12}(?:\\d{3}){0,2}$".toRegex()
         val masterCardRegex = "^(?:5[1-5]|2(?!2([01]|20)|7(2[1-9]|3))[2-7])\\d{14}$".toRegex()
         etCardNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -101,7 +101,8 @@ class WithdrawalFragment :
                         false -> false
                     }
                 isUserDeletingCardNumberDigits = before != 0
-                s.apply {
+
+                s.toString().replace("  ", "").apply {
                     cardProcessingNetwork = when {
                         startsWith("4") || matches(visaRegex) -> {
                             imCardProcessingNetwork.setImageResource(
