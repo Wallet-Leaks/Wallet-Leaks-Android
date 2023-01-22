@@ -52,6 +52,13 @@ class CoinListAdapter(
                     tvCoinName.text = title
                     if (!isUserSelectingCoins)
                         tvCoinBalance.text = price
+                    if (!isAvailable && isUserSelectingCoins) {
+                        tvCoinSymbol.alpha = 0.5F
+                        tvCoinName.alpha = 0.5F
+                        root.alpha = 0.5F
+                        imCoin.alpha = 0.5F
+                        vStroke.alpha = 0.5F
+                    }
                     if (isUserSelectingCoins && isAvailable)
                         root.setOnClickListener {
                             handleCoinSelection()
