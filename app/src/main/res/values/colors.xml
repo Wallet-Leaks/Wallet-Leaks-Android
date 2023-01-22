@@ -10,6 +10,7 @@
     <color name="gray">#80FFFFFF</color>
     <color name="lola">#BBAABB</color>
     <color name="darkBlue">#051330</color>
+    <color name="dark_blue_50_opacity">#80051330</color>
     <color name="lightBlue">#1B253E</color>
     <color name="blueSentinel">#505B77</color>
     <color name="shadeOfSlateGray">#737F9D</color>
