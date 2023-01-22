@@ -2,10 +2,12 @@ package com.timberta.walletleaks.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.timberta.walletleaks.R
 import com.timberta.walletleaks.databinding.ItemCoinBinding
 import com.timberta.walletleaks.presentation.base.BaseDiffUtil
 import com.timberta.walletleaks.presentation.extensions.loadImageWithGlide
@@ -52,6 +54,18 @@ class CoinListAdapter(
                     tvCoinName.text = title
                     if (!isUserSelectingCoins)
                         tvCoinBalance.text = price
+                    if (!isAvailable && isUserSelectingCoins) {
+                        tvCoinSymbol.alpha = 0.5F
+                        tvCoinName.alpha = 0.5F
+                        root.setBackgroundColor(
+                            ContextCompat.getColor(
+                                root.context,
+                                R.color.dark_blue_50_opacity
+                            )
+                        )
+                        imCoin.alpha = 0.5F
+                        vStroke.alpha = 0.5F
+                    }
                     if (isUserSelectingCoins && isAvailable)
                         root.setOnClickListener {
                             handleCoinSelection()

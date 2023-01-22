@@ -14,7 +14,8 @@ data class CoinUI(
     val price: String? = "",
     val symbol: String?,
     val icon: String? = "",
+    val rank: Int,
     val isAvailable: Boolean,
 ) : BaseDiffModel<Int>, Parcelable
 
-fun CoinModel.toUI() = CoinUI(id, title, slug, url, price, symbol, icon, isAvailable)
+fun CoinModel.toUI() = CoinUI(id, title, slug, url, price, symbol, icon, rank, isAvailable)

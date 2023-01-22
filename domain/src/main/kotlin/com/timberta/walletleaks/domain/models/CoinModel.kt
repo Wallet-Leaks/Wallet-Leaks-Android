@@ -8,5 +8,6 @@ data class CoinModel(
     val price: String,
     val symbol: String,
     val icon: String,
+    val rank : Int,
     val isAvailable: Boolean
 )
