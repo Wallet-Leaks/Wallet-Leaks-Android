@@ -33,10 +33,15 @@ class SelectCoinsFragment :
         layoutManager = LinearLayoutManager(requireContext())
         adapter = coinListAdapter.withLoadStateFooter(BaseLoadStateAdapter())
         itemAnimator = null
+        setItemViewCacheSize(100)
         coinListAdapter.bindViewsToPagingLoadStates(
             recyclerView = this,
             shimmerFrameLayout = binding.sflSelectCoins,
-            viewsToBindToLoadStateNotLoading = arrayOf(binding.toolbar.imApply)
+            viewsToBindToLoadStateNotLoading = arrayOf(
+                binding.toolbar.imApply,
+                binding.imLock,
+                binding.tvComingSoon
+            )
         )
     }
 
