@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     private val args by navArgs<HomeFragmentArgs>()
     private val cryptoAlgorithmAdapter = CryptoAlgorithmAdapter()
     private val userDataPreferencesManager: UserDataPreferencesManager by inject()
-    private val walletMiningTimeAdapter =
+    private var walletMiningTimeAdapter =
         WalletMiningTimeAdapter(
             userDataPreferencesManager.doesUserHavePremium,
             this::onItemClick,
@@ -139,52 +139,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     private fun clickStartWalletMining() {
         binding.btnStartOperation.setOnClickListener {
-            val miningAvailabilityTime = userDataPreferencesManager.timeLeftToMine
-            viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
-            if (args.selectedCoins?.isNotEmpty() == true) {
-                if (miningAvailabilityTime + 24 * 60 * 60 * 1000 <= System.currentTimeMillis() || userDataPreferencesManager.selectedTimeToMine > 0) {
-                    startMining()
-                } else {
-                    findNavController().navigate(R.id.attemptMiningDialog)
+            observeNetworkConnectionStatusAndAction(actionWhenConnected = {
+                val miningAvailabilityTime = userDataPreferencesManager.timeLeftToMine
+                viewModel.coinsSelectionState.value = !viewModel.processCryptoWorkState.value
+                if (args.selectedCoins?.isNotEmpty() == true) {
+                    if (miningAvailabilityTime + 24 * 60 * 60 * 1000 <= System.currentTimeMillis() || userDataPreferencesManager.selectedTimeToMine > 0) {
+                        startMining()
+                    } else {
+                        findNavController().navigate(R.id.attemptMiningDialog)
+                    }
                 }
-            }
+            }, actionWhenDisconnected = {
+                showCustomToast(getString(R.string.wallet_mining_requires_stable_internet_connection))
+            })
         }
     }
 
     private fun startMining() {
-        observeNetworkConnectionStatusAndAction(actionWhenConnected = {
-            if (selectedTime > 0) {
-                userDataPreferencesManager.selectedTimeToMine = selectedTime
-                userDataPreferencesManager.miningAvailability = true
-                selectedTime = 0
-            }
-            if (userDataPreferencesManager.selectedTimeToMine > 0) {
-                userDataPreferencesManager.timeLeftToMine = System.currentTimeMillis()
-                viewModel.processCryptoWorkState.value = true
-                viewModel.coinsSelectionState.value =
-                    !viewModel.processCryptoWorkState.value
-                initMiningAvailability()
-                safeFlowGather {
-                    for (i in viewModel.processIndex..10000) {
-                        if (viewModel.processCryptoWorkState.value && userDataPreferencesManager.selectedTimeToMine > 0) {
-                            args.selectedCoins?.forEach {
-                                delay(500)
-                                viewModel.searchCryptoWallets(it)
-                                viewModel.processIndex =
-                                    cryptoAlgorithmAdapter.itemCount
-                                cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
-                                updateAdapterScroll()
-                            }
-                        } else {
-                            stopWalletMining()
-                            break
+        if (selectedTime > 0) {
+            userDataPreferencesManager.selectedTimeToMine = selectedTime
+            userDataPreferencesManager.miningAvailability = true
+            selectedTime = 0
+        }
+        if (userDataPreferencesManager.selectedTimeToMine > 0) {
+            userDataPreferencesManager.timeLeftToMine = System.currentTimeMillis()
+            viewModel.processCryptoWorkState.value = true
+            viewModel.coinsSelectionState.value =
+                !viewModel.processCryptoWorkState.value
+            initMiningAvailability()
+            safeFlowGather {
+                for (i in viewModel.processIndex..10000) {
+                    if (viewModel.processCryptoWorkState.value && userDataPreferencesManager.selectedTimeToMine > 0) {
+                        args.selectedCoins?.forEach {
+                            delay(500)
+                            viewModel.searchCryptoWallets(it)
+                            viewModel.processIndex =
+                                cryptoAlgorithmAdapter.itemCount
+                            cryptoAlgorithmAdapter.notifyItemInserted(viewModel.processIndex)
+                            updateAdapterScroll()
                         }
+                    } else {
+                        stopWalletMining()
+                        break
                     }
                 }
             }
-        }, actionWhenDisconnected = {
-            showCustomToast(getString(R.string.wallet_mining_requires_stable_internet_connection))
-        })
+        }
     }
 
     override fun launchObservers() {
@@ -251,6 +251,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
 
     private fun checkCoinsToWalletMine() {
         binding.btnFilterCoin.setOnClickListener {
+            walletMiningTimeAdapter =
+                WalletMiningTimeAdapter(
+                    userDataPreferencesManager.doesUserHavePremium,
+                    this::onItemClick,
+                    userDataPreferencesManager.selectedTimeToMine,
+                    userDataPreferencesManager.miningAvailability
+                )
             viewModel.coinsSelectionState.value = !viewModel.coinsSelectionState.value
         }
     }
