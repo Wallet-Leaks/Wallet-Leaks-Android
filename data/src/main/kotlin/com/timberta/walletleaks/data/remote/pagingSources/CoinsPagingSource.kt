@@ -13,7 +13,6 @@ class CoinsPagingSource(private val coinApiService: CoinApiService) :
         coinApiService.fetchCoins(it).also { response ->
             response.results.apply {
                 try {
-                    sortedBy { coin -> coin.rank }
                     Collections.swap(
                         this,
                         0,
