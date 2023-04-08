@@ -14,6 +14,9 @@ plugins {
 
     // Navigation SafeArgs
     id(libs.plugins.navigation.safeArgs.get().pluginId)
+
+    // AppSweep
+    id(libs.plugins.appSweep.gradle.get().pluginId) version libs.versions.appSweep.get()
 }
 
 android {
