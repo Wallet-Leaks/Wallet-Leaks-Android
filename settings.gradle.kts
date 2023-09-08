@@ -5,13 +5,23 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("androidProjectConfig") {
+            from(files("gradle/android-project-config.versions.toml"))
+        }
+        create("gradleProjectConfig") {
+            from(files("gradle/gradle-project-config.versions.toml"))
+        }
+    }
 }
 
-rootProject.name = "Wallet Leaks"
+rootProject.name = "Wallet-Leaks"
+includeBuild("build-logic")
 include(":app")
