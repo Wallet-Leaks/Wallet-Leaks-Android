@@ -1,0 +1,4 @@
+[versions]
+layer-data-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.DataPlugin"
+layer-domain-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.DomainPlugin"
+layer-presentation-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.PresentationPlugin"
