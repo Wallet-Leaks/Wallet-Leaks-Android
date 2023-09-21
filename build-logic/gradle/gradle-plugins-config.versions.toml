@@ -1,4 +1,5 @@
 [versions]
-layer-data-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.DataPlugin"
-layer-domain-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.DomainPlugin"
-layer-presentation-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.PresentationPlugin"
+layer-data-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.layers.DataPlugin"
+layer-domain-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.layers.DomainPlugin"
+layer-presentation-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.layers.PresentationPlugin"
+android-plain-implementation = "org.tbm.walletleaks.buildlogic.convention.plugins.PlainAndroidLibraryPlugin"
