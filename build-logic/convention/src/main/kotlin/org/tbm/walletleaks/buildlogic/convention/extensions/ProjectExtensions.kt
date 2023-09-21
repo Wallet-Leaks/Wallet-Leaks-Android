@@ -1,20 +1,26 @@
 package org.tbm.walletleaks.buildlogic.convention.extensions
 
+import org.gradle.accessors.dm.LibrariesForAndroidProjectConfig
+import org.gradle.accessors.dm.LibrariesForGradleProjectConfig
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.internal.catalog.AbstractExternalDependencyFactory
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.getByType
 
-internal inline val Project.libs
-    inline get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
+private inline fun <reified T> Project.retrieveExtension(name: String): T where T : AbstractExternalDependencyFactory {
+    return (this as ExtensionAware).extensions.getByName(name) as T
+}
 
-internal inline val Project.androidProjectConfig
-    inline get() = extensions.getByType<VersionCatalogsExtension>()
-        .named("androidProjectConfig")
+internal inline val Project.libs: LibrariesForLibs
+    inline get() =
+        retrieveExtension("libs")
 
-internal inline val Project.gradleProjectConfig
-    inline get() = extensions.getByType<VersionCatalogsExtension>()
-        .named("gradleProjectConfig")
+internal inline val Project.androidProjectConfig: LibrariesForAndroidProjectConfig
+    inline get() = retrieveExtension("androidProjectConfig")
+
+internal inline val Project.gradleProjectConfig: LibrariesForGradleProjectConfig
+    inline get() = retrieveExtension("gradleProjectConfig")
 
 internal fun DependencyHandlerScope.implementation(dependencyNotation: Any) {
     "implementation"(dependencyNotation)
