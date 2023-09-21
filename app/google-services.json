@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "182020290139",
+    "project_id": "wallet-leaks",
+    "storage_bucket": "wallet-leaks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182020290139:android:6e8c20647a899676ad717e",
+        "android_client_info": {
+          "package_name": "org.tbm.walletleaks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnQHYEuhoY4x6oJcrFhk3zeAGhWyNn1Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
