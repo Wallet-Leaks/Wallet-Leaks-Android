@@ -1,5 +1,5 @@
 [versions]
-namespaces-android-app = "org.tbm.walletleaks.android"
+namespaces-common = "org.tbm.walletleaks"
 sdk-min = "24"
 sdk-compile = "34"
 sdk-target = "34"
