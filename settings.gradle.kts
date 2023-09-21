@@ -25,6 +25,8 @@ dependencyResolutionManagement {
 rootProject.name = "Wallet-Leaks"
 includeBuild("build-logic")
 include(":app")
+include(":core:domain", ":core:data", ":core:presentation")
+include(":konsist")
 include(
     ":feature:authentication:data",
     "feature:authentication:domain",
