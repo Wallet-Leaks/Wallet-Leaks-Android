@@ -1,82 +1,25 @@
 package org.tbm.walletleaks.buildlogic.convention.extensions
 
-import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.provider.Provider
-import java.util.Optional
+import org.gradle.plugin.use.PluginDependency
 
-internal fun <T> Optional<Provider<T>>.extractValue() =
-    extractType().extractType()
+internal inline fun <reified T : Any> Provider<String>.extractPrimitive(): T {
+    val stringValue = get()
+    return when (T::class) {
+        Int::class -> stringValue.toInt()
+        Long::class -> stringValue.toLong()
+        Short::class -> stringValue.toShort()
+        Byte::class -> stringValue.toByte()
+        Double::class -> stringValue.toDouble()
+        Float::class -> stringValue.toFloat()
+        Char::class -> {
+            if (stringValue.length == 1) stringValue[0]
+            else throw IllegalArgumentException("Cannot convert $stringValue to Char")
+        }
 
-private fun <T> Optional<T>.extractType(): T = get()
-
-private fun <T> Optional<T>.extractPrimitive(): Any {
-    return when (val value = get()) {
-        is Boolean ->
-            value.toString().toBoolean()
-
-        is Byte ->
-            value.toByte()
-
-        is Char ->
-            value.toChar()
-
-        is Double ->
-            value.toDouble()
-
-        is Float ->
-            value.toFloat()
-
-        is Int ->
-            value.toInt()
-
-        is Long ->
-            value.toLong()
-
-        is Short ->
-            value.toShort()
-
-        else ->
-            value.toString()
-    }
+        Boolean::class -> stringValue.toBoolean()
+        else -> throw IllegalArgumentException("Unsupported type: ${T::class.java}")
+    } as T
 }
 
-private fun <T> Provider<T>.extractType(): T = get()
-
-private fun <T> Provider<T>.extractPrimitive(): Any {
-    return when (val value = get()) {
-        is Boolean ->
-            value.toString().toBoolean()
-
-        is Byte ->
-            value.toByte()
-
-        is Char ->
-            value.toChar()
-
-        is Double ->
-            value.toDouble()
-
-        is Float ->
-            value.toFloat()
-
-        is Int ->
-            value.toInt()
-
-        is Long ->
-            value.toLong()
-
-        is Short ->
-            value.toShort()
-
-        else ->
-            value.toString()
-    }
-}
-
-internal fun VersionCatalog.version(alias: String) = findVersion(alias).get()
-
-internal fun VersionCatalog.library(alias: String) = findLibrary(alias).get()
-
-internal fun VersionCatalog.bundle(alias: String) = findBundle(alias).get()
-
-internal fun VersionCatalog.plugin(alias: String) = findPlugin(alias).extractValue()
+internal fun Provider<PluginDependency>.extractPluginId() = get().pluginId
