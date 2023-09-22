@@ -106,6 +106,7 @@ ktor-client-engine-native-curl = { group = "io.ktor", name = "ktor-client-curl",
 ktor-client-engine-multiplatform-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-engine-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor" }
 ktor-client-websockets = { group = "io.ktor", name = "ktor-client-websockets", version.ref = "ktor" }
+ktor-client-resources = { group = "io.ktor", name = "ktor-client-resources", version.ref = "ktor" }
 ktor-server-content-negotiation = { group = "io.ktor", name = "ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-content-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -155,7 +156,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 [bundles]
 # Compose
-androidx-compose = ["androidx-core-ktx", "androidx-core-splashscreen", "androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-test", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "google-accompanist-flowlayout", "coil", "coil-compose", "androidx-paging-compose", "androidx-paging", "androidx-navigation-compose"]
+androidx-compose = ["androidx-core-ktx", "androidx-core-splashscreen", "androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-test", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "androidx-compose-material3", "google-accompanist-flowlayout", "coil", "coil-compose", "androidx-paging-compose", "androidx-paging", "androidx-navigation-compose"]
 androidx-lifecycle-compose = ["androidx-lifecycle-runtime-compose", "androidx-lifecycle-viewmodel-compose"]
 
 # KotlinX
@@ -163,7 +164,7 @@ kotlinx-core = ["kotlinx-collections-immutable", "kotlinx-datetime", "kotlinx-se
 kotlinx-android = ["kotlinx-collections-immutable", "kotlinx-datetime", "kotlinx-serialization-json", "kotlinx-coroutines-core", "kotlinx-coroutines-android"]
 
 # Ktor
-ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-server-content-negotiation", "ktor-client-logging", "ktor-client-engine-okhttp", "ktor-client-auth", "ktor-client-websockets"]
+ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-server-content-negotiation", "ktor-client-logging", "ktor-client-engine-okhttp", "ktor-client-auth", "ktor-client-resources", "ktor-client-websockets"]
 [plugins]
 # Wallet Leaks
 walletleaks-android-plain = { id = "walletleaks.android.plain" }
