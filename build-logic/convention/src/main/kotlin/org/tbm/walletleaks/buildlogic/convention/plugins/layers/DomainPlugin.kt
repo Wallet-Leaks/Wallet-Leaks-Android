@@ -7,8 +7,10 @@ import org.tbm.walletleaks.buildlogic.convention.plugins.base.KotlinLibraryPlugi
 
 internal class DomainPlugin : KotlinLibraryPlugin({
     dependencies {
-        implementation(project(":core:domain"))
+        if (path.split(":").first { it.isNotBlank() } != "core")
+            implementation(project(":core:domain"))
         implementation(libs.bundles.kotlinx.core)
+        implementation(libs.androidx.paging.common)
         implementation(libs.javax.inject)
     }
 })

@@ -15,10 +15,12 @@ internal class DataPlugin : AndroidLibraryPlugin(projectConfiguration = {
     }
 
     dependencies {
-        implementation(project(":core:data"))
+        if (path.split(":").first { it.isNotBlank() } != "core")
+            implementation(project(":core:data"))
         implementation(project(path.replace(":data", ":domain")))
         implementation(libs.bundles.kotlinx.core)
         implementation(libs.bundles.ktor.client)
+        implementation(libs.androidx.paging)
         implementation(libs.google.dagger)
         ksp(libs.google.dagger.compiler)
     }
