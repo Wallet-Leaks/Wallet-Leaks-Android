@@ -1,3 +1,4 @@
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 dependencyResolutionManagement {
     repositories {
         google()
