@@ -28,13 +28,13 @@ internal class DTOAssertionTest : ClassAssertionTest() {
     }
 
     @Test
-    internal fun `ensure that all classes that reside in 'dtos' and inherit from 'DataMapper' are 'data class'`() {
-        filterAndAssertClassesThatResideInPackage(filter = { hasParents("DataMapper") }) { hasDataModifier }
+    internal fun `ensure that all classes that reside in 'dtos' and inherit from 'DTOMapper' are 'data class'`() {
+        filterAndAssertClassesThatResideInPackage(filter = { hasParents("DTOMapper") }) { hasDataModifier }
     }
 
     @Test
     internal fun `ensure that all classes that have 'toDomain()' function return the corresponding domain model`() {
-        filterAndAssertClassesFunctionsThatResideInPackage(filter = { hasParents("DataMapper") }) {
+        filterAndAssertClassesFunctionsThatResideInPackage(filter = { hasParents("DTOMapper") }) {
             val modelName =
                 returnType?.name ?: return@filterAndAssertClassesFunctionsThatResideInPackage false
             containingFile.imports.find { it.name.contains(modelName) }
