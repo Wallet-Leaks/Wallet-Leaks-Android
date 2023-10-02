@@ -9,6 +9,7 @@ google-accompanist-flowlayout = "0.31.6-rc"
 google-android-play-app-update = "2.1.0"
 google-android-play-app-review = "2.0.1"
 google-dagger = "2.48"
+google-protobuf = "0.8.17"
 # Triplet
 triplet-playpublisher = "3.8.4"
 # Kotlin
@@ -30,11 +31,11 @@ ktor = "2.3.2"
 # AndroidX
 androidx-core-ktx = "1.12.0"
 androidx-core-splashscreen = "1.0.1"
-androidx-activity = "1.8.0-beta01"
-androidx-navigation-compose = "2.7.2"
+androidx-activity = "1.8.0-rc01"
+androidx-navigation-compose = "2.7.3"
 androidx-lifecycle = "2.6.2"
 androidx-compose-material = "1.5.1"
-androidx-compose-material3 = "1.1.1"
+androidx-compose-material3 = "1.1.2"
 androidx-paging-compose = "3.2.1"
 androidx-paging = "3.2.1"
 androidx-datastore = "1.1.0-alpha05"
@@ -96,8 +97,9 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 
 # Ktor
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 ktor-client-engine-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-engine-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 ktor-client-engine-native-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
@@ -150,10 +152,6 @@ coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 [bundles]
 # Compose
 androidx-compose = ["androidx-core-ktx", "androidx-core-splashscreen", "androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-test", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "androidx-compose-material3", "google-accompanist-flowlayout", "coil", "coil-compose", "androidx-paging-compose", "androidx-paging", "androidx-navigation-compose"]
@@ -164,7 +162,7 @@ kotlinx-core = ["kotlinx-collections-immutable", "kotlinx-datetime", "kotlinx-se
 kotlinx-android = ["kotlinx-collections-immutable", "kotlinx-datetime", "kotlinx-serialization-json", "kotlinx-coroutines-core", "kotlinx-coroutines-android"]
 
 # Ktor
-ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-server-content-negotiation", "ktor-client-logging", "ktor-client-engine-okhttp", "ktor-client-auth", "ktor-client-resources", "ktor-client-websockets"]
+ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-client-content-negotiation", "ktor-client-logging", "ktor-client-engine-okhttp", "ktor-client-auth", "ktor-client-resources", "ktor-client-websockets"]
 [plugins]
 # Wallet Leaks
 walletleaks-android-plain = { id = "walletleaks.android.plain" }
@@ -180,6 +178,7 @@ agp-test = { id = "com.android.test", version.ref = "agp" }
 # Google
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "google-devtools-ksp" }
+google-protobuf = { id = "com.google.protobuf", version.ref = "google-protobuf" }
 
 # Triplet
 triplet-playpublisher = { id = "com.github.triplet.play", version.ref = "triplet-playpublisher" }

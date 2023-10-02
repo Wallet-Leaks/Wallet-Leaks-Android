@@ -30,30 +30,26 @@ abstract class RepositoryImpl {
             }
         )
 
-    protected suspend inline fun <reified DTO : DTOMapper<Model>, reified Model : Any> HttpClient.makePostNetworkRequest(
-        crossinline requestBuilder: HttpRequestBuilder.() -> Unit
+    protected inline fun <reified DTO : DTOMapper<Model>, reified Model : Any> HttpClient.makePostNetworkRequest(
+        crossinline requestBuilder: HttpRequestBuilder.() -> Unit,
+        crossinline transform: DTO.() -> DTO
     ) =
         makeNetworkRequest<DTO, Model>(
             {
                 post(DTO::class) {
                     requestBuilder()
-                }
+                }.body()
             }
         )
 
-//    protected suspend inline fun <reified T : Any, reified S : Any> HttpClient.makePostNetworkRequest(
-//        crossinline requestBuilder: HttpRequestBuilder.() -> Unit,
-//        crossinline transform: T.() -> S,
-//    ) =
-//        makeNetworkRequest<T, S>(
-//            {
-//                post(T::class) {
-//                    requestBuilder()
-//                }
-//            }, {
-//                transform(this)
-//            }
-//        )
+    protected inline fun <reified DTO : Any> HttpClient.makePostNetworkRequest(
+        crossinline requestBuilder: HttpRequestBuilder.() -> Unit
+    ) =
+        makeNetworkRequest<DTO> {
+            post(DTO::class) {
+                requestBuilder()
+            }
+        }
 
     protected suspend inline fun <reified DTO : DTOMapper<Model>, reified Model : Any> HttpClient.makePutNetworkRequest(
         crossinline requestBuilder: HttpRequestBuilder.() -> Unit
@@ -88,7 +84,7 @@ abstract class RepositoryImpl {
             }
         )
 
-    protected suspend inline fun <reified T, reified S : Any> makeNetworkRequest(
+    protected inline fun <reified T, reified S : Any> makeNetworkRequest(
         crossinline request: suspend () -> HttpResponse,
         crossinline transform: T.() -> S = { toDomain() }
     ): Flow<Either<NetworkError, S>> where T : Any, T : DTOMapper<S> {
@@ -99,6 +95,35 @@ abstract class RepositoryImpl {
                     response.status.isSuccess() -> {
                         val body = response.body<T>()
                         emit(Either.Right(transform(body)))
+                    }
+
+                    response.status == HttpStatusCode.UnprocessableEntity -> {
+                        emit(Either.Left(NetworkError.ApiInputs(response.body())))
+                    }
+
+                    else -> {
+                        emit(Either.Left(NetworkError.Api(response.body())))
+                    }
+                }
+            } catch (exception: TimeoutCancellationException) {
+                emit(Either.Left(NetworkError.Timeout))
+            } catch (exception: Exception) {
+                val message = exception.localizedMessage ?: "Error Occurred!"
+                emit(Either.Left(NetworkError.Unexpected(message)))
+            }
+        }
+    }
+
+    protected inline fun <reified T : Any> makeNetworkRequest(
+        crossinline request: suspend () -> HttpResponse,
+    ): Flow<Either<NetworkError, T>> {
+        return flow {
+            try {
+                val response = request()
+                when {
+                    response.status.isSuccess() -> {
+                        val body = response.body<T>()
+                        emit(Either.Right(body))
                     }
 
                     response.status == HttpStatusCode.UnprocessableEntity -> {

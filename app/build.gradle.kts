@@ -4,6 +4,7 @@ plugins {
         id(kotlin.android.get().pluginId)
         id(google.services.get().pluginId)
         id(triplet.playpublisher.get().pluginId) version (libs.versions.triplet.playpublisher.get())
+        id(guardsquare.appsweep.get().pluginId) version (libs.versions.guardsquare.appsweep.get())
     }
 }
 
@@ -61,35 +62,4 @@ dependencies {
     implementation(projects.feature.authentication.presentation)
     implementation(projects.feature.main.presentation)
     implementation(libs.bundles.androidx.compose)
-}
-
-tasks.register("updateBuildCount") {
-    doLast {
-        val readmeFile = File(project.rootDir, "README.md")
-        var buildCount = 0
-
-        val readmeContents = readmeFile.readText()
-        val buildCountPattern = """Total build count: (\d+)""".toRegex()
-        val matchResult = buildCountPattern.find(readmeContents)
-
-        matchResult?.let {
-            buildCount = matchResult.groupValues[1].toIntOrNull() ?: 0
-        }
-
-        buildCount++
-        readmeFile.writeText(
-            readmeContents.replaceFirst(
-                buildCountPattern,
-                "Total build count: $buildCount"
-            )
-        )
-    }
-}
-
-pluginManager.withPlugin("com.android.application") {
-    tasks.whenTaskAdded {
-        if (name.startsWith("assemble")) {
-            finalizedBy("updateBuildCount")
-        }
-    }
 }
