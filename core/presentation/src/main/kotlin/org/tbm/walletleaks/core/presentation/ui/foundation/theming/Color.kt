@@ -1,4 +1,4 @@
-package org.tbm.walletleaks.core.presentation.ui.base
+package org.tbm.walletleaks.core.presentation.ui.base.theming
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,13 +24,13 @@ data class WalletLeaksColorPalette(
 )
 
 val palette = WalletLeaksColorPalette(
-    primary = Color(0xFFFF7E0A),
-    surface = Color(0xFF1B253E),
-    surfaceContainer = Color(0xFF051330),
-    surfaceContainerLowest = Color(0xFF222222),
-    onSurfaceContainer = Color(0xFF5779D1),
-    tertiary = Color(0xFFBBAABB),
-    tertiaryContainer = Color(0xFF505B77),
+    primary = primary,
+    surface = surface,
+    surfaceContainer = surfaceContainer,
+    surfaceContainerLowest = surfaceContainerLowest,
+    onSurfaceContainer = onSurfaceContainer,
+    tertiary = tertiary,
+    tertiaryContainer = tertiaryContainer,
 )
 
 val LocalColorProvider =
@@ -41,7 +41,7 @@ inline val colors: WalletLeaksColorPalette
     get() = LocalColorProvider.current
 
 @Composable
-fun AppTheme(content: @Composable () -> Unit) {
+fun WalletLeaksTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalColorProvider provides palette,
         content = content
