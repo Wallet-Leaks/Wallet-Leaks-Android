@@ -1,5 +1,6 @@
-package org.tbm.walletleaks.core.presentation.ui.base.theming
+package org.tbm.walletleaks.core.presentation.ui.foundation.theming
 
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -31,6 +32,10 @@ val palette = WalletLeaksColorPalette(
     onSurfaceContainer = onSurfaceContainer,
     tertiary = tertiary,
     tertiaryContainer = tertiaryContainer,
+)
+val walletLeaksTextSelectionColors = TextSelectionColors(
+    handleColor = primary,
+    backgroundColor = tertiaryContainer
 )
 
 val LocalColorProvider =
