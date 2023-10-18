@@ -1,6 +1,7 @@
 package org.tbm.walletleaks.buildlogic.convention.plugins.layers
 
 import org.gradle.kotlin.dsl.dependencies
+import org.tbm.walletleaks.buildlogic.convention.extensions.api
 import org.tbm.walletleaks.buildlogic.convention.extensions.extractPluginId
 import org.tbm.walletleaks.buildlogic.convention.extensions.implementation
 import org.tbm.walletleaks.buildlogic.convention.extensions.ksp
@@ -15,10 +16,13 @@ internal class PresentationPlugin : AndroidLibraryPlugin({
     }
 
     dependencies {
-        if (path.split(":").first { it.isNotBlank() } != "core")
-            implementation(project(":core:presentation"))
-        implementation(project(path.replace(":presentation", ":data")))
+        if (path.split(":").first { it.isNotBlank() } != "core") {
+            api(project(":core:presentation"))
+            implementation(project(":core:data"))
+        }
+        implementation(project(path.replace(":presentation", ":domain")))
         implementation(libs.bundles.androidx.compose)
+        implementation(libs.bundles.orbit)
         implementation(libs.bundles.kotlinx.android)
         implementation(libs.google.dagger)
         ksp(libs.google.dagger.compiler)
