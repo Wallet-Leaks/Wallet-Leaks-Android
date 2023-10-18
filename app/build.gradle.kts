@@ -3,6 +3,7 @@ plugins {
         id(agp.application.get().pluginId)
         id(kotlin.android.get().pluginId)
         id(google.services.get().pluginId)
+        id(google.devtools.ksp.get().pluginId)
         id(triplet.playpublisher.get().pluginId) version (libs.versions.triplet.playpublisher.get())
         id(guardsquare.appsweep.get().pluginId) version (libs.versions.guardsquare.appsweep.get())
     }
@@ -59,7 +60,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.data)
     implementation(projects.feature.authentication.presentation)
     implementation(projects.feature.main.presentation)
     implementation(libs.bundles.androidx.compose)
+    implementation(libs.google.dagger)
+    ksp(libs.google.dagger.compiler)
 }
