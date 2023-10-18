@@ -5,13 +5,5 @@ import org.tbm.walletleaks.core.data.base.local.Preferences
 
 class UserPreferences(sharedPreferences: SharedPreferences) : Preferences(sharedPreferences) {
 
-    var accessToken by string()
-
-    var refreshToken by string()
-
-    var user by nonPrimitive<User>()
+    var isAuthenticated by boolean()
 }
-data class User(
-    val name: String,
-    val age: Int
-)
