@@ -12,7 +12,6 @@ internal class DataPlugin : AndroidLibraryPlugin(projectConfiguration = {
     pluginManager.apply {
         apply(libs.plugins.kotlin.serialization.extractPluginId())
         apply(libs.plugins.google.devtools.ksp.extractPluginId())
-        apply(libs.plugins.google.protobuf.extractPluginId())
     }
 
     dependencies {
