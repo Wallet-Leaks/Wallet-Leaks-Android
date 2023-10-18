@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import org.tbm.walletleaks.core.presentation.R
 import org.tbm.walletleaks.core.presentation.ui.components.actions.IconButton
 import org.tbm.walletleaks.core.presentation.ui.components.containment.dividers.Underline
-import org.tbm.walletleaks.core.presentation.ui.components.typorgraphy.label.LabelMedium
+import org.tbm.walletleaks.core.presentation.ui.components.typography.label.LabelMedium
 import org.tbm.walletleaks.core.presentation.ui.foundation.previews.Preview
 import org.tbm.walletleaks.core.presentation.ui.foundation.theming.WalletLeaksTypography
 import org.tbm.walletleaks.core.presentation.ui.foundation.theming.tertiaryContainer

@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.tbm.walletleaks.core.presentation.R
 import org.tbm.walletleaks.core.presentation.ui.components.containment.dividers.Underline
 import org.tbm.walletleaks.core.presentation.ui.components.actions.IconButton
-import org.tbm.walletleaks.core.presentation.ui.components.typorgraphy.title.TitleLarge
+import org.tbm.walletleaks.core.presentation.ui.components.typography.title.TitleLarge
 import org.tbm.walletleaks.core.presentation.ui.foundation.previews.Preview
 import org.tbm.walletleaks.core.presentation.ui.foundation.theming.surfaceContainer
 

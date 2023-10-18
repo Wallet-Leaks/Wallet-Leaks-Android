@@ -32,7 +32,7 @@ import androidx.constraintlayout.compose.ConstraintSet
 import org.tbm.walletleaks.core.presentation.R
 import org.tbm.walletleaks.core.presentation.ui.components.actions.ActionButton
 import org.tbm.walletleaks.core.presentation.ui.components.actions.OutlinedActionButton
-import org.tbm.walletleaks.core.presentation.ui.components.typorgraphy.body.BodySmall
+import org.tbm.walletleaks.core.presentation.ui.components.typography.body.BodySmall
 import org.tbm.walletleaks.core.presentation.ui.foundation.previews.Preview
 import org.tbm.walletleaks.core.presentation.ui.foundation.theming.WalletLeaksTypography
 import org.tbm.walletleaks.core.presentation.ui.foundation.theming.surface
