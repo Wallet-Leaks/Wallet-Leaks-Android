@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "org.tbm.walletleaks.core.data";
+option java_multiple_files = true;
+
+message UserModel {
+  int32 id = 1;
+  string username = 2;
+  optional string photo = 3;
+  optional string crypto_wallet_address = 4;
+  bool is_premium = 5;
+  string date_joined = 6;
+  bool is_verified = 7;
+  repeated BalanceModel balance = 8;
+  double total_balance = 9;
+}
+
+message BalanceModel{
+  int32 id = 1;
+  BalanceCoinModel balance_coin_model = 2;
+  int32 user = 3;
+  double balance = 4;
+  string created = 5;
+}
+
+message BalanceCoinModel{
+  int32 id = 1;
+  string symbol = 2;
+  string price = 3;
+}
